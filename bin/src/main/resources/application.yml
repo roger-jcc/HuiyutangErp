@@ -1,0 +1,19 @@
+thymeleaf:
+    cache: false
+    prefix: classpath:/templates/    # 設定去templates資料夾找html檔案
+    suffix: .html
+    encoding: UTF-8
+    mode: HTML5
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/huiyutang
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver  
+  security:
+    encrypt:
+      key: ThisIsASecretKey 
+jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>登入系統</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+      th {
+        text-wrap: nowrap;
+      }
+    </style>
+    <script type="module" crossorigin src="/assets/main-CGZVxo7S.js" th:src＝"@{assets/main-CGZVxo7S.js}"></script>
+    <link rel="stylesheet" crossorigin href="/assets/main-DRgq0g6l.css"th:href＝"@{assets/main-DRgq0g6l.css}">
+  </head>
+  <body>
+    <nav class="w-100 navbar navbar-expand-lg navbar-dark bg-dark mb-5">
+      <div class="container-fluid d-flex">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navBar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-md-between" id="navBar">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link">會員中心</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active">進貨清單</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link">新增進貨</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav">
+            <li class="nav-item d-lg-block d-none">
+              <a class="nav-link text-light">
+                <img src="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20height='40'%20viewBox='0%20-960%20960%20960'%20width='40'%3e%3cpath%20fill='white'%20d='M234.97-258.15q56.95-40.16%20116.53-62.62T480-343.23q68.92%200%20128.7%2022.46%2059.79%2022.46%20116.74%2062.62%2041.51-47.36%2062.91-102.79%2021.39-55.44%2021.39-119.06%200-138.69-95.52-234.22-95.53-95.52-234.22-95.52t-234.22%2095.52Q150.26-618.69%20150.26-480q0%2063.62%2021.6%20119.06%2021.6%2055.43%2063.11%20102.79Zm244.89-196.72q-54.22%200-91.3-37.22-37.07-37.22-37.07-91.44%200-54.21%2037.22-91.29%2037.21-37.08%2091.43-37.08%2054.22%200%2091.3%2037.22%2037.07%2037.22%2037.07%2091.44%200%2054.21-37.22%2091.29-37.21%2037.08-91.43%2037.08Zm.45%20354.87q-79.05%200-148.33-29.77-69.27-29.77-120.85-81.41-51.59-51.64-81.36-120.7Q100-400.94%20100-480.05q0-79.1%2029.77-148.12%2029.77-69.01%2081.41-120.65t120.7-81.41Q400.94-860%20480.05-860q79.1%200%20148.12%2029.77%2069.01%2029.77%20120.65%2081.41t81.41%20120.68Q860-559.11%20860-480.31q0%2079.05-29.77%20148.33-29.77%2069.27-81.41%20120.85-51.64%2051.59-120.68%2081.36Q559.11-100%20480.31-100Zm-.31-50.26q55.23%200%20108.14-17.62%2052.91-17.63%2097.86-54.48-44.95-33.54-97.04-52.08T480-292.98q-56.87%200-109.15%2018.35-52.29%2018.35-96.59%2052.27%2044.69%2036.85%2097.6%2054.48%2052.91%2017.62%20108.14%2017.62Zm.04-354.87q33.86%200%2056.04-22.21%2022.18-22.22%2022.18-56.08t-22.22-56.04q-22.21-22.18-56.08-22.18-33.86%200-56.04%2022.21-22.18%2022.22-22.18%2056.08t22.22%2056.04q22.21%2022.18%2056.08%2022.18Zm-.04-78.25Zm0%20361.76Z'%20/%3e%3c/svg%3e" height="30" width="30" />
+                王小明
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/page/login">登出</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    
+    <div class="px-4 d-flex justify-content-center">
+      <table class="table table-image table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">廠商名稱</th>
+            <th scope="col">產品名稱</th>
+            <th scope="col">數量</th>
+            <th scope="col">規格</th>
+            <th scope="col">進貨日</th>
+            <th scope="col">產品有效日</th>
+            <th scope="col">庫位</th>
+            <th scope="col">類別</th>
+            <th scope="col">產品照片</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td >
+              Bootstrap
+            </td>
+            <td>Bootstrap 4 CDN and Starter Template</td>
+            <td>Cristina</td>
+            <td>913</td>
+            <td>2.846</td>
+            <td>2.846</td>
+            <td>2.846</td>
+            <td>2.846</td>
+            <td class="w-25"><img
+              src="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20height='40'%20viewBox='0%20-960%20960%20960'%20width='40'%3e%3cpath%20fill='white'%20d='M234.97-258.15q56.95-40.16%20116.53-62.62T480-343.23q68.92%200%20128.7%2022.46%2059.79%2022.46%20116.74%2062.62%2041.51-47.36%2062.91-102.79%2021.39-55.44%2021.39-119.06%200-138.69-95.52-234.22-95.53-95.52-234.22-95.52t-234.22%2095.52Q150.26-618.69%20150.26-480q0%2063.62%2021.6%20119.06%2021.6%2055.43%2063.11%20102.79Zm244.89-196.72q-54.22%200-91.3-37.22-37.07-37.22-37.07-91.44%200-54.21%2037.22-91.29%2037.21-37.08%2091.43-37.08%2054.22%200%2091.3%2037.22%2037.07%2037.22%2037.07%2091.44%200%2054.21-37.22%2091.29-37.21%2037.08-91.43%2037.08Zm.45%20354.87q-79.05%200-148.33-29.77-69.27-29.77-120.85-81.41-51.59-51.64-81.36-120.7Q100-400.94%20100-480.05q0-79.1%2029.77-148.12%2029.77-69.01%2081.41-120.65t120.7-81.41Q400.94-860%20480.05-860q79.1%200%20148.12%2029.77%2069.01%2029.77%20120.65%2081.41t81.41%20120.68Q860-559.11%20860-480.31q0%2079.05-29.77%20148.33-29.77%2069.27-81.41%20120.85-51.64%2051.59-120.68%2081.36Q559.11-100%20480.31-100Zm-.31-50.26q55.23%200%20108.14-17.62%2052.91-17.63%2097.86-54.48-44.95-33.54-97.04-52.08T480-292.98q-56.87%200-109.15%2018.35-52.29%2018.35-96.59%2052.27%2044.69%2036.85%2097.6%2054.48%2052.91%2017.62%20108.14%2017.62Zm.04-354.87q33.86%200%2056.04-22.21%2022.18-22.22%2022.18-56.08t-22.22-56.04q-22.21-22.18-56.08-22.18-33.86%200-56.04%2022.21-22.18%2022.22-22.18%2056.08t22.22%2056.04q22.21%2022.18%2056.08%2022.18Zm-.04-78.25Zm0%20361.76Z'%20/%3e%3c/svg%3e"
+              class="img-fluid img-thumbnail"
+              alt="Sheep"
+            /></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <footer
+      class="position-fixed bottom-0 start-0 w-100 d-flex flex-wrap justify-content-between align-items-center py-3 border-top bg-dark text-light"
+    >
+      <div class="col-12 d-flex justify-content-center align-items-center">
+        <span class="mb-0 text-light">&copy; 2024 XXXX Company, Inc</span>
+      </div>
+    </footer>
+  </body>
+</html>

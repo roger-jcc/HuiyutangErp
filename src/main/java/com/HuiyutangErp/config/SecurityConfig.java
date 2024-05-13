@@ -31,10 +31,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         req -> {
                         	// 不攔截
-//                            req.requestMatchers("/admin/**","/css/**","/images/**","/js/**","/templates/**","/static/**","/assets/**","/admin/restock/**").permitAll();
-//                            req.requestMatchers("/admin/manufacterur/**","/admin/restock/**").hasAnyRole("USER");
-                        	 req.anyRequest().permitAll();
-//                            req.anyRequest().authenticated();
+                            req.requestMatchers("/admin/**","/css/**","/images/**","/js/**","/templates/**","/static/**","/assets/**","/admin/restock/**").permitAll();
+                            req.requestMatchers("/admin/manufacterur/**","/admin/restock/**").hasAnyRole("USER");
+                            req.anyRequest().authenticated();
                         }
                 )
                 .httpBasic(Customizer.withDefaults())

@@ -10,13 +10,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.HuiyutangErp.bean.Restockreq;
@@ -28,7 +28,7 @@ import com.HuiyutangErp.service.RestockService;
  * @author hank
  *
  */
-@RestController
+@Controller
 @RequestMapping(path ="/admin/restock" ,  produces = MediaType.APPLICATION_JSON_VALUE)
 @EnableMethodSecurity
 public class RestockController {

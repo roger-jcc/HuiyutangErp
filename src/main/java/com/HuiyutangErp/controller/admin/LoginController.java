@@ -51,12 +51,6 @@ public class LoginController {
 	}
 	
 	
-	@GetMapping("/addVendorData")
-	public String addVendorData() {
-		
-		return "admin/addVendorData";
-	}
-	
 	
 	/**
 	 * 登入

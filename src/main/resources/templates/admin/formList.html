@@ -28,13 +28,8 @@
         width: 200px;
       }
     </style>
-<script th:src="@{/js/main-CGZVxo7S.js}"></script>
-<link rel="stylesheet" type="text/css"
-	th:href="@{/css/main-DRgq0g6l.css}">
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.7.1.slim.js"
-	integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc="
-	crossorigin="anonymous"></script>
+    <script type="module" crossorigin src="/assets/main-CGZVxo7S.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/main-DRgq0g6l.css">
   </head>
   <body>
     <nav class="w-100 navbar navbar-expand-lg navbar-dark bg-dark mb-5">
@@ -49,13 +44,13 @@
               <a class="nav-link">會員中心</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active">進貨清單</a>
+              <a class="nav-link">進貨清單</a>
             </li>
             <li class="nav-item">
               <a class="nav-link">新增進貨</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link">表單清單</a>
+              <a class="nav-link active">表單清單</a>
             </li>
             <li class="nav-item">
               <a class="nav-link">新增表單</a>
@@ -76,65 +71,40 @@
       </div>
     </nav>
 
-    <div class="px-4 d-md-flex justify-content-md-center mb-3">
-      <div class="me-5">
-        <input
-          id="vendorName"
-          type="search"
-          dir="ltr"
-          spellcheck="false"
-          autocorrect="off"
-          autocomplete="off"
-          autocapitalize="off"
-          maxlength="2048"
-          tabindex="1"
-        />
-        <button type="button" class="btn btn-primary ms-1 mb-1">搜索</button>
-      </div>
-      <div>
-        <input
-          id="productName"
-          type="search"
-          dir="ltr"
-          spellcheck="false"
-          autocorrect="off"
-          autocomplete="off"
-          autocapitalize="off"
-          maxlength="2048"
-          tabindex="1"
-        />
-        <button type="button" class="btn btn-primary ms-1 mb-1">搜索</button>
-      </div>
-    </div>
-
     <div class="px-4 d-flex justify-content-center">
       <table class="table table-image table-bordered">
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">廠商名稱</th>
-            <th scope="col">產品名稱</th>
-            <th scope="col">數量</th>
-            <th scope="col">規格</th>
-            <th scope="col">進貨日</th>
-            <th scope="col">產品有效日</th>
-            <th scope="col">庫位</th>
-            <th scope="col">類別</th>
-            <th scope="col">產品照片</th>
+            <th scope="col">購物台</th>
+            <th scope="col">商品名稱</th>
+            <th scope="col">叫貨量</th>
+            <th scope="col">訂貨日</th>
+            <th scope="col">到貨日</th>
+            <th scope="col">到貨量</th>
+            <th scope="col">待補量</th>
+            <th scope="col">補貨日1</th>
+            <th scope="col">捕獲量</th>
+            <th scope="col">補貨日2</th>
+            <th scope="col">捕獲量</th>
+            <th scope="col">總差異量</th>
           </tr>
         </thead>
         <tbody id="vendorList">
           <tr class="vendorItem">
             <th scope="row" class="itemId"></th>
-            <td class="vendorName"></td>
+            <td class="shoppingChannel"></td>
             <td class="productName"></td>
-            <td class="quantity"></td>
-            <td class="specification"></td>
-            <td class="purchaseDate"></td>
-            <td class="expiryDate"></td>
-            <td class="storageLocation"></td>
-            <td class="category"></td>
-            <td class="w-25"><img src="data:image/svg+xml,%3csvg%20xmlns='http://www.w3.org/2000/svg'%20height='40'%20viewBox='0%20-960%20960%20960'%20width='40'%3e%3cpath%20fill='white'%20d='M234.97-258.15q56.95-40.16%20116.53-62.62T480-343.23q68.92%200%20128.7%2022.46%2059.79%2022.46%20116.74%2062.62%2041.51-47.36%2062.91-102.79%2021.39-55.44%2021.39-119.06%200-138.69-95.52-234.22-95.53-95.52-234.22-95.52t-234.22%2095.52Q150.26-618.69%20150.26-480q0%2063.62%2021.6%20119.06%2021.6%2055.43%2063.11%20102.79Zm244.89-196.72q-54.22%200-91.3-37.22-37.07-37.22-37.07-91.44%200-54.21%2037.22-91.29%2037.21-37.08%2091.43-37.08%2054.22%200%2091.3%2037.22%2037.07%2037.22%2037.07%2091.44%200%2054.21-37.22%2091.29-37.21%2037.08-91.43%2037.08Zm.45%20354.87q-79.05%200-148.33-29.77-69.27-29.77-120.85-81.41-51.59-51.64-81.36-120.7Q100-400.94%20100-480.05q0-79.1%2029.77-148.12%2029.77-69.01%2081.41-120.65t120.7-81.41Q400.94-860%20480.05-860q79.1%200%20148.12%2029.77%2069.01%2029.77%20120.65%2081.41t81.41%20120.68Q860-559.11%20860-480.31q0%2079.05-29.77%20148.33-29.77%2069.27-81.41%20120.85-51.64%2051.59-120.68%2081.36Q559.11-100%20480.31-100Zm-.31-50.26q55.23%200%20108.14-17.62%2052.91-17.63%2097.86-54.48-44.95-33.54-97.04-52.08T480-292.98q-56.87%200-109.15%2018.35-52.29%2018.35-96.59%2052.27%2044.69%2036.85%2097.6%2054.48%2052.91%2017.62%20108.14%2017.62Zm.04-354.87q33.86%200%2056.04-22.21%2022.18-22.22%2022.18-56.08t-22.22-56.04q-22.21-22.18-56.08-22.18-33.86%200-56.04%2022.21-22.18%2022.22-22.18%2056.08t22.22%2056.04q22.21%2022.18%2056.08%2022.18Zm-.04-78.25Zm0%20361.76Z'%20/%3e%3c/svg%3e" class="img-fluid img-thumbnail productPhoto" /></td>
+            <td class="orderQuantity"></td>
+            <td class="orderDate"></td>
+            <td class="arrivalDate"></td>
+            <td class="receivedQuantity"></td>
+            <td class="pendingQuantity"></td>
+            <td class="firstRestockDate"></td>
+            <td class="firstCaptureQuantity"></td>
+            <td class="secondRestockDate"></td>
+            <td class="secondCaptureQuantity"></td>
+            <td class="totalDifference"></td>
           </tr>
         </tbody>
       </table>
@@ -268,18 +238,23 @@
         let copies = [];
 
         for (let i = 0; i < list.length; i++) {
-          let clone = cloneElement.cloneNode(true); 
-          clone.id = "copy" + i; 
+          let clone = cloneElement.cloneNode(true);
+          clone.id = "copy" + i;
+
           clone.querySelector(".itemId").textContent = list[i].itemId;
-          clone.querySelector(".vendorName").textContent = list[i].vendorName;
+          clone.querySelector(".shoppingChannel").textContent = list[i].shoppingChannel;
           clone.querySelector(".productName").textContent = list[i].productName;
-          clone.querySelector(".quantity").textContent = list[i].quantity;
-          clone.querySelector(".specification").textContent = list[i].specification;
-          clone.querySelector(".purchaseDate").textContent = list[i].purchaseDate;
-          clone.querySelector(".expiryDate").textContent = list[i].expiryDate;
-          clone.querySelector(".storageLocation").textContent = list[i].storageLocation;
-          clone.querySelector(".category").textContent = list[i].category;
-          clone.querySelector(".productPhoto").src =  list[i].productPhoto
+          clone.querySelector(".orderQuantity").textContent = list[i].orderQuantity;
+          clone.querySelector(".orderDate").textContent = list[i].orderDate;
+          clone.querySelector(".arrivalDate").textContent = list[i].arrivalDate;
+          clone.querySelector(".receivedQuantity").textContent = list[i].receivedQuantity;
+          clone.querySelector(".pendingQuantity").textContent = list[i].pendingQuantity;
+          clone.querySelector(".firstRestockDate").textContent = list[i].firstRestockDate;
+          clone.querySelector(".firstCaptureQuantity").textContent = list[i].firstCaptureQuantity;
+          clone.querySelector(".secondRestockDate").textContent = list[i].secondRestockDate;
+          clone.querySelector(".secondCaptureQuantity").textContent = list[i].secondCaptureQuantity;
+          clone.querySelector(".totalDifference").textContent = list[i].totalDifference;
+
           copies.push(clone);
         }
 
@@ -291,88 +266,49 @@
       // 輸入表單資料範例
       setData([
         {
-          itemId: "A123457",
-          vendorName: "新竹電子有限公司",
-          productName: "高效能記憶體",
-          quantity: "200",
-          specification: "8GB",
-          purchaseDate: "2024-04-20",
-          expiryDate: "2030-04-20",
-          storageLocation: "倉庫B-3區",
-          category: "電子產品",
-          productPhoto: "https://fakeimg.pl/100",
+          itemId: "A001",
+          shoppingChannel: "Online Store",
+          productName: "Bluetooth Headphones",
+          orderQuantity: "100",
+          orderDate: "2024-04-20",
+          arrivalDate: "2024-04-25",
+          receivedQuantity: "100",
+          pendingQuantity: "0",
+          firstRestockDate: "2024-05-01",
+          firstCaptureQuantity: "50",
+          secondRestockDate: "2024-05-15",
+          secondCaptureQuantity: "50",
+          totalDifference: "0",
         },
         {
-          itemId: "A123458",
-          vendorName: "桃園化工股份有限公司",
-          productName: "高純度乙醇",
-          quantity: "50",
-          specification: "50升/桶",
-          purchaseDate: "2024-05-02",
-          expiryDate: "2027-05-02",
-          storageLocation: "倉庫C-5區",
-          category: "化學原料",
-          productPhoto: "https://fakeimg.pl/100",
+          itemId: "B002",
+          shoppingChannel: "Physical Store",
+          productName: "Wireless Mouse",
+          orderQuantity: "200",
+          orderDate: "2024-04-18",
+          arrivalDate: "2024-04-23",
+          receivedQuantity: "180",
+          pendingQuantity: "20",
+          firstRestockDate: "2024-05-02",
+          firstCaptureQuantity: "20",
+          secondRestockDate: "2024-05-16",
+          secondCaptureQuantity: "0",
+          totalDifference: "0",
         },
         {
-          itemId: "A123459",
-          vendorName: "台北塑料製品廠",
-          productName: "多用途塑料容器",
-          quantity: "500",
-          specification: "500ml/個",
-          purchaseDate: "2024-04-25",
-          expiryDate: "無",
-          storageLocation: "倉庫D-1區",
-          category: "塑膠產品",
-          productPhoto: "https://fakeimg.pl/100",
-        },
-        {
-          itemId: "A123460",
-          vendorName: "台中金屬加工廠",
-          productName: "精密鋼材",
-          quantity: "300",
-          specification: "10公斤/塊",
-          purchaseDate: "2024-04-30",
-          expiryDate: "無",
-          storageLocation: "倉庫E-2區",
-          category: "金屬產品",
-          productPhoto: "https://fakeimg.pl/100",
-        },
-        {
-          itemId: "A123461",
-          vendorName: "彰化農產品供應商",
-          productName: "新鮮蘋果",
-          quantity: "150",
-          specification: "1公斤/袋",
-          purchaseDate: "2024-05-05",
-          expiryDate: "2024-05-20",
-          storageLocation: "冷藏庫F-6區",
-          category: "水果",
-          productPhoto: "https://fakeimg.pl/100",
-        },
-        {
-          itemId: "A123462",
-          vendorName: "高雄餐飲服務公司",
-          productName: "速凍餃子",
-          quantity: "400",
-          specification: "20個/包",
-          purchaseDate: "2024-04-27",
-          expiryDate: "2024-10-27",
-          storageLocation: "冷凍庫G-4區",
-          category: "冷凍食品",
-          productPhoto: "https://fakeimg.pl/100",
-        },
-        {
-          itemId: "A123463",
-          vendorName: "台南紡織廠",
-          productName: "高級棉布",
-          quantity: "250",
-          specification: "50公尺/捲",
-          purchaseDate: "2024-04-15",
-          expiryDate: "無",
-          storageLocation: "倉庫H-3區",
-          category: "紡織品",
-          productPhoto: "https://fakeimg.pl/100",
+          itemId: "C003",
+          shoppingChannel: "Mobile App",
+          productName: "Smart Watch",
+          orderQuantity: "150",
+          orderDate: "2024-04-15",
+          arrivalDate: "2024-04-22",
+          receivedQuantity: "150",
+          pendingQuantity: "0",
+          firstRestockDate: "2024-05-03",
+          firstCaptureQuantity: "75",
+          secondRestockDate: "2024-05-17",
+          secondCaptureQuantity: "75",
+          totalDifference: "0",
         },
       ]);
     </script>

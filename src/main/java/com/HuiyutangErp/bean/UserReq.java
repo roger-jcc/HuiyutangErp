@@ -7,6 +7,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class UserReq {
 	
+	private String name;
 	
     private String username;
 	
@@ -15,6 +16,8 @@ public class UserReq {
     private String checkPassword;
 	
     private String email;
+    
+    private String title;
 	
     private String roles;
 

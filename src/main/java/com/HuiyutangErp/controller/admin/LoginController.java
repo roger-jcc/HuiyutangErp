@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,11 +38,25 @@ public class LoginController {
 	@Autowired
 	UserService userService;
 	
-	@GetMapping("")
+	@GetMapping("/login")
 	public String loginPage() {
 		
 		return "admin/login";
 	}
+	
+	@GetMapping("/register")
+	public String vendorlist() {
+		
+		return "admin/register";
+	}
+	
+	
+	@GetMapping("/addVendorData")
+	public String addVendorData() {
+		
+		return "admin/addVendorData";
+	}
+	
 	
 	/**
 	 * 登入
@@ -51,8 +66,8 @@ public class LoginController {
 	 * @param attribute
 	 * @return
 	 */
-	@PostMapping("/login")
-	public String login( @ModelAttribute("loginreq") LoginReq loginreq,
+	@PostMapping("/account")
+	public String account( @ModelAttribute("loginreq") LoginReq loginreq,
 			HttpSession session ,RedirectAttributes attribute,HttpServletRequest request,HttpServletResponse response) {
         response.setContentType("text/html;charset=UTF-8");
 		
@@ -99,10 +114,11 @@ public class LoginController {
 	 * @throws Exception
 	 */
 	@PostMapping("/register")
-	public ResponseEntity<String> register(@RequestBody UserReq req ) throws Exception {
+	public ResponseEntity<String> register(@RequestBody UserReq req ,Model mod) throws Exception {
 		String emailRegex = "\\w[-\\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\\.)+[A-Za-z]{2,14}";
         boolean emailSuccess = Pattern.matches(emailRegex, req.getEmail());
         if (!emailSuccess) {
+        	mod.addAttribute("error","信箱格式不正確！" );
         	throw new Exception("信箱格式不正確！");
         }
 //        String passwordRegex = "^(?![A-Za-z]+$)(?![A-Z\\d]+$)(?![A-Z\\W]+$)(?![a-z\\d]+$)(?![a-z\\W]+$)(?![\\d\\W]+$)\\S{8,16}$/;\n";
@@ -122,10 +138,10 @@ public class LoginController {
 		return ResponseEntity.ok("註冊成功");
 	}
 	
-	@GetMapping("/logout")
+	@PostMapping("/logout")
 	public String logout(HttpSession session) {
 		session.removeAttribute("user");
-		return "redirect :/admin/";
+		return "redirect : /admin/login";
 		
 	}
 

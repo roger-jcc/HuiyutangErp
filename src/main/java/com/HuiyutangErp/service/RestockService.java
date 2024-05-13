@@ -159,7 +159,7 @@ public class RestockService {
 //						req.setValidDate(getDateTimeCellValue(row,9));
 						Optional<Manufacturer> manufacterur = manufacterurRepository.findByManufacturerName(req.getManufacturerName());
 						if(manufacterur.isPresent()) {
-							Optional<Product> product = productRepository.findByProductName(getStringCellValue(row,1));
+							Optional<Product> product = productRepository.findByProductName(getStringCellValue(row,3));
 							if(product.isPresent()) {
 								//更新
 								Manufacturer m = manufacterur.get();

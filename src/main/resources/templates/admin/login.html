@@ -29,9 +29,13 @@ html, body {
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
 }
+.error{
+color : red;
+}
 </style>
-<script   th:src="@{/js/main-CGZVxo7S.js}"></script>
-<link rel="stylesheet" type="text/css"  th:href="@{/css/main-DRgq0g6l.css}">
+<script th:src="@{/js/main-CGZVxo7S.js}"></script>
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/main-DRgq0g6l.css}">
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script
@@ -44,20 +48,23 @@ html, body {
 	<div></div>
 	<main class="form-signin w-100 m-auto">
 		<h1 class="h3 mb-3 fw-normal">登入系統</h1>
-		<form action="#" th:action="@{/admin/login}" th:object="${req}" method="post">
+		<form action="#" th:action="@{/admin/account}" th:object="${req}"
+			method="post"  onsubmit="return validateForm()">
 			<div class="form-floating">
-				<input type="text" class="form-control" id="username" name="username"
-					placeholder="name@example.com" /> <label for="username">帳號</label>
+				<input type="text" class="form-control" id="username"
+					name="username" placeholder="name@example.com" /> <label
+					for="username">帳號</label> <span id="usernameError" class="error"></span>
 			</div>
 			<div class="form-floating">
-				<input type="password" class="form-control" id="password" name="password"
-					placeholder="Password" /> <label for="password">密碼</label>
+				<input type="password" class="form-control" id="password"
+					name="password" placeholder="Password" /> <label for="password">密碼</label>
+				<span id="passwordError" class="error"></span>
 			</div>
 
 			<div class="form-check text-start my-3">
 				<input class="form-check-input" type="checkbox" value="remember-me"
-					id="flexCheckDefault" name="remember" /> <label class="form-check-label"
-					for="flexCheckDefault">記住密碼</label>
+					id="flexCheckDefault" name="remember" /> <label
+					class="form-check-label" for="flexCheckDefault">記住密碼</label>
 			</div>
 			<button class="btn btn-primary w-100 py-2 mb-2" type="submit"
 				id="submit">登入</button>
@@ -65,7 +72,7 @@ html, body {
 				<a class="btn btn-outline-primary w-50 me-2 py-2" type="button"
 					href="/page/forgetPassword">忘記密碼</a> <a
 					class="btn btn-outline-primary w-50 ms-2 py-2" type="button"
-					href="/page/register">註冊帳號</a>
+					href="/admin/register">註冊帳號</a>
 			</div>
 		</form>
 	</main>
@@ -76,7 +83,29 @@ html, body {
 		</div>
 	</footer>
 	<script type="text/javascript">
-    	
-    </script>
+		function validateForm() {
+			var username = document.getElementById("username").value;
+			var password = document.getElementById("password").value;
+			var isValid = true;
+
+			// 检查用户名
+			if (username.trim() === "") {
+				document.getElementById("usernameError").textContent = "帳號不能為空";
+				isValid = false;
+			} else {
+				document.getElementById("usernameError").textContent = "";
+			}
+
+			// 检查密码
+			if (password.trim() === "") {
+				document.getElementById("passwordError").textContent = "密碼不能空";
+				isValid = false;
+			} else {
+				document.getElementById("passwordError").textContent = "";
+			}
+
+			return isValid;
+		}
+	</script>
 </body>
 </html>

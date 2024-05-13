@@ -29,7 +29,7 @@ import com.HuiyutangErp.service.RestockService;
  *
  */
 @RestController
-@RequestMapping(path ="/api/restock" ,  produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path ="/admin/restock" ,  produces = MediaType.APPLICATION_JSON_VALUE)
 @EnableMethodSecurity
 public class RestockController {
 	
@@ -37,9 +37,9 @@ public class RestockController {
 	private RestockService restockService;
 	
 	
-	@GetMapping("")
+	@GetMapping("/addVendorData")
 	public String vendorList() {
-		return "admin/account";
+		return "admin/addVendorData";
 	}
 	
 	
@@ -49,7 +49,7 @@ public class RestockController {
 	 * @throws Exception 
 	 */
 	@PostMapping("/saverestock")
-	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	public ResponseEntity<String> saveRestock(@RequestBody Restockreq req) throws Exception{
 		try {
 			restockService.saveRestock(req);
@@ -67,8 +67,8 @@ public class RestockController {
 	 * @param req
 	 * @throws Exception 
 	 */
-	@GetMapping("/saverestockfile")
-	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+	@PostMapping("/saverestockfile")
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	public void saveRestockFile(@RequestParam ("file") MultipartFile file , Model mod) throws Exception{
 		if(file.isEmpty()) {
 			mod.addAttribute("error", "檔案不能為空");

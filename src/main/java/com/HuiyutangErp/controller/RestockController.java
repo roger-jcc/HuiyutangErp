@@ -6,6 +6,9 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -93,7 +96,7 @@ public class RestockController {
 	 */
 	@PostMapping("/getrestock")
 	@PreAuthorize("hasAuthority('ROLE_USER')")
-	public PageDto getrestock(){
+	public PageDto getrestock(@PageableDefault(size =10 ,sort = {"id"},direction = Sort.Direction.DESC)Pageable pag ){
 		PageDto resp = restockService.getRestock();
 		
 		return resp;

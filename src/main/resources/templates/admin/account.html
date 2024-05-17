@@ -14,16 +14,13 @@ html, body {
 	padding: 1rem;
 }
 </style>
-<script th:src="@{/js/main-CGZVxo7S.js}"></script>
-<script src="https://code.jquery.com/jquery-3.7.1.slim.js"
-	integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc="
-	crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css"
 	th:href="@{/css/main-DRgq0g6l.css}">
+<th:block th:replace="~{fragments :: script}"></th:block>
 </head>
 <body
 	class="d-flex align-items-center bg-body-tertiary flex-column justify-content-between">
-	<nav th:replace="fragments :: menu(1)"></nav>
+	<nav th:replace="~{fragments :: menu(1)}"></nav>
 	<!-- <nav class="w-100 navbar navbar-expand-lg navbar-dark bg-dark">
 		<div class="container-fluid d-flex">
 			<button class="navbar-toggler" type="button"
@@ -66,23 +63,62 @@ html, body {
 						height="100" width="100" />
 				</button>
 				<div class="mb-3">
-					<span>名稱：</span> <span> 王XX</span>
+					<span>名稱：</span>
+					<div th:if="${user != null}">
+						<span th:text="${user.name}"></span>
+					</div>
+
 				</div>
 				<div class="mb-3">
-					<span>職稱：</span> <span>職員</span>
+					<span>職稱：</span> 
+						<div th:if="${user != null}">
+						<span th:text="${user.title}"></span>
+					</div>
 				</div>
 				<div class="mb-3">
-					<span>Email：</span> <span>example@gmail.com</span>
+					<span>Email：</span>
+					 	<div th:if="${user != null}">
+						<span th:text="${user.email}"></span>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<footer th:replace="fragments :: footer"> </footer>
+	<!-- 彈窗區塊 id 對應 data-bs-target -->
+	<div class="modal" id="myModal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Modal title</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>Modal body text goes here.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary"
+						data-bs-dismiss="modal">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 彈窗區塊 -->
+
+	<footer th:replace="~{fragments :: footer}"> </footer>
 	<script type="text/javascript">
-		$(document).ready(function() {
-			console.log('DOM加载完成！');
-		});
+		$(document).ready(
+				function() {
+					const myModal = new bootstrap.Modal(document
+							.getElementById("myModal"));
+					// 啟動彈窗
+					// myModal.show();
+					// 關閉彈窗
+					myModal.hide();
+				});
 	</script>
 </body>
 </html>

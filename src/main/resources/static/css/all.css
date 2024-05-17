@@ -28,3 +28,23 @@ html, body {
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
 }
+.error {
+	color: red;
+}
+
+.form-register {
+	max-width: 330px;
+	padding: 1rem;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+@media screen and (min-width: 576px) {
+	.form-register {
+		max-width: 500px;
+	}
+}

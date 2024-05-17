@@ -40,13 +40,11 @@ public class LoginController {
 	
 	@GetMapping("/login")
 	public String loginPage() {
-		
 		return "admin/login";
 	}
 	
 	@GetMapping("/register")
-	public String vendorlist() {
-		
+	public String vendorlist(Model mod) {
 		return "admin/register";
 	}
 	
@@ -62,8 +60,9 @@ public class LoginController {
 	 */
 	@PostMapping("/account")
 	public String account( @ModelAttribute("loginreq") LoginReq loginreq,
-			HttpSession session ,RedirectAttributes attribute,HttpServletRequest request,HttpServletResponse response) {
+			HttpSession session ,RedirectAttributes attribute,HttpServletRequest request,HttpServletResponse response,Model mod) {
         response.setContentType("text/html;charset=UTF-8");
+        User user = (User) session.getAttribute("user");
 		
 		if(StringUtils.isEmpty(loginreq.getUsername()) || StringUtils.isEmpty(loginreq.getPassword())) {
 			attribute.addFlashAttribute("message", "請輸入帳號或密碼");
@@ -74,13 +73,17 @@ public class LoginController {
         String remember=loginreq.getRemember();
 		
 		try {
-			User user = userService.checkuser(loginreq.getUsername(), loginreq.getPassword());
+			 user = userService.checkuser(loginreq.getUsername(), loginreq.getPassword());
 			if(user!=null) {
 				user.setPassword(null);
+				
 				session.setAttribute("user", user);
+				mod.addAttribute("user", user);
+				session.setAttribute("session", session);
+				 
 				//記住我
 				if("true".equals(remember)){
-	                Cookie cookie =new Cookie(loginreq.getUsername(),loginreq.getPassword());
+	                 Cookie cookie =new Cookie(loginreq.getUsername(),loginreq.getPassword());
 	                //cookie有效期
 	                //一个月
 	                cookie.setMaxAge(60*60*24*30);
@@ -94,7 +97,8 @@ public class LoginController {
 			}
 			
 		} catch (Exception e) {
-			attribute.addFlashAttribute("message", "登入失敗，帳號或密碼錯誤");
+			attribute.addFlashAttribute("message", e.getMessage());
+			mod.addAttribute("message", e.getMessage());
 			return "redirect:/admin/login";
 		}
 		
@@ -108,7 +112,7 @@ public class LoginController {
 	 * @throws Exception
 	 */
 	@PostMapping("/register")
-	public ResponseEntity<String> register(@RequestBody UserReq req ,Model mod) throws Exception {
+	public void register(@RequestBody UserReq req ,Model mod) throws Exception {
 		String emailRegex = "\\w[-\\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\\.)+[A-Za-z]{2,14}";
         boolean emailSuccess = Pattern.matches(emailRegex, req.getEmail());
         if (!emailSuccess) {
@@ -122,14 +126,15 @@ public class LoginController {
 //        }
 		
 		if(userService.findUserByUserName(req.getUsername())) {
+			mod.addAttribute("errorMsg", "帳戶已存在");
 			throw new Exception("帳戶已存在");
 		}
 		if(!StringUtils.equals(req.getPassword(), req.getCheckPassword())) {
+			mod.addAttribute("errorMsg", "密碼不一樣，請重新輸入");
 			throw new Exception("密碼不一樣，請重新輸入");
 		}
+		mod.addAttribute("success","註冊成功" );
 		userService.save(req);
-		
-		return ResponseEntity.ok("註冊成功");
 	}
 	
 	@PostMapping("/logout")

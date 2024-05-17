@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:replace="~{_fragments :: head(~{::title})}">
+<head >
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>500</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
-  <link rel="stylesheet" href="../../static/css/me.css" >
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/main-DRgq0g6l.css}">
+   <th:block th:replace="~{fragments :: script}"></th:block>
 </head>
 	<body>
 
-	<nav th:replace="~{_fragments :: menu(1)}" class="w-100 navbar navbar-expand-lg navbar-dark bg-dark">
+	<nav th:replace="~{fragments :: menu(1)}" class="w-100 navbar navbar-expand-lg navbar-dark bg-dark">
 		<div class="container-fluid d-flex">
 			<button class="navbar-toggler" type="button"
 				data-bs-toggle="collapse" data-bs-target="#navBar">

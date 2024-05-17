@@ -28,6 +28,11 @@ public class User  {
 	@Column(name = "ID")
     private Long id;
 	
+	@Column(name = "NAME")
+	private String name;
+	
+	@Column(name = "TITLE")
+	private String title;
 	
 	@Column(name = "USER_NAME")
     private String username;
@@ -54,10 +59,12 @@ public class User  {
     
     public void create(UserReq req) {
     	
+    	this.name = req.getName();
+    	this.title = req.getTitle();
     	this.username = req.getUsername();
     	this.password = req.getPassword();
     	this.email = req.getEmail();
-    	this.roles = req.getRoles();
+    	this.roles = "ROLE_USER";
     	this.createdTime = Timestamp.from(Instant.now());
     	
     			

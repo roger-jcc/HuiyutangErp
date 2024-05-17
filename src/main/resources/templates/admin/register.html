@@ -4,35 +4,23 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>註冊帳號</title>
-<style>
-html, body {
-	height: 100%;
-}
 
-.form-register {
-	max-width: 330px;
-	padding: 1rem;
-}
-
-@media screen and (min-width: 576px) {
-	.form-register {
-		max-width: 500px;
-	}
-}
-</style>
-<script th:src="@{/js/main-CGZVxo7S.js}"></script>
+<!-- <script th:src="@{/js/main-CGZVxo7S.js}"></script> -->
 <link rel="stylesheet" type="text/css"
 	th:href="@{/css/main-DRgq0g6l.css}">
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<link rel="stylesheet" type="text/css" th:href="@{/css/all.css}">
+<link rel="icon" type="image/x-icon" href="data:image/x-icon;,">
+<!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.slim.js"
 	integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc="
-	crossorigin="anonymous"></script>
+	crossorigin="anonymous"></script> -->
+<th:block th:replace="~{fragments :: script}"></th:block>
 </head>
 <body
 	class="d-flex align-items-center bg-body-tertiary flex-column justify-content-between">
 	<div></div>
 	<main class="form-register w-100 m-auto">
-		<form>
+		<form id="registrationForm">
 			<h1 class="h3 mb-3 fw-normal">註冊帳號</h1>
 			<div class="border p-3 mb-3 rounded fw-semibold">
 				<div class="mb-2">
@@ -40,26 +28,32 @@ html, body {
 						type="email" class="form-control" id="email"
 						placeholder="example@gmail.com" />
 					<div id="emailHelp" class="form-text fw-normal">請使用常用的電子郵件地址註冊，此地址將用於忘記密碼等安全驗證。</div>
+					<span id="emailError" class="error"></span>
 				</div>
 				<div class="mb-2">
 					<label for="username" class="form-label">名稱</label> <input
-						type="text" class="form-control" id="name" />
+						type="text" class="form-control" id="name" /> <span
+						id="nameError" class="error"></span>
 				</div>
 				<div class="mb-2">
 					<label for="title" class="form-label">職稱</label> <input type="text"
-						class="form-control" id="title" />
+						class="form-control" id="title" /> <span id="titleError"
+						class="error"></span>
 				</div>
 				<div class="mb-2">
 					<label for="title" class="form-label">帳號</label> <input type="text"
-						class="form-control" id="username" />
+						class="form-control" id="username" /> <span id="usernameError"
+						class="error"></span>
 				</div>
 				<div class="mb-2">
 					<label for="password" class="form-label">密碼</label> <input
-						type="password" class="form-control" id="password" />
+						type="password" class="form-control" id="password" /> <span
+						id="passwordError" class="error"></span>
 				</div>
 				<div class="mb-2">
 					<label for="passwordCheck" class="form-label">確認密碼</label> <input
-						type="password" class="form-control" id="passwordCheck" />
+						type="password" class="form-control" id="passwordCheck" /> <span
+						id="passwordCheckError" class="error"></span>
 				</div>
 			</div>
 
@@ -74,28 +68,204 @@ html, body {
 		</div>
 	</footer>
 
+	<!-- 彈窗區塊 id 對應 data-bs-target -->
+	<div class="modal" id="myModal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">註冊</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close" onclick="closeModal()"></button>
+				</div>
+				<div class="modal-body">
+					<span id="message"></span>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal" onclick="closeModal()">返回登入</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 彈窗區塊 -->
+
 	<script type="text/javascript">
-  
-    
+	
+
+	
+/* 	 document.getElementById('username').addEventListener('keyup' , function(){
+		 debugger;
+ 		
+		 var username =  document.getElementById('username').value;
+		 
+		 	if (username.length >= 6 && username.length <= 8 && /^[a-zA-Z0-9]+$/.test(username)) {
+	            // 符合要求，可以進行下一步操作，例如顯示提示信息或啟用提交按鈕
+			 isValid= true;
+	        } else {
+	            // 不符合要求，可以顯示錯誤提示或禁用提交按鈕等
+	            document.getElementById("usernameError").textContent = "帳號長度需為6-8碼，並且只能包含英文和數字";
+	 			isValid = false;
+	        }
+	 }); */
+  	
+	 const  myModal = new bootstrap.Modal(document.getElementById("myModal"));
+        
      $("#register").click(function(){
-    	 debugger;
-    	 const data ={
-    	    name:$("#name").val(),
-    	    username: $("#username").val(),
-    	    password: $("#password").val(),
-    	    checkPassword: $("#passwordCheck").val(),
-    	    email: $("#email").val(),
-    	    title: $("#title").val()
-    	  };
-    	 console.log("data",data);
-    	 axios.post('/admin/register',data)
-    		  .then(function (response) {
-    		    console.log(response);
-    		  })
-    		  .catch(function (error) {
-    		    console.log(error);
-    		  });
-     });
+    	 document.getElementById('registrationForm').addEventListener('submit', function(event) {
+    	        event.preventDefault(); // 阻止表單的默認提交行為
+    	        
+    	        
+    	        //防止按鈕連點
+    	        $("#register").disabled =true;
+
+    	        // 執行表單欄位檢查
+    	        if (!validateForm()) {
+    	            return; // 如果表單欄位檢查不通過，則停止執行後續代碼
+    	        }
+	    	   	 const data ={
+	    	 	   	    name:$("#name").val(),
+	    	 	   	    username: $("#username").val(),
+	    	 	   	    password: $("#password").val(),
+	    	 	   	    checkPassword: $("#passwordCheck").val(),
+	    	 	   	    email: $("#email").val(),
+	    	 	   	    title: $("#title").val()
+	    	 	   	  };
+	    	 	   	 console.log("data",data);
+	    	 	   	var message = document.getElementById('message');
+	    	 	   	 axios.post('/admin/register',data)
+	    	 	   		  .then(function (res) {
+	    	 	   		  	debugger;
+	    	 	   		  	console.log("res :" + res);
+	    	 	   			 //清空
+	    	 	   			$("#name").val('');
+	    	 	   		 	$("#username").val('');
+	    	 	   		 	$("#password").val('');
+	    	 	   			$("#passwordCheck").val('');
+	    	 	   			$("#email").val('');
+	    	 	   			 $("#title").val('');
+	    	 	   			message.textContent='註冊成功';
+	    	 	   			myModal.show();
+	    	 	   			
+	    	 	   	      $("#register").disabled =false;
+	    	 	   		  })
+	    	 	   		  .catch(function (err) {
+	    	 	   			  debugger;
+	    	 	   			console.log("err :" + err);
+	    	 	   			 //清空
+		    	 	   		$("#name").val('');
+		    	 	   		$("#username").val('');
+		    	 	   		$("#password").val('');
+		    	 	   		$("#passwordCheck").val('');
+		    	 	   		$("#email").val('');
+		    	 	   		$("#title").val('');
+		    	 	   		message.textContent='註冊失敗';
+	    	 	   			myModal.show();
+	    	 	  	      $("#register").disabled =false;
+	    	 	   });
+    	    });
+    	}); 
+  
+     
+     
+     function validateForm(){
+      	 var name = $("#name").val();
+    	 var username = $("#username").val();
+    	 var password = $("#password").val();
+    	 var checkPassword = $("#passwordCheck").val();
+    	 var email =$("#email").val();
+    	 var title = $("#title").val();
+    	 
+    	 var isValid = true;
+    	 // 檢查是否包含中文字符
+    	 var chineseRegex = /[\u4e00-\u9fa5]/;
+    	 // 檢查是否包含特殊符號（除了字母、數字和中文字符之外的字符）
+    	 var specialCharacterRegex = /[^\w\d\u4e00-\u9fa5]/;
+    	 
+    	 // 定義一個正則表達式，用於檢查電子郵件地址的格式是否合法
+    	  var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    	 
+    	 
+    	 if (name.trim() === "") {
+			document.getElementById("nameError").textContent = "名稱不能為空";
+			isValid = false;
+		 } else {
+			 if(!chineseRegex.test(name)){
+				 document.getElementById("nameError").textContent = "名稱只允許輸入中文";
+			 }else{
+				 document.getElementById("nameError").textContent = "";
+			 }
+		 }
+    	 
+    	 if (username.trim() === "") {
+ 			document.getElementById("usernameError").textContent = "帳號不能為空";
+ 			isValid = false;
+ 		 } else {
+ 			if ((username.length <= 6 || username.length >= 12) ||chineseRegex.test(username)) {
+ 	    		// 不符合要求，可以顯示錯誤提示或禁用提交按鈕等
+ 		        document.getElementById("usernameError").textContent = "帳號長度需為6-12碼，並且只能包含英文和數字";
+ 		 		isValid = false;
+ 		     } else {
+ 				document.getElementById("usernameError").textContent = "";
+ 		 	}
+ 		 }
+    	 
+    	 if (password.trim() === "") {
+ 			document.getElementById("passwordError").textContent = "密碼不能為空";
+ 			isValid = false;
+ 		 } else {
+ 			 if(chineseRegex.test(password)){
+ 				document.getElementById("passwordError").textContent = "只包含英文和數字";
+ 		 		isValid = false;
+ 			 }else{
+ 				document.getElementById("passwordError").textContent = "";
+ 			 }
+ 		 }
+    	 
+    	 
+    	 if (checkPassword.trim() === "") {
+ 			document.getElementById("passwordCheckError").textContent = "確認密碼不能為空";
+ 			isValid = false;
+ 		 } else {
+ 			if(chineseRegex.test(checkPassword)){
+ 				document.getElementById("passwordCheckError").textContent = "只包含英文和數字";
+ 		 		isValid = false;
+ 			 }else{
+ 				document.getElementById("passwordCheckError").textContent = "";
+ 			 }
+ 		 }
+    	 
+    	 
+    	 if (email.trim() === "") {
+ 			document.getElementById("emailError").textContent = "信箱不能為空";
+ 			isValid = false;
+ 		 } else {
+ 			 	if(!emailRegex.test(email)){
+ 			 		document.getElementById("emailError").textContent = "信箱格式有誤";
+ 			 		isValid = false;
+ 			 	}else{
+ 			 		document.getElementById("emailError").textContent = "";
+ 			 	}
+ 				
+ 		 }
+    	 
+    	 
+    	 if (title.trim() === "") {
+ 			document.getElementById("titleError").textContent = "職稱不能為空";
+ 			isValid = false;
+ 		 } else {
+ 			 if(!chineseRegex.test(title)){
+				 document.getElementById("titleError").textContent = "名稱只允許輸入中文";
+			 }else{
+				 document.getElementById("titleError").textContent = "";
+			 }
+ 		 }
+    	 
+    	 return isValid;
+     }
+     
+     function closeModal(){
+    	 window.location.replace("http://localhost:8080/admin/login");
+     }
     
     </script>
 </body>

@@ -1,47 +1,15 @@
 <!DOCTYPE html>
-<html lang="zh-tw" xmlns:th="http://www.thymeleaf.org">
-<head>
+<html lang="zh-tw">
+<head >
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>登入系統</title>
-<style>
-html, body {
-	height: 100%;
-}
 
-.form-signin {
-	max-width: 330px;
-	padding: 1rem;
-}
-
-.form-signin .form-floating:focus-within {
-	z-index: 2;
-}
-
-.form-signin input[type="text"] {
-	margin-bottom: -1px;
-	border-bottom-right-radius: 0;
-	border-bottom-left-radius: 0;
-}
-
-.form-signin input[type="password"] {
-	margin-bottom: 10px;
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
-}
-.error{
-color : red;
-}
-</style>
-<script th:src="@{/js/main-CGZVxo7S.js}"></script>
 <link rel="stylesheet" type="text/css"
 	th:href="@{/css/main-DRgq0g6l.css}">
-
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
-	integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
-	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/all.css}">
+<th:block th:replace="~{fragments :: script}"></th:block>
 </head>
 <body
 	class="d-flex align-items-center pt-4 bg-body-tertiary flex-column justify-content-between">
@@ -49,7 +17,7 @@ color : red;
 	<main class="form-signin w-100 m-auto">
 		<h1 class="h3 mb-3 fw-normal">登入系統</h1>
 		<form action="#" th:action="@{/admin/account}" th:object="${req}"
-			method="post"  onsubmit="return validateForm()">
+			method="post" onsubmit="return validateForm()">
 			<div class="form-floating">
 				<input type="text" class="form-control" id="username"
 					name="username" placeholder="name@example.com" /> <label
@@ -72,9 +40,12 @@ color : red;
 				<a class="btn btn-outline-primary w-50 me-2 py-2" type="button"
 					href="/page/forgetPassword">忘記密碼</a> <a
 					class="btn btn-outline-primary w-50 ms-2 py-2" type="button"
-					href="/admin/register">註冊帳號</a>
+					th:href="@{/admin/register}">註冊帳號</a>
 			</div>
 		</form>
+		<div th:if="${message}" class="error">
+			<span th:text="${message}"></span>
+		</div>
 	</main>
 	<footer
 		class="w-100 d-flex flex-wrap justify-content-between align-items-center py-3 border-top bg-dark text-light">
@@ -82,6 +53,32 @@ color : red;
 			<span class="mb-0 text-light">&copy; 2024 XXXX Company, Inc</span>
 		</div>
 	</footer>
+
+	<!-- 彈窗區塊 id 對應 data-bs-target -->
+	<div class="modal" id="myModal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">錯誤訊息</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close" onclick="closeModal()"></button>
+				</div>
+				<div class="modal-body">
+					<div th:if="${message}" class="alert alert-danger">
+						<span th:text="${message}"></span>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal" onclick="closeModal()">Close</button>
+					<button type="button" class="btn btn-primary"
+						data-bs-dismiss="modal">Save changes</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 彈窗區塊 -->
+
 	<script type="text/javascript">
 		function validateForm() {
 			var username = document.getElementById("username").value;
@@ -106,6 +103,16 @@ color : red;
 
 			return isValid;
 		}
+	</script>
+
+	<script type="text/javascript">
+	$(document).ready(function() {
+		 const  myModal = new bootstrap.Modal(document.getElementById("myModal"));
+		    // 啟動彈窗
+		    // myModal.show();
+		    // 關閉彈窗
+		    myModal.hide();
+	});
 	</script>
 </body>
 </html>

@@ -61,12 +61,7 @@
 				id="register">註冊</button>
 		</form>
 	</main>
-	<footer
-		class="w-100 d-flex flex-wrap justify-content-between align-items-center py-3 border-top bg-dark text-light">
-		<div class="col-12 d-flex justify-content-center align-items-center">
-			<span class="mb-0 text-light">&copy; 2024 XXXX Company, Inc</span>
-		</div>
-	</footer>
+	<footer th:replace="~{fragments::footer}"></footer>
 
 	<!-- 彈窗區塊 id 對應 data-bs-target -->
 	<div class="modal" id="myModal" tabindex="-1">
@@ -134,7 +129,6 @@
 	    	 	   	var message = document.getElementById('message');
 	    	 	   	 axios.post('/admin/register',data)
 	    	 	   		  .then(function (res) {
-	    	 	   		  	debugger;
 	    	 	   		  	console.log("res :" + res);
 	    	 	   			 //清空
 	    	 	   			$("#name").val('');
@@ -149,7 +143,6 @@
 	    	 	   	      $("#register").disabled =false;
 	    	 	   		  })
 	    	 	   		  .catch(function (err) {
-	    	 	   			  debugger;
 	    	 	   			console.log("err :" + err);
 	    	 	   			 //清空
 		    	 	   		$("#name").val('');

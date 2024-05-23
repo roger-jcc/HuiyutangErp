@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>登入系統</title>
+
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/main-DRgq0g6l.css}">
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+<link rel="stylesheet" type="text/css" th:href="@{/css/all.css}">
+<link rel="icon" type="image/x-icon" href="data:image/x-icon;,">
+<th:block th:replace="~{fragments :: script}"></th:block>
+</head>
+<body>
+	<nav th:replace="~{fragments :: menu(8)}"></nav>
+
+	<main class="form-register w-100 m-auto">
+		<form id="submitForm" onsubmit="handleSubmit(event)">
+			<h1 class="h3 mb-3 fw-normal">叫貨清單</h1>
+			<div class="border p-3 mb-3 rounded fw-semibold">
+				<div class="mb-2">
+					<label for="email" class="form-label">叫貨人</label> <input
+						type="text" class="form-control" id="caller" /> <span
+						id="callerError" class="error"></span>
+				</div>
+				<div class="mb-2">
+					<label for="username" class="form-label">購物台</label> <input
+						type="text" class="form-control" id="shopping" /> <span
+						id="shoppingError" class="error"></span>
+				</div>
+				<div class="mb-2">
+					<label for="title" class="form-label">產品名稱</label> <input
+						type="text" class="form-control" id="productName" />
+					<div id="productResults" ></div>
+					 <span id="productNameError" class="error"></span>
+				</div>
+				<div class="mb-2">
+					<label for="title" class="form-label">數量</label> <input type="text"
+						class="form-control" id="count" /> <span id="countError"
+						class="error"></span>
+				</div>
+			</div>
+
+			<button class="btn btn-primary w-100 py-2 mb-2" type="submit"
+				id="submit">確定</button>
+		</form>
+	</main>
+	<footer th:replace="~{fragments :: footer}"> </footer>
+
+
+	<!-- 彈窗區塊 id 對應 data-bs-target -->
+	<div class="modal" id="myModal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">新增叫貨紀錄</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close" onclick="closeModal()"></button>
+				</div>
+				<div class="modal-body">
+					<span id="message"></span>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal" onclick="closeModal()">返回</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 彈窗區塊 -->
+
+
+	<script type="text/javascript">
+	
+	
+		$(document).ready(function() {
+			
+		    // 使用 jQuery 的事件绑定方法 .on
+		    $("#productName").on('input', function() {
+		        var productName = $("#productName").val();
+
+		        // 防止空查询
+		        if (productName.length === 0) {
+		            $('#productResults').empty();
+		            return;
+		        }
+
+		        $.ajax({
+		            url: '/admin/calldata/findProductName',  // 替换为实际的搜索 API URL
+		            type: 'GET',
+		            data: { productName: productName },
+		            success: function(res) {
+		                $('#productResults').empty();  // 清空之前的结果
+		                if (res.length === 0) {
+		                    $('#productResults').append('<p>No products found</p>');
+		                } else {
+		                	 res.forEach(function(item) {
+		                		 $('#productResults').append('<p>' + item + '</p>');
+		                	  });
+		                }
+		            },
+		            error: function(xhr, status, error) {
+		                console.error('Error fetching data:', error);
+		                $('#productResults').empty();
+		                $('#productResults').append('<p>Error fetching data</p>');
+		            }
+		        });
+		    });
+		});
+		
+		
+		 $("#submit").click(function(){
+			 
+			 const  myModal = new bootstrap.Modal(document.getElementById("myModal"));
+			 debugger;
+	    	 document.getElementById('submitForm').addEventListener('submit', function(event) {
+	    	        event.preventDefault(); // 阻止表單的默認提交行為
+	    	        
+	    	        submitButton.disabled = true;
+
+	    	        // 執行表單欄位檢查
+	    	        if (!validateForm()) {
+	    	            return; // 如果表單欄位檢查不通過，則停止執行後續代碼
+	    	        }
+		    	   	 const data ={
+		    	   			caller:$("#caller").val(),
+		    	   			shopping: $("#shopping").val(),
+		    	   			productName: $("#productName").val(),
+		    	   			count:$("#count").val()
+		    	 	   	  };
+		    	 	   	var message = document.getElementById('message');
+		    	 	   	 axios.post('/admin/calldata/saveCallForm',data)
+		    	 	   		  .then(function (res) {
+		    	 	   		  	console.log("res :" + res);
+		    	 	   			 //清空
+		    	 	   			$("#caller").val('');
+		    	 	   		 	$("#shopping").val('');
+		    	 	   		 	$("#productName").val('');
+		    	 	   			$("#count").val('');
+		    	 	   			message.textContent='新增成功';
+		    	 	   			myModal.show();
+		    	 	   			
+		    	 	   	      $("#register").disabled =false;
+		    	 	   		  })
+		    	 	   		  .catch(function (err) {
+		    	 	   			console.log("err :" + err);
+		    	 	   			 //清空
+			    	 	   		$("#caller").val('');
+		    	 	   		 	$("#shopping").val('');
+		    	 	   		 	$("#productName").val('');
+		    	 	   			$("#count").val('');
+			    	 	   		message.textContent='新增失敗';
+		    	 	   			myModal.show();
+		    	 	  	      $("#register").disabled =false;
+		    	 	   });
+	    	    });
+	    	}); 
+		 
+		 
+		 
+		   function validateForm(){
+			    var caller=$("#caller").val();
+	   			var shopping= $("#shopping").val();
+	   			var productName=$("#productName").val();
+	   			var count=$("#count").val();
+		    	 
+		    	 var isValid = true;
+		    	 // 檢查是否包含中文字符
+		    	 var chineseRegex = /[\u4e00-\u9fa5]/;
+		    	 
+		    	 const iscount = /^\d+$/.test(count);
+		    	 
+		    	 
+		    	 if (caller.trim() === "") {
+					document.getElementById("callerError").textContent = "叫貨人不能為空";
+					isValid = false;
+				 } else {
+					 document.getElementById("callerError").textContent = "";
+				 }
+		    	 
+		    	 if (shopping.trim() === "") {
+		 			document.getElementById("shoppingError").textContent = "購物台不能為空";
+		 			isValid = false;
+		 		 } else {
+		 			if(!chineseRegex.test(shopping)){
+						 document.getElementById("shoppingError").textContent = "購物台只允許輸入中文";
+						 isValid = false;
+					 }else{
+						 document.getElementById("shoppingError").textContent = "";
+					 }
+		 		 }
+		    	 
+
+		    	 if (productName.trim() === "") {
+		 			document.getElementById("productNameError").textContent = "購物台不能為空";
+		 			isValid = false;
+		 		 } else {
+		 			
+					document.getElementById("productNameError").textContent = "";
+					 
+		 		 }
+		    	 
+		    	 
+
+		    	 if (count.trim() === "") {
+		 			document.getElementById("countError").textContent = "數量不能為空";
+		 			isValid = false;
+		 		 } else {
+		 			if(!iscount){
+						 document.getElementById("countError").textContent = "數量只能輸入數字";
+						 isValid = false;
+					 }else{
+						 document.getElementById("countError").textContent = "";
+					 }
+					 
+		 		 }
+		    	 
+		    	 
+		    
+		    	 
+		    	 return isValid;
+		     }
+		   
+		   
+		   
+		   function handleSubmit(event) {
+	            const submitButton = document.getElementById('submitButton');
+	            submitButton.disabled = true;
+	            submitButton.value = "提交中...";
+
+	            // 模擬延遲處理，實際應用中應使用 Ajax 請求
+	            setTimeout(() => {
+	                // 模擬表單提交完成，重新啟用按鈕
+	                submitButton.disabled = false;
+	                submitButton.value = "提交";
+	                alert("表單提交成功！");
+	            }, 2000);
+	            
+	            // 阻止表單的默認提交動作
+	            event.preventDefault();
+	        }
+
+		
+	</script>
+</body>
+</html>

@@ -19,7 +19,7 @@ public class ManufacturerService {
 	@Autowired
 	private ManufacterurRepository manufacterurRepository;
 
-	public void saveManufacterue(ManufacturerReq manufacteruerReq) {
+	public void saveManufacturer(ManufacturerReq manufacteruerReq) {
 		Optional<Manufacturer> manufacteruer = manufacterurRepository.findByManufacturerName(manufacteruerReq.getManufacturerName());
 		
 		//不存在 則新增

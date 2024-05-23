@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>註冊帳號</title>
+
+<!-- <script th:src="@{/js/main-CGZVxo7S.js}"></script> -->
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/main-DRgq0g6l.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/all.css}">
+<link rel="icon" type="image/x-icon" href="data:image/x-icon;,">
+<!-- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.slim.js"
+	integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc="
+	crossorigin="anonymous"></script> -->
+<th:block th:replace="~{fragments :: script}"></th:block>
+</head>
+<body>
+	<nav th:replace="fragments :: menu(2)"></nav>
+
+	<main class="form-register w-100 m-auto">
+		<form id="submitForm">
+			<h1 class="h3 mb-3 fw-normal">新增廠商</h1>
+			<div class="border p-3 mb-3 rounded fw-semibold">
+				<div class="mb-2">
+					<label for="email" class="form-label">廠商名稱</label> <input
+						type="text" class="form-control" id="manfauturerName"
+						 />
+					<span id="manfauturerNameError" class="error"></span>
+				</div>
+				<div class="mb-2">
+					<label for="username" class="form-label">廠商地址</label> <input
+						type="text" class="form-control" id="manufacturerAdress" /> <span
+						id="manufacturerAdressError" class="error"></span>
+				</div>
+				<div class="mb-2">
+					<label for="title" class="form-label">廠商電話</label> <input type="text"
+						class="form-control" id="manufacturerPhone" /> <span id="manufacturerPhoneError"
+						class="error"></span>
+				</div>
+			</div>
+
+			<button class="btn btn-primary w-100 py-2 mb-2" type="submit"
+				id="submit">確定</button>
+		</form>
+	</main>
+	<footer
+		class="w-100 d-flex flex-wrap justify-content-between align-items-center py-3 border-top bg-dark text-light">
+		<div class="col-12 d-flex justify-content-center align-items-center">
+			<span class="mb-0 text-light">&copy; 2024 XXXX Company, Inc</span>
+		</div>
+	</footer>
+
+	<!-- 彈窗區塊 id 對應 data-bs-target -->
+	<div class="modal" id="myModal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">新增廠商</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close" onclick="closeModal()"></button>
+				</div>
+				<div class="modal-body">
+					<span id="message"></span>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal" onclick="closeModal()">返回登入</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 彈窗區塊 -->
+
+	<script type="text/javascript">
+	
+
+
+	 const  myModal = new bootstrap.Modal(document.getElementById("myModal"));
+        
+     $("#submit").click(function(){
+    	 document.getElementById('submitForm').addEventListener('submit', function(event) {
+    	        event.preventDefault(); // 阻止表單的默認提交行為
+    	        
+    	        
+    	        //防止按鈕連點
+    	        $("#submit").disabled =true;
+
+    	        // 執行表單欄位檢查
+    	        if (!validateForm()) {
+    	            return; // 如果表單欄位檢查不通過，則停止執行後續代碼
+    	        }
+	    	   	 const data ={
+	    	   			manufacturerName:$("#manfauturerName").val(),
+	    	   			manufacturerAdress: $("#manufacturerAdress").val(),
+	    	   			manufacturerPhone: $("#manufacturerPhone").val()
+	    	 	   	  };
+	    	 	   	 console.log("data",data);
+	    	 	   	var message = document.getElementById('message');
+	    	 	   	 axios.post('/api/manufacterur/saveManufacturer',data)
+	    	 	   		  .then(function (res) {
+	    	 	   		  	debugger;
+	    	 	   		  	console.log("res :" + res);
+	    	 	   			 //清空
+	    	 	   			$("#manfauturerName").val('');
+	    	 	   		 	$("#manufacturerAdress").val('');
+	    	 	   		 	$("#manufacturerAdress").val('');
+	    	 	   			message.textContent='新增成功';
+	    	 	   			myModal.show();
+	    	 	   			
+	    	 	   	      $("#register").disabled =false;
+	    	 	   		  })
+	    	 	   		  .catch(function (err) {
+	    	 	   			console.log("err :" + err);
+	    	 	   			 //清空
+		    	 	   		$("#manfauturerName").val('');
+	    	 	   		 	$("#manufacturerAdress").val('');
+	    	 	   		 	$("#manufacturerAdress").val('');
+		    	 	   		message.textContent='新增失敗';
+	    	 	   			myModal.show();
+	    	 	  	      $("#register").disabled =false;
+	    	 	   });
+    	    });
+    	}); 
+  
+     
+     
+     function validateForm(){
+    	 debugger;
+      	 var manfauturerName = $("#manfauturerName").val();
+    	 var manufacturerAdress = $("#manufacturerAdress").val();
+    	 var manufacturerPhone = $("#manufacturerPhone").val();
+    	 
+    	 var isValid = true;
+    	 // 檢查是否包含數字字符
+    	 var numberRegex = /^\d*$/;
+    	 
+    
+    	 
+    	 
+    	 if (manfauturerName.trim() === "") {
+			document.getElementById("manfauturerNameError").textContent = "廠商名稱不能為空";
+			isValid = false;
+		 } else {
+			 document.getElementById("manfauturerNameError").textContent = "";
+		 }
+    	 
+    	 if (manufacturerAdress.trim() === "") {
+ 			document.getElementById("manufacturerAdressError").textContent = "廠商地址不能為空";
+ 			isValid = false;
+ 		 } else {
+ 			document.getElementById("manufacturerAdressError").textContent = "";
+ 		 }
+    	 
+    	 if (manufacturerPhone.trim() === "") {
+ 			document.getElementById("manufacturerPhoneError").textContent = "廠商電話不能為空";
+ 			isValid = false;
+ 		 } else {
+ 			 if(numberRegex.test(manufacturerPhone)){
+ 				document.getElementById("manufacturerPhoneError").textContent = "只允許輸入數字";
+ 		 		isValid = false;
+ 			 }else{
+ 				document.getElementById("manufacturerPhoneError").textContent = "";
+ 			 }
+ 		 }
+    	 
+    	 return isValid;
+     }
+     
+     function closeModal(){
+    	 window.location.replace("http://localhost:8080/admin/account");
+     }
+    
+    </script>
+</body>
+</html>

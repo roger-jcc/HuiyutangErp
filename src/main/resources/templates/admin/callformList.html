@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>登入系統</title>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/css/autoComplete.02.min.css" />
+
+<style>
+html, body {
+	height: 100%;
+}
+
+th, label {
+	text-wrap: nowrap;
+}
+
+.no_result {
+	padding: 0.5rem;
+	text-align: center;
+	background-color: #f8d7da;
+	color: #721c24;
+	border: 1px solid #f5c6cb;
+	border-radius: 0.25rem;
+	margin-bottom: 0.5rem;
+}
+
+.autoComplete_wrapper>input {
+	width: 200px;
+}
+</style>
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/main-DRgq0g6l.css}">
+<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+<link rel="stylesheet" type="text/css" th:href="@{/css/all.css}">
+<link rel="icon" type="image/x-icon" href="data:image/x-icon;,">
+<th:block th:replace="~{fragments :: script}"></th:block>
+</head>
+<body>
+
+	<nav th:replace="~{fragments :: menu(7)}"></nav>
+
+	<div class="px-4 d-flex justify-content-center">
+		<table class="table table-image table-bordered">
+			<thead>
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">購物台</th>
+					<th scope="col">商品名稱</th>
+					<th scope="col">叫貨量</th>
+					<th scope="col">訂貨日</th>
+					<th scope="col">到貨日</th>
+					<th scope="col">到貨量</th>
+					<th scope="col">待補量</th>
+					<th scope="col">補貨日1</th>
+					<th scope="col">捕獲量</th>
+					<th scope="col">補貨日2</th>
+					<th scope="col">捕獲量</th>
+					<th scope="col">總差異量</th>
+				</tr>
+			</thead>
+			<tbody id="vendorList">
+				<tr class="vendorItem">
+					<th scope="row" class="itemId"></th>
+					<td class="shoppingChannel"></td>
+					<td class="productName"></td>
+					<td class="orderQuantity"></td>
+					<td class="orderDate"></td>
+					<td class="arrivalDate"></td>
+					<td class="receivedQuantity"></td>
+					<td class="pendingQuantity"></td>
+					<td class="firstRestockDate"></td>
+					<td class="firstCaptureQuantity"></td>
+					<td class="secondRestockDate"></td>
+					<td class="secondCaptureQuantity"></td>
+					<td class="totalDifference"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<nav class="px-4 pb-5">
+		<ul class="pagination justify-content-center">
+			<li class="page-item"><a class="page-link" href="#"
+				aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+			</a></li>
+			<li class="page-item"><a class="page-link active" href="#">1</a></li>
+			<li class="page-item"><a class="page-link" href="#">2</a></li>
+			<li class="page-item"><a class="page-link" href="#">3</a></li>
+			<li class="page-item"><a class="page-link" href="#"
+				aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+			</a></li>
+		</ul>
+	</nav>
+
+<footer th:replace="~{fragments :: footer}"> </footer>
+	<script
+		src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/autoComplete.min.js"></script>
+	<script>
+      const vendorNameAutoComplete = new autoComplete({
+        selector: "#vendorName",
+        placeHolder: "廠商名稱",
+        data: {
+          src: [
+            "abc",
+            "環球科技有限公司",
+            "盛世製造有限公司",
+            "華星電子股份有限公司",
+            "鑫發科技集團",
+            "億華通訊有限公司",
+            "智慧網路科技股份有限公司",
+            "創意科技有限公司",
+            "鴻海精密工業股份有限公司",
+            "美商蘋果公司",
+            "華為技術有限公司",
+          ],
+        },
+        resultItem: {
+          highlight: true,
+        },
+        resultsList: {
+          element: (list, data) => {
+            if (!data.results.length) {
+              // Create "No Results" message element
+              const message = document.createElement("div");
+              // Add class to the created element
+              message.setAttribute("class", "no_result");
+              // Add message text content
+              message.innerHTML = `<span>找不到 "${data.query}"</span>`;
+              // Append message element to the results list
+              list.prepend(message);
+            }
+          },
+          noResults: true,
+        },
+        events: {
+          input: {
+            selection: event => {
+              const selection = event.detail.selection.value;
+              vendorNameAutoComplete.input.value = selection;
+            },
+          },
+        },
+      });
+
+      const productNameAutoComplete = new autoComplete({
+        selector: "#productName",
+        placeHolder: "產品名稱",
+        data: {
+          src: [
+            "abc",
+            "環球科技有限公司",
+            "盛世製造有限公司",
+            "華星電子股份有限公司",
+            "鑫發科技集團",
+            "億華通訊有限公司",
+            "智慧網路科技股份有限公司",
+            "創意科技有限公司",
+            "鴻海精密工業股份有限公司",
+            "美商蘋果公司",
+            "華為技術有限公司",
+          ],
+        },
+        resultItem: {
+          highlight: true,
+        },
+        resultsList: {
+          element: (list, data) => {
+            if (!data.results.length) {
+              // Create "No Results" message element
+              const message = document.createElement("div");
+              // Add class to the created element
+              message.setAttribute("class", "no_result");
+              // Add message text content
+              message.innerHTML = `<span>找不到 "${data.query}"</span>`;
+              // Append message element to the results list
+              list.prepend(message);
+            }
+          },
+          noResults: true,
+        },
+        events: {
+          input: {
+            selection: event => {
+              const selection = event.detail.selection.value;
+              productNameAutoComplete.input.value = selection;
+            },
+          },
+        },
+      });
+    </script>
+	<script>
+      const originalElement = document.querySelector(".vendorItem");
+      const cloneElement = originalElement.cloneNode(true);
+
+      function setData(list) {
+        const target = document.getElementById("vendorList");
+        target.innerHTML = "";
+        let copies = [];
+
+        for (let i = 0; i < list.length; i++) {
+          let clone = cloneElement.cloneNode(true);
+          clone.id = "copy" + i;
+
+          clone.querySelector(".itemId").textContent = list[i].itemId;
+          clone.querySelector(".shoppingChannel").textContent = list[i].shoppingChannel;
+          clone.querySelector(".productName").textContent = list[i].productName;
+          clone.querySelector(".orderQuantity").textContent = list[i].orderQuantity;
+          clone.querySelector(".orderDate").textContent = list[i].orderDate;
+          clone.querySelector(".arrivalDate").textContent = list[i].arrivalDate;
+          clone.querySelector(".receivedQuantity").textContent = list[i].receivedQuantity;
+          clone.querySelector(".pendingQuantity").textContent = list[i].pendingQuantity;
+          clone.querySelector(".firstRestockDate").textContent = list[i].firstRestockDate;
+          clone.querySelector(".firstCaptureQuantity").textContent = list[i].firstCaptureQuantity;
+          clone.querySelector(".secondRestockDate").textContent = list[i].secondRestockDate;
+          clone.querySelector(".secondCaptureQuantity").textContent = list[i].secondCaptureQuantity;
+          clone.querySelector(".totalDifference").textContent = list[i].totalDifference;
+
+          copies.push(clone);
+        }
+
+        copies.forEach(copy => {
+          target.appendChild(copy);
+        });
+      }
+
+      // 輸入表單資料範例
+      setData([
+        {
+          itemId: "A001",
+          shoppingChannel: "Online Store",
+          productName: "Bluetooth Headphones",
+          orderQuantity: "100",
+          orderDate: "2024-04-20",
+          arrivalDate: "2024-04-25",
+          receivedQuantity: "100",
+          pendingQuantity: "0",
+          firstRestockDate: "2024-05-01",
+          firstCaptureQuantity: "50",
+          secondRestockDate: "2024-05-15",
+          secondCaptureQuantity: "50",
+          totalDifference: "0",
+        },
+        {
+          itemId: "B002",
+          shoppingChannel: "Physical Store",
+          productName: "Wireless Mouse",
+          orderQuantity: "200",
+          orderDate: "2024-04-18",
+          arrivalDate: "2024-04-23",
+          receivedQuantity: "180",
+          pendingQuantity: "20",
+          firstRestockDate: "2024-05-02",
+          firstCaptureQuantity: "20",
+          secondRestockDate: "2024-05-16",
+          secondCaptureQuantity: "0",
+          totalDifference: "0",
+        },
+        {
+          itemId: "C003",
+          shoppingChannel: "Mobile App",
+          productName: "Smart Watch",
+          orderQuantity: "150",
+          orderDate: "2024-04-15",
+          arrivalDate: "2024-04-22",
+          receivedQuantity: "150",
+          pendingQuantity: "0",
+          firstRestockDate: "2024-05-03",
+          firstCaptureQuantity: "75",
+          secondRestockDate: "2024-05-17",
+          secondCaptureQuantity: "75",
+          totalDifference: "0",
+        },
+      ]);
+    </script>
+</body>
+</html>

@@ -47,7 +47,7 @@ public class Manufacturer {
 	
 	
 	/**
-	 * 廠商名稱
+	 * 廠商電話
 	 */
 	@Column(name = "MANUFACTURER_Phone")
 	private String manufacturerPhone;

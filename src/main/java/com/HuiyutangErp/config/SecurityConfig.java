@@ -33,7 +33,7 @@ public class SecurityConfig {
                         	// 不攔截
                             req.requestMatchers("/admin/**","/css/**","/images/**","/js/**","/templates/**","/static/**","/assets/**","/admin/account").permitAll();
                             req.requestMatchers("/admin/manufacterur/**","/admin/restock/**").hasAnyRole("USER");
-                            req.anyRequest().authenticated();
+                            req.anyRequest().permitAll();
                         }
                 )
                 .httpBasic(Customizer.withDefaults())

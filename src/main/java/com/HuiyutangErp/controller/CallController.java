@@ -1,13 +1,18 @@
 package com.HuiyutangErp.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.HuiyutangErp.service.RestockService;
+import com.HuiyutangErp.pojo.Product;
+import com.HuiyutangErp.repository.ProductRepository;
+
+import io.jsonwebtoken.lang.Collections;
 
 
 /**
@@ -16,20 +21,23 @@ import com.HuiyutangErp.service.RestockService;
  *
  */
 @Controller
-@RequestMapping("/admin/ship")
-public class ShipController {
+@RequestMapping("/admin/call")
+public class CallController {
 	
 	@Autowired
-	private RestockService restockService;
+	private ProductRepository productRepository;
 	
 	
-	@GetMapping("/shipPage")
+	@GetMapping("/callformList")
 	public String shipPage(Model mod) {
-		return "admin/shipformList";
+		return "admin/callformList";
 	}
 	
-	@GetMapping("/form")
+	@GetMapping("/callform")
 	public String form(Model mod) {
-		return "admin/shipform";
+		return "admin/callform";
 	}
+	
+
+	
 }

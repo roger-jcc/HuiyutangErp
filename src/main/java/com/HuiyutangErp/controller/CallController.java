@@ -1,6 +1,5 @@
 package com.HuiyutangErp.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -72,7 +71,7 @@ public class CallController {
 		}
 		callerFormService.deleteCallerForm(id);
 		
-		return "/admin/callformList";
+		return "redirect:/admin/call/callformList";
 	}
 
 	

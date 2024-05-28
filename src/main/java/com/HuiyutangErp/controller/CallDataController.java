@@ -52,6 +52,8 @@ public class CallDataController {
 		return productNameList;
 	}
 	
+	
+	
 	/**
 	 * 新增叫貨紀錄
 	 * @param manufacteruerReq

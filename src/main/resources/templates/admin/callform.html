@@ -56,15 +56,16 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">新增叫貨紀錄</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close" onclick="closeModal()"></button>
+					<button type="button" id="closeModal" class="btn-close" 
+						aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<span id="message"></span>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal" onclick="closeModal()">返回</button>
+					<button type="button" id="btnCloseModal" class="btn btn-secondary">
+						返回
+					</button>
 				</div>
 			</div>
 		</div>
@@ -108,6 +109,20 @@
 		            }
 		        });
 		    });
+
+				const  myModal = new bootstrap.Modal(document.getElementById("myModal"));
+				 $("#closeModal").click(function(){
+					 closeModal();
+				 });
+
+				 $("#btnCloseModal").click(function(){
+					 closeModal();
+				 });
+				 
+	
+		   	function closeModal(){
+				  myModal.hide();
+		    }
 		});
 		
 		
@@ -222,12 +237,8 @@
 		    	 return isValid;
 		     }
 		   
-		   
-	
-		   function closeModal(){
-				const  myModal = new bootstrap.Modal(document.getElementById("myModal"));
-				  myModal.hide();
-		     }
+		
+				 
 		
 	</script>
 </body>

@@ -1,5 +1,7 @@
 package com.HuiyutangErp.service;
 
+import java.text.ParseException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -19,11 +21,20 @@ public class CallerFormService {
 	
 	
 	
-	public void saveCallFrom(CallFormReq coallerFormReq) {
+	public void saveCallFrom(CallFormReq coallerFormReq) throws ParseException {
 		CallerForm caller  = new CallerForm();
 		caller.createCallerForm(coallerFormReq);
 		callerformRepository.save(caller);
 	}
+
+
+
+	public void deleteCallerForm(String id) {
+		Integer ID = Integer.parseInt(id);
+		callerformRepository.deleteById(ID);
+	}
+	
+	
 	
 	
 

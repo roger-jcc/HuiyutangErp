@@ -45,61 +45,12 @@ public class RestockController {
 		return "admin/addVendorData";
 	}
 	
-	
-	/**
-	 * 儲存進貨訊息
-	 * @param req
-	 * @throws Exception 
-	 */
-	@PostMapping("/saverestock")
-	@PreAuthorize("hasAuthority('ROLE_USER')")
-	public ResponseEntity<String> saveRestock(@RequestBody Restockreq req) throws Exception{
-		try {
-			restockService.saveRestock(req);
-		} catch (IOException e) {
-			throw new Exception("圖片上傳失敗");
-		} catch (SQLException e) {
-			throw new Exception("圖片上傳失敗");
-		}
-		return  ResponseEntity.ok("進貨成功");
+	@GetMapping("/addVendorOne")
+	public String vendorOne() {
+		return "admin/addVendorOne";
 	}
 	
 	
-	/**
-	 * 儲存進貨訊息
-	 * @param req
-	 * @throws Exception 
-	 */
-	@PostMapping("/saverestockfile")
-	@PreAuthorize("hasAuthority('ROLE_USER')")
-	public void saveRestockFile(@RequestParam ("file") MultipartFile file , Model mod) throws Exception{
-		if(file.isEmpty()) {
-			mod.addAttribute("error", "檔案不能為空");
-			throw new Exception("檔案匯入失敗");
-		}
-		Map<String, String> resMap = restockService.saveRestockFile(file);
-		
-		if(StringUtils.equals("success",  resMap.get("code"))) {
-			mod.addAttribute("message" ,resMap.get("message") );
-		}else {
-			mod.addAttribute("message" ,resMap.get("message") );
-		}
-	}
-	
-	
-	
-	
-	
-	/**
-	 * 查詢所有 進貨庫存
-	 * @return
-	 */
-	@PostMapping("/getrestock")
-	@PreAuthorize("hasAuthority('ROLE_USER')")
-	public PageDto getrestock(@PageableDefault(size =10 ,sort = {"id"},direction = Sort.Direction.DESC)Pageable pag ){
-		PageDto resp = restockService.getRestock();
-		
-		return resp;
-	}
+
 
 }

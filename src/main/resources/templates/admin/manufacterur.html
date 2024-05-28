@@ -98,7 +98,7 @@
 	    	 	   	  };
 	    	 	   	 console.log("data",data);
 	    	 	   	var message = document.getElementById('message');
-	    	 	   	 axios.post('/api/manufacterur/saveManufacturer',data)
+	    	 	   	 axios.post('/admin/manufacterur/saveManufacturer',data)
 	    	 	   		  .then(function (res) {
 	    	 	   		  	debugger;
 	    	 	   		  	console.log("res :" + res);
@@ -157,7 +157,7 @@
  			document.getElementById("manufacturerPhoneError").textContent = "廠商電話不能為空";
  			isValid = false;
  		 } else {
- 			 if(numberRegex.test(manufacturerPhone)){
+ 			 if(!numberRegex.test(manufacturerPhone)){
  				document.getElementById("manufacturerPhoneError").textContent = "只允許輸入數字";
  		 		isValid = false;
  			 }else{

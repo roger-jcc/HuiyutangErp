@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>登入系統</title>
+<title>惠宇堂-叫貨表單</title>
 
 <link rel="stylesheet" type="text/css"
 	th:href="@{/css/main-DRgq0g6l.css}">
@@ -13,10 +13,10 @@
 <th:block th:replace="~{fragments :: script}"></th:block>
 </head>
 <body>
-	<nav th:replace="~{fragments :: menu(8)}"></nav>
+	<nav th:replace="~{fragments :: menu(9)}"></nav>
 
 	<main class="form-register w-100 m-auto">
-		<form id="submitForm" onsubmit="handleSubmit(event)">
+		<form id="submitForm">
 			<h1 class="h3 mb-3 fw-normal">叫貨清單</h1>
 			<div class="border p-3 mb-3 rounded fw-semibold">
 				<div class="mb-2">
@@ -45,6 +45,7 @@
 			<button class="btn btn-primary w-100 py-2 mb-2" type="submit"
 				id="submit">確定</button>
 		</form>
+		
 	</main>
 	<footer th:replace="~{fragments :: footer}"> </footer>
 
@@ -75,7 +76,7 @@
 	
 	
 		$(document).ready(function() {
-			
+		
 		    // 使用 jQuery 的事件绑定方法 .on
 		    $("#productName").on('input', function() {
 		        var productName = $("#productName").val();
@@ -113,11 +114,10 @@
 		 $("#submit").click(function(){
 			 
 			 const  myModal = new bootstrap.Modal(document.getElementById("myModal"));
-			 debugger;
 	    	 document.getElementById('submitForm').addEventListener('submit', function(event) {
 	    	        event.preventDefault(); // 阻止表單的默認提交行為
 	    	        
-	    	        submitButton.disabled = true;
+	    	        $("#submit").disabled = true;
 
 	    	        // 執行表單欄位檢查
 	    	        if (!validateForm()) {
@@ -193,7 +193,7 @@
 		    	 
 
 		    	 if (productName.trim() === "") {
-		 			document.getElementById("productNameError").textContent = "購物台不能為空";
+		 			document.getElementById("productNameError").textContent = "產品名稱不能為空";
 		 			isValid = false;
 		 		 } else {
 		 			
@@ -223,24 +223,11 @@
 		     }
 		   
 		   
-		   
-		   function handleSubmit(event) {
-	            const submitButton = document.getElementById('submitButton');
-	            submitButton.disabled = true;
-	            submitButton.value = "提交中...";
-
-	            // 模擬延遲處理，實際應用中應使用 Ajax 請求
-	            setTimeout(() => {
-	                // 模擬表單提交完成，重新啟用按鈕
-	                submitButton.disabled = false;
-	                submitButton.value = "提交";
-	                alert("表單提交成功！");
-	            }, 2000);
-	            
-	            // 阻止表單的默認提交動作
-	            event.preventDefault();
-	        }
-
+	
+		   function closeModal(){
+				const  myModal = new bootstrap.Modal(document.getElementById("myModal"));
+				  myModal.hide();
+		     }
 		
 	</script>
 </body>

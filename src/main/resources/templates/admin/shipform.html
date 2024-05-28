@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>登入系統</title>
+<title>惠宇堂-出貨表單</title>
 <link rel="stylesheet" type="text/css"
 	th:href="@{/css/main-DRgq0g6l.css}">
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
@@ -12,69 +12,62 @@
 <th:block th:replace="~{fragments :: script}"></th:block>
 </head>
 <body>
-	<nav th:replace="~{fragments :: menu(8)}"></nav>
+	<nav th:replace="~{fragments :: menu(7)}"></nav>
 
-	<div class="container d-flex justify-content-center pb-5">
-		<form class="w-100 p-4">
-			<div class="row">
-				<div class="col-12 col-md-6">
-					<div class="mb-2">
-						<label for="shoppingChannel" class="form-label">購物台</label> <input
-							type="text" class="form-control" id="shoppingChannel"
-							placeholder="" />
+	<main class="form-register w-100 m-auto">
+		<form id="submitForm">
+			<h1 class="h3 mb-3 fw-normal">進貨清單</h1>
+			<div class="border p-3 mb-3 rounded fw-semibold">
+				<div class="mb-2">
+					<label for="email" class="form-label">廠商名稱</label> <input
+						type="text" class="form-control" id="caller" /> <span
+						id="callerError" class="error"></span>
+				</div>
+				<div class="mb-2">
+					<label for="title" class="form-label">產品名稱</label> <input
+						type="text" class="form-control" id="productName" />
+					<div id="productResults"></div>
+					<span id="productNameError" class="error"></span>
+				</div>
+				<div class="mb-2">
+					<label for="title" class="form-label">產品圖片</label>
+					<div class="input-group mb-3">
+						<div class="custom-file">
+							<input type="file" class="custom-file-input"
+								id="inputGroupFile01"> <label class="custom-file-label"
+								for="inputGroupFile01">Choose file</label>
+						</div>
 					</div>
 				</div>
-				<div class="col-12 col-md-6">
-					<div class="mb-2">
-						<label for="productName" class="form-label">商品名稱</label> <input
-							type="text" class="form-control" id="productName" placeholder="" />
-					</div>
+				<div class="mb-2">
+					<label for="title" class="form-label">規格</label> <input type="text"
+						class="form-control" id="specifiCation" /> <span
+						id="specifiCationError" class="error"></span>
 				</div>
-			</div>
-			<div class="row">
-				<div class="col-12 col-md-6">
-					<div class="mb-2">
-						<label for="orderQuantity" class="form-label">叫貨量</label> <input
-							type="text" class="form-control" id="orderQuantity"
-							placeholder="" />
-					</div>
+				<div class="mb-2">
+					<label for="title" class="form-label">進貨數量</label> <input
+						type="text" class="form-control" id="count" /> <span
+						id="countError" class="error"></span>
 				</div>
-				<div class="col-12 col-md-6">
-					<div class="mb-2">
-						<label for="orderDate" class="form-label">訂貨日</label> <input
-							type="date" class="form-control" id="orderDate" placeholder="" />
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-12 col-md-6">
-					<div class="mb-2">
-						<label for="arrivalDate" class="form-label">到貨日</label> <input
-							type="date" class="form-control" id="arrivalDate" placeholder="" />
-					</div>
-				</div>
-				<div class="col-12 col-md-6">
-					<div class="mb-2">
-						<label for="receivedQuantity" class="form-label">到貨量</label> <input
-							type="text" class="form-control" id="receivedQuantity"
-							placeholder="" />
+				<div class="mb-2">
+					<label for="title" class="form-label">進貨原因</label>
+					<div class="input-group">
+						<select class="custom-select" id="inputGroupSelect04">
+							<option selected>請選擇</option>
+							<option value="退貨">退貨</option>
+							<option value="進貨">進貨</option>
+							<option value="期初">期初</option>
+							<option value="盤盈">盤盈</option>
+						</select>
 					</div>
 				</div>
 			</div>
 
-
-			<div class="row justify-content-center mt-3">
-				<div class="col-md-3 col-12">
-					<button class="btn btn-primary w-100 py-2 mb-2" type="submit">送出</button>
-				</div>
-			</div>
+			<button class="btn btn-primary w-100 py-2 mb-2" type="submit"
+				id="submit">確定</button>
 		</form>
-	</div>
-	<footer
-		class="position-fixed bottom-0 start-0 w-100 d-flex flex-wrap justify-content-between align-items-center py-3 border-top bg-dark text-light">
-		<div class="col-12 d-flex justify-content-center align-items-center">
-			<span class="mb-0 text-light">&copy; 2024 XXXX Company, Inc</span>
-		</div>
-	</footer>
+
+	</main>
+	<footer th:replace="~{fragments :: footer}"> </footer>
 </body>
 </html>

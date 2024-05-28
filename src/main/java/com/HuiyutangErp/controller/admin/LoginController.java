@@ -63,6 +63,12 @@ public class LoginController {
 			HttpSession session ,RedirectAttributes attribute,HttpServletRequest request,HttpServletResponse response,Model mod) {
         response.setContentType("text/html;charset=UTF-8");
         User user = (User) session.getAttribute("user");
+        //已經登入
+        if(user !=null) {
+        	session.setAttribute("user", user);
+			mod.addAttribute("user", user);
+        	 return "admin/account";
+        }
 		
 		if(StringUtils.isEmpty(loginreq.getUsername()) || StringUtils.isEmpty(loginreq.getPassword())) {
 			attribute.addFlashAttribute("message", "請輸入帳號或密碼");

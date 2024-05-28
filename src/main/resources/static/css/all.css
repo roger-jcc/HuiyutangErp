@@ -7,7 +7,6 @@ html, body {
 	padding: 1rem;
 }
 
-
 .form-signin {
 	max-width: 330px;
 	padding: 1rem;
@@ -28,8 +27,13 @@ html, body {
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
 }
+
 .error {
 	color: red;
+}
+
+.is-invalid {
+	border-color: #dc3545;
 }
 
 .form-register {
@@ -38,41 +42,44 @@ html, body {
 }
 
 footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
 }
 
 .auto_hidden {
-    width:204px;
-    border-top: 1px solid #333;
-    border-bottom: 1px solid #333;
-    border-left: 1px solid #333;
-    border-right: 1px solid #333;
-    position:absolute;
-    display:none;
+	width: 204px;
+	border-top: 1px solid #333;
+	border-bottom: 1px solid #333;
+	border-left: 1px solid #333;
+	border-right: 1px solid #333;
+	position: absolute;
+	display: none;
 }
+
 .auto_show {
-    width:204px;
-    border-top: 1px solid #333;
-    border-bottom: 1px solid #333;
-    border-left: 1px solid #333;
-    border-right: 1px solid #333;
-    position:absolute;
-    z-index:9999; /* 保证页面在最前端*/
-    display:block;
-    height:100px;
-    overflow:auto
+	width: 204px;
+	border-top: 1px solid #333;
+	border-bottom: 1px solid #333;
+	border-left: 1px solid #333;
+	border-right: 1px solid #333;
+	position: absolute;
+	z-index: 9999; /* 保证页面在最前端*/
+	display: block;
+	height: 100px;
+	overflow: auto
 }
-.auto_onmouseover{
-    color:#ffffff;
-    background-color:highlight;
-    width:100%;
+
+.auto_onmouseover {
+	color: #ffffff;
+	background-color: highlight;
+	width: 100%;
 }
-.auto_onmouseout{
-    color:#000000;
-    width:100%;
-    background-color:#ffffff;
+
+.auto_onmouseout {
+	color: #000000;
+	width: 100%;
+	background-color: #ffffff;
 }
 
 @media screen and (min-width: 576px) {

@@ -61,6 +61,11 @@ public class ProductReq {
 	 */
 	private Date restockingDate;
 	
+	/*
+	 * 進貨原因
+	 */
+	private String restock_reason;
+	
 	/**
 	 * 有效日
 	 */

@@ -1,5 +1,9 @@
 package com.HuiyutangErp.pojo;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import com.HuiyutangErp.bean.CallFormReq;
 
 import jakarta.persistence.Column;
@@ -46,11 +50,22 @@ public class CallerForm {
 	private String count;
 	
 	
-	public void createCallerForm(CallFormReq req) {
+	/**
+	 * 叫貨數量
+	 */
+	@Column(name="CALLER_DATE")
+	private Date callerDate;
+	
+	
+	public void createCallerForm(CallFormReq req) throws ParseException {
+		SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
+		String calldate = ft.format(new Date());
+		Date callerDate = ft.parse(calldate);
 		this.caller = req.getCaller();
 		this.shopping = req.getShopping();
 		this.productName = req.getProductName();
 		this.count =req.getCount();
+		this.callerDate =callerDate ;
 	}
 
 }

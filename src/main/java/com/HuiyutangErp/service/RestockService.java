@@ -69,8 +69,39 @@ public class RestockService {
 	 * @throws IOException 
 	 * @throws SQLException 
 	 */
-	public void saveRestock( Restockreq req) throws IOException, SQLException {
+	public Map<String,String> saveRestock( Restockreq req) throws IOException, SQLException {
+		Map<String , String> resMap = new HashMap<>();
+		ProductReq proreq = new ProductReq();
+		proreq.setManufacturerName(req.getManufacturer());
+		proreq.setProductName(req.getProductName());
+		proreq.setCount(req.getCount());
+		proreq.setPicture(req.getImages().getBytes());
 		
+		Optional<Manufacturer> manufacterur = manufacterurRepository.findByManufacturerName(req.getManufacturer());
+		if(manufacterur.isPresent()) {
+			Optional<Product> product = productRepository.findByProductName(req.getProductName());
+			if(product.isPresent()) {
+				//更新
+				Manufacturer m = manufacterur.get();
+				Product pro  = product.get();
+				pro.update(proreq ,pro );
+				productRepository.save(pro);
+				
+			}else {
+				//新增
+				Manufacturer m = manufacterur.get();
+				Product pro  = new Product();
+				pro.create(proreq,m);
+				productRepository.save(pro);
+			}
+			resMap.put("code", "success");
+			resMap.put("message", "新增成功");
+			return resMap;
+		}else {
+			resMap.put("code", "error");
+			resMap.put("message", "查無此廠商 請先新增");
+			return resMap;
+		}
 	}
 	
 	/**
@@ -149,6 +180,8 @@ public class RestockService {
 						req.setProductName(getStringCellValue(row,3));
 						//進貨數量
 						req.setCount( getNumericCellValue(row , 4).intValue() );
+						//進貨原因
+						req.setRestock_reason("期初");
 						//類別
 //						req.setCategory(getStringCellValue(row,6));
 						//庫位
@@ -243,6 +276,42 @@ public class RestockService {
 	        }
 	        return true;
 	    }
+
+		public Map<String, String> saveRestock(MultipartFile file, String manufacturer, String productName, int count,
+				String restockReason) throws IOException, SQLException {
+			Map<String , String> resMap = new HashMap<>();
+			ProductReq proreq = new ProductReq();
+			proreq.setManufacturerName(manufacturer);
+			proreq.setProductName(productName);
+			proreq.setCount(count);
+			proreq.setPicture(file.getBytes());
+			
+			Optional<Manufacturer> manufacterur = manufacterurRepository.findByManufacturerName(manufacturer);
+			if(manufacterur.isPresent()) {
+				Optional<Product> product = productRepository.findByProductName(productName);
+				if(product.isPresent()) {
+					//更新
+					Manufacturer m = manufacterur.get();
+					Product pro  = product.get();
+					pro.update(proreq ,pro );
+					productRepository.save(pro);
+					
+				}else {
+					//新增
+					Manufacturer m = manufacterur.get();
+					Product pro  = new Product();
+					pro.create(proreq,m);
+					productRepository.save(pro);
+				}
+				resMap.put("code", "success");
+				resMap.put("message", "新增成功");
+				return resMap;
+			}else {
+				resMap.put("code", "error");
+				resMap.put("message", "查無此廠商 請先新增");
+				return resMap;
+			}
+		}
 
 	    
 	

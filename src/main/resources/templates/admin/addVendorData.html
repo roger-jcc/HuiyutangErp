@@ -3,51 +3,50 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>登入系統</title>
+<title>惠宇堂-期初進貨</title>
 <style>
 html, body {
 	height: 100%;
 }
 </style>
-<link rel="stylesheet" type="text/css"
-	th:href="@{/css/all.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/css/all.css}">
 <link rel="stylesheet" type="text/css"
 	th:href="@{/css/main-DRgq0g6l.css}">
-	<th:block th:replace="~{fragments :: script}"></th:block>
+<link href="favicon.ico" rel="shortcut icon">
+<th:block th:replace="~{fragments :: script}"></th:block>
 </head>
 <body>
- 	<nav th:replace="~{fragments :: menu(4)}"></nav>
+	<nav th:replace="~{fragments :: menu(4)}"></nav>
 
-    <div class="container d-flex justify-content-center">
-      <form class="w-100 p-4">
-        <div class="row justify-content-center">
-          <div class="col-12 col-lg-5 col-md-6">
-          </div>
-        </div>
-        <div class="row justify-content-center">
-          <div class="col-12 col-lg-5 col-md-6 mb-4">
-            <label for="formFileMultiple" class="form-label">商品 Excel</label>
-            <input class="form-control" type="file" id="formFileMultiple" multiple />
-          </div>
-        </div>
+	<div class="container d-flex justify-content-center">
+		<form class="w-100 p-4" onsubmit="return uploadFile(event)">
+			<div class="row justify-content-center">
+				<div class="col-12 col-lg-5 col-md-6"></div>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-12 col-lg-5 col-md-6 mb-4">
+					<label for="formFileMultiple" class="form-label">商品 Excel</label> <input
+						class="form-control" type="file" id="formFileMultiple" multiple />
+				</div>
+			</div>
 
-        <div class="row justify-content-center">
-          <div class="col-12 col-lg-5 col-md-6">
-            <button class="btn btn-primary w-100 py-2 mb-2" type="submit" onclick="uploadFile()">送出</button>
-          </div>
-        </div>
-      </form>
-    </div>
-<!-- 	<footer
+			<div class="row justify-content-center">
+				<div class="col-12 col-lg-5 col-md-6">
+					<button class="btn btn-primary w-100 py-2 mb-2" type="submit">送出</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- 	<footer
 		class="position-fixed bottom-0 start-0 w-100 d-flex flex-wrap justify-content-between align-items-center py-3 border-top bg-dark text-light">
 		<div class="col-12 d-flex justify-content-center align-items-center">
 			<span class="mb-0 text-light">&copy; 2024 XXXX Company, Inc</span>
 		</div>
 	</footer> -->
-	
+
 	<footer th:replace="~{fragments :: footer}"> </footer>
 
-		<!-- 彈窗區塊 id 對應 data-bs-target -->
+	<!-- 彈窗區塊 id 對應 data-bs-target -->
 	<div class="modal" id="myModal" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -70,37 +69,57 @@ html, body {
 
 
 	<script type="text/javascript">
-	function uploadFile() {
-        const fileInput = document.getElementById('fileInput');
-        const file = fileInput.files[0]; 
+	 function uploadFile(event) {
+		debugger;
+		event.preventDefault(); // 阻止表單的默認提交行為
+		const fileInput = document.getElementById('formFileMultiple');
+        const file = fileInput.files;
+		if (file.length === 0) {
+             fileInput.classList.add('is-invalid');
+             return false;
+         }
 
         if (file) {
           const formData = new FormData();
-          formData.append('file', file); 
+          for (let i = 0; i < file.length; i++) {
+              formData.append('file', file[i]);
+          }
 
-          axios.post('/api/restock/saverestockfile', formData, {
+          axios.post('/admin/restockdata/saverestockfile', formData, {
               headers: {
                   'Content-Type': 'multipart/form-data'
               }
           })
   		  	.then(function (response) {
-	  			if (!response.ok) {
-	  				document.getElementById('message').textcontent='檔案上傳失敗';
+  		  	console.log("res :"+ response.data );
+  		  	 const  myModal = new bootstrap.Modal(document.getElementById("myModal"));
+	  			if (!response.status===200) {
+	  				document.getElementById("message").textContent='檔案上傳失敗';
 	  				myModal.show();
 	             }
-	  			document.getElementById('message').textcontent='檔案上傳成功';
+	  			document.getElementById("message").textContent='檔案上傳成功';
+	  			
 				myModal.show();
+				clearFileInput();
 	  		})
   		   .catch(function (error) {
-  			 	document.getElementById('message').textcontent='檔案上傳失敗';
+  			 	document.getElementById('message').textContent='檔案上傳失敗';
+  			  	const  myModal = new bootstrap.Modal(document.getElementById("myModal"));
   				myModal.show();
 	  		    console.log(error);
-	  		  	
+	  		  	clearFileInput();
 	  		});
         } else {
             console.error('No file selected');
+            fileInput.classList.add('is-invalid');
+            return false;
         }
-    }
+        
+        function clearFileInput() {
+            const fileInput = document.getElementById('formFileMultiple');
+            fileInput.value = '';
+        }
+}
 	
 	
 		

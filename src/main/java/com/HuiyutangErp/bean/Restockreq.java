@@ -26,20 +26,6 @@ public class Restockreq {
 	 */
 	private Integer count;
 	
-	/**
-	 * 規格
-	 */
-	private String specifiCation;
-	
-	/**
-	 * 類別
-	 */
-	private String category;
-	
-	/**
-	 * 庫位
-	 */
-	private String storeHouse;
 	
 	/**
 	 * 產品照片
@@ -55,6 +41,11 @@ public class Restockreq {
 	 * 有效日
 	 */
 	private Timestamp validDate;
+	
+	/*
+	 * 進貨原因
+	 */
+	private String restockReason;
 	
 	
 

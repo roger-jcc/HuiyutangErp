@@ -23,13 +23,13 @@ public class ShipController {
 	private RestockService restockService;
 	
 	
-	@GetMapping("/shipPage")
+	@GetMapping("/shipformList")
 	public String shipPage(Model mod) {
 		return "admin/shipformList";
 	}
 	
-	@GetMapping("/form")
-	public String form(Model mod) {
+	@GetMapping("/shipform")
+	public String shipform(Model mod) {
 		return "admin/shipform";
 	}
 }

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>登入系統</title>
+<title>惠宇堂-叫貨清單</title>
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/css/autoComplete.02.min.css" />
 
@@ -39,42 +39,31 @@ th, label {
 </head>
 <body>
 
-	<nav th:replace="~{fragments :: menu(7)}"></nav>
+	<nav th:replace="~{fragments :: menu(8)}"></nav>
 
 	<div class="px-4 d-flex justify-content-center">
 		<table class="table table-image table-bordered">
 			<thead>
 				<tr>
 					<th scope="col">#</th>
+					<th scope="col">叫貨人</th>
 					<th scope="col">購物台</th>
 					<th scope="col">商品名稱</th>
 					<th scope="col">叫貨量</th>
-					<th scope="col">訂貨日</th>
-					<th scope="col">到貨日</th>
-					<th scope="col">到貨量</th>
-					<th scope="col">待補量</th>
-					<th scope="col">補貨日1</th>
-					<th scope="col">捕獲量</th>
-					<th scope="col">補貨日2</th>
-					<th scope="col">捕獲量</th>
-					<th scope="col">總差異量</th>
-				</tr>
+					<th scope="col">叫貨日期</th>
+					<th scope="col">叫貨狀態</th>
 			</thead>
 			<tbody id="vendorList">
-				<tr class="vendorItem">
-					<th scope="row" class="itemId"></th>
-					<td class="shoppingChannel"></td>
-					<td class="productName"></td>
-					<td class="orderQuantity"></td>
-					<td class="orderDate"></td>
-					<td class="arrivalDate"></td>
-					<td class="receivedQuantity"></td>
-					<td class="pendingQuantity"></td>
-					<td class="firstRestockDate"></td>
-					<td class="firstCaptureQuantity"></td>
-					<td class="secondRestockDate"></td>
-					<td class="secondCaptureQuantity"></td>
-					<td class="totalDifference"></td>
+				<tr th:each="callerdto : ${callerdtoList}" class="vendorItem">
+					<th scope="row" class="itemId" th:text="${callerdto.id}"></th>
+					<td class="caller" th:text="${callerdto.caller}"></td>
+					<td class="shoppingChannel" th:text="${callerdto.shopping}"></td>
+					<td class="productName" th:text="${callerdto.productName}"></td>
+					<td class="orderQuantity" th:text="${callerdto.count}"></td>
+					<td class="callerDate" th:text="${callerdto.callerDate}"></td>
+					<td class="restockbtn">
+						<a class="btn btn-primary btn-sm" type="button">待進貨</a>
+							<a th:href="@{'/admin/call/{id}'(id=${callerdto.id})}" class="btn btn-danger btn-sm">刪除</a></td>
 				</tr>
 			</tbody>
 		</table>
@@ -93,10 +82,22 @@ th, label {
 		</ul>
 	</nav>
 
-<footer th:replace="~{fragments :: footer}"> </footer>
-	<script
-		src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/autoComplete.min.js"></script>
-	<script>
+	<footer th:replace="~{fragments :: footer}"> </footer>
+	
+	<script type="text/javascript">
+	
+	  function deleteCaller(id) {
+          axios.delete('/admin/calldata/' + id)
+              .then(function (response) {
+                  console.log(response);
+                  // 刷新页面或者更新列表等操作
+              })
+              .catch(function (error) {
+                  console.log(error);
+              });
+      }
+	</script>
+	<!-- <script>
       const vendorNameAutoComplete = new autoComplete({
         selector: "#vendorName",
         placeHolder: "廠商名稱",
@@ -206,15 +207,6 @@ th, label {
           clone.querySelector(".shoppingChannel").textContent = list[i].shoppingChannel;
           clone.querySelector(".productName").textContent = list[i].productName;
           clone.querySelector(".orderQuantity").textContent = list[i].orderQuantity;
-          clone.querySelector(".orderDate").textContent = list[i].orderDate;
-          clone.querySelector(".arrivalDate").textContent = list[i].arrivalDate;
-          clone.querySelector(".receivedQuantity").textContent = list[i].receivedQuantity;
-          clone.querySelector(".pendingQuantity").textContent = list[i].pendingQuantity;
-          clone.querySelector(".firstRestockDate").textContent = list[i].firstRestockDate;
-          clone.querySelector(".firstCaptureQuantity").textContent = list[i].firstCaptureQuantity;
-          clone.querySelector(".secondRestockDate").textContent = list[i].secondRestockDate;
-          clone.querySelector(".secondCaptureQuantity").textContent = list[i].secondCaptureQuantity;
-          clone.querySelector(".totalDifference").textContent = list[i].totalDifference;
 
           copies.push(clone);
         }
@@ -225,7 +217,7 @@ th, label {
       }
 
       // 輸入表單資料範例
-      setData([
+/*       setData([
         {
           itemId: "A001",
           shoppingChannel: "Online Store",
@@ -271,7 +263,7 @@ th, label {
           secondCaptureQuantity: "75",
           totalDifference: "0",
         },
-      ]);
-    </script>
+      ]); */
+    </script> -->
 </body>
 </html>

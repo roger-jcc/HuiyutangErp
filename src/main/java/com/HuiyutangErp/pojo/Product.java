@@ -143,18 +143,37 @@ public class Product {
 	// 新增商品
 		@SuppressWarnings("null")
 		public void update(ProductReq req ,Product pro) throws IOException, SQLException {
-			this.manufacturerName = req.getManufacturerName();
-			this.productName = req.getProductName();
-			this.count = req.getCount()+pro.getCount();
-			this.puchasePrice = req.getPuchasePrice();
-			this.sellingPrice = req.getSellingPrice();
-			this.specifiCation = req.getSpecifiCation();
-			this.category = req.getCategory();
-			this.storeHouse = req.getStoreHouse();
-			//圖片
-			byte[] imag = req.getPicture();
-			this.images = imag;
-			this.validDate = req.getValidDate();
+			 if (req.getManufacturerName() != null) {
+			        this.manufacturerName = req.getManufacturerName();
+			    }
+			    if (req.getProductName() != null) {
+			        this.productName = req.getProductName();
+			    }
+			    if (req.getCount() != null) {  // 修改为 Integer 类型的 count
+			        this.count = req.getCount() + pro.getCount();
+			    }
+			    if (req.getPuchasePrice() != null) {
+			        this.puchasePrice = req.getPuchasePrice();
+			    }
+			    if (req.getSellingPrice() != null) {
+			        this.sellingPrice = req.getSellingPrice();
+			    }
+			    if (req.getSpecifiCation() != null) {
+			        this.specifiCation = req.getSpecifiCation();
+			    }
+			    if (req.getCategory() != null) {
+			        this.category = req.getCategory();
+			    }
+			    if (req.getStoreHouse() != null) {
+			        this.storeHouse = req.getStoreHouse();
+			    }
+			    // 图片
+			    if (req.getPicture() != null) {
+			        this.images = req.getPicture();
+			    }
+			    if (req.getValidDate() != null) {
+			        this.validDate = req.getValidDate();
+			    }
 		}
 	
 }

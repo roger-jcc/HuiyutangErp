@@ -284,7 +284,9 @@ public class RestockService {
 			proreq.setManufacturerName(manufacturer);
 			proreq.setProductName(productName);
 			proreq.setCount(count);
-			proreq.setPicture(file.getBytes());
+			if(file!=null) {
+				proreq.setPicture(file.getBytes());
+			}
 			
 			Optional<Manufacturer> manufacterur = manufacterurRepository.findByManufacturerName(manufacturer);
 			if(manufacterur.isPresent()) {

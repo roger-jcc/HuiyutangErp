@@ -36,6 +36,7 @@
 						<div class="custom-file">
 							<input type="file" class="custom-file-input" id="imagefile">
 							<label class="custom-file-label" for="imagefile">選擇圖片</label>
+							<span id="imagefileError" class="error"></span>
 						</div>
 					</div>
 				</div>
@@ -134,11 +135,8 @@
 							});
 				});
 
-		$("#submit").on('click', function() {
-			 document.getElementById('submitForm').addEventListener('submit', function(event) {
-				 event.preventDefault(); // 阻止表單的默認提交行為
-			 $("#submit").disabled = true;
-			debugger;
+		$("#submitForm").on('submit', function(event) {
+			event.preventDefault(); // 阻止表單的默認提交行為
 			var selectElement = document.getElementById('restockReason');
 			const selectedValue = selectElement.value;
 			 // 執行表單欄位檢查
@@ -180,7 +178,6 @@
 			            document.getElementById('message').textContent = '新增失敗';
 			            myModal.show();
 			        });
-			 });
 		});
 
 	/* 	 $("#submit").click(function(){
@@ -250,10 +247,14 @@
 			const fileInput = document.getElementById('imagefile');
 	        const file = fileInput.files;
 			if (file.length === 0) {
-	             fileInput.classList.add('is-invalid');
-	             isValid = false;
+				 if ($("#picture").is(":hidden")){
+					 isValid = true;
+				 }else{
+					 document.getElementById("imagefileError").textContent = "請上傳圖片";
+		             isValid = false;
+				 }
 	         }else{
-	        	 fileInput.classList.remove('is-invalid');
+	        	 document.getElementById("imagefileError").textContent = "";
 	         }
 
 			if (productName.trim() === "") {

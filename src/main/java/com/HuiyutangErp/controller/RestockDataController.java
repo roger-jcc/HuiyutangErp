@@ -81,11 +81,11 @@ public class RestockDataController {
 	 */
 	@PostMapping("/saveRestock") 
 	@PreAuthorize("hasAuthority('ROLE_USER')")
-	public void saveRestock(@RequestParam("images") MultipartFile file,
-            @RequestParam("manufacturer") String manufacturer,
-            @RequestParam("productName") String productName,
-            @RequestParam("count") int count,
-            @RequestParam("restockReason") String restockReason , Model mod) throws Exception{
+	public void saveRestock(@RequestParam(name = "images" ,required = false) MultipartFile file,
+            @RequestParam(name ="manufacturer") String manufacturer,
+            @RequestParam(name ="productName") String productName,
+            @RequestParam(name = "count") int count,
+            @RequestParam(name ="restockReason") String restockReason , Model mod) throws Exception{
 		Map<String, String> resMap = restockService.saveRestock(file,manufacturer,productName,count,restockReason);
 		if(StringUtils.equals("success",  resMap.get("code"))) {
 			mod.addAttribute("message" ,resMap.get("message") );

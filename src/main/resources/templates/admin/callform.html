@@ -1,67 +1,74 @@
 <!DOCTYPE html>
 <html lang="zh-tw">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>惠宇堂-叫貨表單</title>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>惠宇堂-叫貨表單</title>
 
-    <link rel="stylesheet" type="text/css" th:href="@{/css/main-DRgq0g6l.css}" />
-    <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
-    <link rel="stylesheet" type="text/css" th:href="@{/css/all.css}" />
-    <link rel="icon" type="image/x-icon" href="data:image/x-icon;," />
-    <th:block th:replace="~{fragments :: script}"></th:block>
-  </head>
-  <body>
-    <nav th:replace="~{fragments :: menu(9)}"></nav>
+<link rel="stylesheet" type="text/css"
+	th:href="@{/css/main-DRgq0g6l.css}" />
+<link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+<link rel="stylesheet" type="text/css" th:href="@{/css/all.css}" />
+<link rel="icon" type="image/x-icon" href="data:image/x-icon;," />
+<th:block th:replace="~{fragments :: script}"></th:block>
+</head>
+<body>
+	<nav th:replace="~{fragments :: menu(9)}"></nav>
 
-    <main class="form-register w-100 m-auto">
-      <form id="submitForm">
-        <h1 class="h3 mb-3 fw-normal">叫貨清單</h1>
-        <div class="border p-3 mb-3 rounded fw-semibold">
-          <div class="mb-2">
-            <label for="email" class="form-label">叫貨人</label> <input type="text" class="form-control" id="caller" />
-            <span id="callerError" class="error"></span>
-          </div>
-          <div class="mb-2">
-            <label for="username" class="form-label">購物台</label> <input type="text" class="form-control" id="shopping" />
-            <span id="shoppingError" class="error"></span>
-          </div>
-          <div class="mb-2">
-            <label for="title" class="form-label">產品名稱</label> <input type="text" class="form-control" id="productName" />
-            <div id="productResults"></div>
-            <span id="productNameError" class="error"></span>
-          </div>
-          <div class="mb-2">
-            <label for="title" class="form-label">數量</label> <input type="text" class="form-control" id="count" />
-            <span id="countError" class="error"></span>
-          </div>
-        </div>
+	<main class="form-register w-100 m-auto">
+		<form id="submitForm">
+			<h1 class="h3 mb-3 fw-normal">叫貨清單</h1>
+			<div class="border p-3 mb-3 rounded fw-semibold">
+				<div class="mb-2">
+					<label for="email" class="form-label">叫貨人</label> <input
+						type="text" class="form-control" id="caller" /> <span
+						id="callerError" class="error"></span>
+				</div>
+				<div class="mb-2">
+					<label for="username" class="form-label">購物台</label> <input
+						type="text" class="form-control" id="shopping" /> <span
+						id="shoppingError" class="error"></span>
+				</div>
+				<div class="mb-2">
+					<label for="title" class="form-label">產品名稱</label> <input
+						type="text" class="form-control" id="productName" />
+					<div id="productResults"></div>
+					<span id="productNameError" class="error"></span>
+				</div>
+				<div class="mb-2">
+					<label for="title" class="form-label">數量</label> <input type="text"
+						class="form-control" id="count" /> <span id="countError"
+						class="error"></span>
+				</div>
+			</div>
 
-        <button class="btn btn-primary w-100 py-2 mb-2" type="submit" id="submit">確定</button>
-      </form>
-    </main>
-    <footer th:replace="~{fragments :: footer}"></footer>
+			<button class="btn btn-primary w-100 py-2 mb-2" type="submit"
+				id="submit">確定</button>
+		</form>
+	</main>
+	<footer th:replace="~{fragments :: footer}"></footer>
 
-    <!-- 彈窗區塊 id 對應 data-bs-target -->
-    <div class="modal" id="myModal" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">新增叫貨紀錄</h5>
-            <button type="button" id="closeModal" class="btn-close" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <span id="message"></span>
-          </div>
-          <div class="modal-footer">
-            <button type="button" id="btnCloseModal" class="btn btn-secondary">返回</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- 彈窗區塊 -->
+	<!-- 彈窗區塊 id 對應 data-bs-target -->
+	<div class="modal" id="myModal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">新增叫貨紀錄</h5>
+					<button type="button" id="closeModal" class="btn-close"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<span id="message"></span>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="btnCloseModal" class="btn btn-secondary">返回</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 彈窗區塊 -->
 
-    <script type="text/javascript">
+	<script type="text/javascript">
       $(document).ready(function () {
         // 使用 jQuery 的事件绑定方法 .on
         $("#productName").on("input", function () {
@@ -98,11 +105,10 @@
 
       const myModal = new bootstrap.Modal(document.getElementById("myModal"), { backdrop: "static" });
 
-      $("#submit").click(function () {
-        document.getElementById("submitForm").addEventListener("submit", function (event) {
-          event.preventDefault(); // 阻止表單的默認提交行為
 
-          $("#submit").disabled = true;
+      $("#submitForm").on('submit', function(event) {
+    	  debugger;
+          event.preventDefault(); // 阻止表單的默認提交行為
 
           // 執行表單欄位檢查
           if (!validateForm()) {
@@ -141,7 +147,6 @@
               $("#register").disabled = false;
             });
         });
-      });
 
       $("#closeModal").click(function () {
         closeModal();
@@ -208,5 +213,5 @@
         return isValid;
       }
     </script>
-  </body>
+</body>
 </html>

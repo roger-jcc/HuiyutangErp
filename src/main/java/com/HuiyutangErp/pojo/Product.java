@@ -28,97 +28,96 @@ import lombok.Data;
 @Entity
 @Table(name = "Product")
 public class Product {
-	
+
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
-    private Integer id;
-	
+	private Integer id;
+
 	/*
 	 * 廠商名稱
 	 */
 	@Column(name = "MANUFACTURER_NAME")
 	private String manufacturerName;
-	
-	@Transient
+
 	@Column(name = "MANUFACTURER_ID")
 	private String manufacturerId;
-	
+
 	/**
 	 * 品名
 	 */
 	@Column(name = "PRODUCT_NAME")
 	private String productName;
-	
+
 	/**
 	 * 進價
 	 */
 	@Column(name = "PURCHASE_PRICE")
 	private Double puchasePrice;
-	
-	
+
 	/**
 	 * 售價
 	 */
 	@Column(name = "SELLING_PRICE")
 	private Double sellingPrice;
-	
-	
+
 	/**
 	 * 數量
 	 */
-	@Column(name = "COUNT" )
+	@Column(name = "COUNT")
 	private Integer count;
-	
+
 	/**
 	 * 規格
 	 */
 	@Column(name = "SPECIFICATION")
 	private String specifiCation;
-	
+
 	/**
 	 * 類別
 	 */
 	@Column(name = "CATEGORY")
 	private String category;
-	
+
 	/**
 	 * 庫位
 	 */
 	@Column(name = "STOREHOUSE")
 	private String storeHouse;
-	
+
 	/**
 	 * 產品照片
 	 */
 	@Lob
 	@Column(name = "IMAGES")
 	private byte[] images;
-	
+
 	/**
 	 * 進貨日
 	 */
 	@Column(name = "RESTOCKING_DATE")
 	private Date restockingDate;
-	
+
 	/**
 	 * 有效日
 	 */
 	@Column(name = "VALID_DATE")
 	private Date validDate;
-	
-	
-	@JsonBackReference
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="manufacturer_id", referencedColumnName="ID")
+
+//	@JsonBackReference
+//	@ManyToOne(cascade = CascadeType.ALL)
+//	@JoinColumn(name="MANUFACTURER_ID", referencedColumnName="ID")
+//	private Manufacturer manufacturer;
+
+	@ManyToOne
+	@JoinColumn(name = "MANUFACTURER_ID", insertable = false, updatable = false)
 	private Manufacturer manufacturer;
-	
-	
+
 	// 新增商品
 	@SuppressWarnings("null")
-	public void create(ProductReq req, Manufacturer m ) throws IOException, SQLException {
+	public void create(ProductReq req, Manufacturer m) throws IOException, SQLException {
 		this.manufacturerName = req.getManufacturerName();
-		this.manufacturerId =  String.valueOf(m.getId());
+		this.manufacturerId = String.valueOf(m.getId());
 		this.productName = req.getProductName();
 		this.puchasePrice = req.getPuchasePrice();
 		this.sellingPrice = req.getSellingPrice();
@@ -126,54 +125,62 @@ public class Product {
 		this.specifiCation = req.getSpecifiCation();
 		this.category = req.getCategory();
 		this.storeHouse = req.getStoreHouse();
-		//圖片
+		// 圖片
 		byte[] imag = req.getPicture();
 		this.images = imag;
-		
-		if(ObjectUtils.isEmpty(req.getRestockingDate())) {
-			//進貨日 預設當日
+
+		if (ObjectUtils.isEmpty(req.getRestockingDate())) {
+			// 進貨日 預設當日
 			this.restockingDate = Timestamp.from(Instant.now());
-		}else {
+		} else {
 			this.restockingDate = req.getRestockingDate();
 		}
 		this.validDate = req.getValidDate();
 	}
-	
-	
+
 	// 新增商品
-		@SuppressWarnings("null")
-		public void update(ProductReq req ,Product pro) throws IOException, SQLException {
-			 if (req.getManufacturerName() != null) {
-			        this.manufacturerName = req.getManufacturerName();
-			    }
-			    if (req.getProductName() != null) {
-			        this.productName = req.getProductName();
-			    }
-			    if (req.getCount() != null) {  // 修改为 Integer 类型的 count
-			        this.count = req.getCount() + pro.getCount();
-			    }
-			    if (req.getPuchasePrice() != null) {
-			        this.puchasePrice = req.getPuchasePrice();
-			    }
-			    if (req.getSellingPrice() != null) {
-			        this.sellingPrice = req.getSellingPrice();
-			    }
-			    if (req.getSpecifiCation() != null) {
-			        this.specifiCation = req.getSpecifiCation();
-			    }
-			    if (req.getCategory() != null) {
-			        this.category = req.getCategory();
-			    }
-			    if (req.getStoreHouse() != null) {
-			        this.storeHouse = req.getStoreHouse();
-			    }
-			    // 图片
-			    if (req.getPicture() != null) {
-			        this.images = req.getPicture();
-			    }
-			    if (req.getValidDate() != null) {
-			        this.validDate = req.getValidDate();
-			    }
+	@SuppressWarnings("null")
+	public void update(ProductReq req, Product pro) throws IOException, SQLException {
+		if (req.getManufacturerName() != null) {
+			this.manufacturerName = req.getManufacturerName();
 		}
-	
+		if (req.getProductName() != null) {
+			this.productName = req.getProductName();
+		}
+		if (req.getCount() != null) { // 修改为 Integer 类型的 count
+			this.count = req.getCount() + pro.getCount();
+		}
+		if (req.getPuchasePrice() != null) {
+			this.puchasePrice = req.getPuchasePrice();
+		}
+		if (req.getSellingPrice() != null) {
+			this.sellingPrice = req.getSellingPrice();
+		}
+		if (req.getSpecifiCation() != null) {
+			this.specifiCation = req.getSpecifiCation();
+		}
+		if (req.getCategory() != null) {
+			this.category = req.getCategory();
+		}
+		if (req.getStoreHouse() != null) {
+			this.storeHouse = req.getStoreHouse();
+		}
+		// 图片
+		if (req.getPicture() != null) {
+			this.images = req.getPicture();
+		}
+		if (req.getValidDate() != null) {
+			this.validDate = req.getValidDate();
+		}
+	}
+
+	public void ship(ProductReq req, Product pro) throws Exception {
+		if (req.getCount() != null) { // 修改为 Integer 类型的 count
+			this.count = pro.getCount() - req.getCount();
+			if (count <= 0) {
+				throw new Exception("庫存量不足");
+			}
+		}
+	}
+
 }

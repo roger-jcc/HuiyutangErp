@@ -1,6 +1,9 @@
 package com.HuiyutangErp.pojo;
 
 import java.sql.Timestamp;
+import java.time.Instant;
+
+import com.HuiyutangErp.bean.ProductReq;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -42,10 +45,16 @@ public class Ship {
 	
 	
 	/**
-	 * 數量
+	 * 出貨數量
 	 */
 	@Column(name = "COUNT" )
 	private Integer count;
+	
+	/*
+	 * 剩餘數量
+	 */
+	@Column(name = "AMOUNT" )
+	private Integer amount;
 	
 	
 	/**
@@ -69,7 +78,18 @@ public class Ship {
 	@Column(name = "VALID_DATE")
 	private Timestamp validDate;
 	
+	@Column(name="PRODUCT_ID")
+	private String productId;
 	
+	
+	public void create(ProductReq req ,Product pro) {
+		this.manufacturerName = req.getManufacturerName();
+		this.productName=req.getProductName();
+		this.shippingDate = Timestamp.from(Instant.now());
+		this.count = req.getCount();//出貨數量
+		this.amount = pro.getCount();//目前庫存量
+		this.productId = pro.getId().toString();
+	}
 	
 
 }

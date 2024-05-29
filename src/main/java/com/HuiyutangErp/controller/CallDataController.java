@@ -63,9 +63,9 @@ public class CallDataController {
 	public void saveCallFrom(@RequestBody CallFormReq  callformreq ,Model mod) throws Exception  {
 		if(callformreq!=null) {
 			callerFormService.saveCallFrom(callformreq);
-			mod.addAttribute("sueccess", "新增叫貨成功");
+			mod.addAttribute("message", "新增叫貨成功");
 		}else {
-			mod.addAttribute("error", "新增叫貨失敗");
+			mod.addAttribute("message", "新增叫貨失敗");
 		}
 		
 	}

@@ -28,8 +28,7 @@ import io.micrometer.common.util.StringUtils;
 @RequestMapping("/admin/call")
 public class CallController {
 	
-	@Autowired
-	private ProductRepository productRepository;
+
 	
 	@Autowired
 	private CallerFormRepository callerFormRepository;

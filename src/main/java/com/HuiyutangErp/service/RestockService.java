@@ -293,7 +293,6 @@ public class RestockService {
 				Optional<Product> product = productRepository.findByProductName(productName);
 				if(product.isPresent()) {
 					//更新
-					Manufacturer m = manufacterur.get();
 					Product pro  = product.get();
 					pro.update(proreq ,pro );
 					productRepository.save(pro);

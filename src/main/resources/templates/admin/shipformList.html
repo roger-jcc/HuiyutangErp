@@ -46,35 +46,23 @@ th, label {
 			<thead>
 				<tr>
 					<th scope="col">#</th>
-					<th scope="col">購物台</th>
+					<th scope="col">廠商</th>
 					<th scope="col">商品名稱</th>
-					<th scope="col">叫貨量</th>
-					<th scope="col">訂貨日</th>
-					<th scope="col">到貨日</th>
-					<th scope="col">到貨量</th>
-					<th scope="col">待補量</th>
-					<th scope="col">補貨日1</th>
-					<th scope="col">捕獲量</th>
-					<th scope="col">補貨日2</th>
-					<th scope="col">捕獲量</th>
-					<th scope="col">總差異量</th>
+					<th scope="col">出貨量</th>
+					<th scope="col">剩餘數量</th>
+					<th scope="col">出貨日期</th>
+					<th scope="col">出貨原因</th>
 				</tr>
 			</thead>
-			<tbody id="vendorList">
-				<tr class="vendorItem">
-					<th scope="row" class="itemId"></th>
-					<td class="shoppingChannel"></td>
-					<td class="productName"></td>
-					<td class="orderQuantity"></td>
-					<td class="orderDate"></td>
-					<td class="arrivalDate"></td>
-					<td class="receivedQuantity"></td>
-					<td class="pendingQuantity"></td>
-					<td class="firstRestockDate"></td>
-					<td class="firstCaptureQuantity"></td>
-					<td class="secondRestockDate"></td>
-					<td class="secondCaptureQuantity"></td>
-					<td class="totalDifference"></td>
+			<tbody id="shipList">
+				<tr  th:each="shipdto : ${shipdtoList}"  class="vendorItem">
+					<th scope="row" class="itemId" th:text="${shipdto.id}"></th>
+					<td class="manufacturerName" th:text="${shipdto.manufacturerName}"></td>
+					<td class="productName" th:text="${shipdto.productName}"></td>
+					<td class=count th:text="${shipdto.count}"></td>
+					<td class=amount th:text="${shipdto.amount}"></td>
+					<td class="shipDate" th:text="${shipdto.shippingDate}"></td>
+					<td class="shipReason" th:text="${shipdto.shipReason}"></td>
 				</tr>
 			</tbody>
 		</table>

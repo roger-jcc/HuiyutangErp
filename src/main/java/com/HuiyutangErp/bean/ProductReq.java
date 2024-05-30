@@ -71,5 +71,11 @@ public class ProductReq {
 	 */
 	private Date validDate;
 	
+	
+	/*
+	 * 出貨原因
+	 */
+	private String shipReason;
+	
 
 }

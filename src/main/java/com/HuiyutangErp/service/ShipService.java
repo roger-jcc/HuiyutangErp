@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.HuiyutangErp.bean.ProductReq;
+import com.HuiyutangErp.dto.ShipDto;
 import com.HuiyutangErp.pojo.Manufacturer;
 import com.HuiyutangErp.pojo.Product;
 import com.HuiyutangErp.pojo.Ship;
@@ -38,12 +39,13 @@ public class ShipService {
 	
 	
 	public Map<String, String> saveShip(String manufacturer, String productName, int count,
-			String restockReason) throws Exception {
+			String shipReason) throws Exception {
 		Map<String , String> resMap = new HashMap<>();
 		ProductReq proreq = new ProductReq();
 		proreq.setManufacturerName(manufacturer);
 		proreq.setProductName(productName);
 		proreq.setCount(count);
+		proreq.setShipReason(shipReason);
 		
 			Optional<Product> product = productRepository.findByProductName(productName);
 			if(product.isPresent()) {
@@ -70,7 +72,11 @@ public class ShipService {
 
 
 
-
+	/**
+	 * 一廠商 找產品列表
+	 * @param str
+	 * @return
+	 */
 	public List<String> findProductByManufacturerName(String str) {
 		Optional<Manufacturer> man =  manufacterurRepository.findByManufacturerName(str);
 		List<Product> prolist = new ArrayList<>();
@@ -82,6 +88,24 @@ public class ShipService {
 		}
 		
 		return productNameList;
+	}
+
+
+
+
+	public List<ShipDto> findAll() {
+		List<Ship> shipList = shipRepository.findAll();
+		 List<ShipDto> shipdtoList = shipList.stream()
+		.map(ship -> new ShipDto(
+				 ship.getId(),
+				 ship.getManufacturerName(),
+				 ship.getProductName(),
+				 ship.getCount(),
+				 ship.getAmount(),
+				 ship.getShippingDate(),
+				 ship.getShipReason()
+				 )).collect(Collectors.toList());
+		return shipdtoList;
 	}
 	
 	

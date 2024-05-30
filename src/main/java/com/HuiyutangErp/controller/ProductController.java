@@ -11,6 +11,7 @@ public class ProductController {
 	
 	@GetMapping("/productList")
 	public String productList() {
+		
 		return "admin/productList";
 	}
 

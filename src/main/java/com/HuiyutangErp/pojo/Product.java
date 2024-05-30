@@ -5,11 +5,12 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Date;
+import java.util.Set;
 
 import org.springframework.util.ObjectUtils;
 
 import com.HuiyutangErp.bean.ProductReq;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -20,9 +21,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
@@ -104,10 +106,11 @@ public class Product {
 	@Column(name = "VALID_DATE")
 	private Date validDate;
 
-//	@JsonBackReference
-//	@ManyToOne(cascade = CascadeType.ALL)
-//	@JoinColumn(name="MANUFACTURER_ID", referencedColumnName="ID")
-//	private Manufacturer manufacturer;
+	
+	@JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    @EqualsAndHashCode.Exclude
+    private Set<Ship> ships;
 
 	@ManyToOne
 	@JoinColumn(name = "MANUFACTURER_ID", insertable = false, updatable = false)

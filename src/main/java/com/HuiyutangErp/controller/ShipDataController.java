@@ -39,15 +39,14 @@ public class ShipDataController {
 	 * @return
 	 */
 	@GetMapping("/findProduct")
-	public Product findProduct(@RequestParam(name="productName" ,required = true) String str ,Model mod) {
-		List<String> productNameList = new ArrayList<>();
+	public Integer findProduct(@RequestParam(name="productName" ,required = true) String str ,Model mod) {
 		Optional<Product> product =  productRepository.findByProductName(str);
 		Product pro = new Product();
 		if(product.isPresent()) {
 			pro = product.get();
 		}
 		
-		return pro;
+		return pro.getCount();
 	}
 	
 	/**
@@ -79,7 +78,9 @@ public class ShipDataController {
 		Map<String,String> resMap = shipService.saveShip(manufacturer, productName, count, shipReason);
 		
 		if(StringUtils.equals(resMap.get("code"), "success") ) {
-			
+			mod.addAttribute("message", resMap.get("message"));
+		}else {
+			mod.addAttribute("message", resMap.get("message"));
 		}
 	}
 	

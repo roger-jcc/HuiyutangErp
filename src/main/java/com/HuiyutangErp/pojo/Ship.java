@@ -10,6 +10,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -58,7 +60,7 @@ public class Ship {
 	
 	
 	/**
-	 * 出貨日
+	 * 直播售價
 	 */
 	@Column(name = "SELLING_PRICE")
 	private String sellingPrice;
@@ -70,6 +72,11 @@ public class Ship {
 	@Column(name = "SHIPPING_DATE")
 	private Timestamp shippingDate;
 	
+	/**
+	 * 出貨日
+	 */
+	@Column(name = "SHIP_REASON")
+	private String shipReason;
 	
 	
 	/**
@@ -78,8 +85,13 @@ public class Ship {
 	@Column(name = "VALID_DATE")
 	private Timestamp validDate;
 	
+	
 	@Column(name="PRODUCT_ID")
 	private String productId;
+	
+	@ManyToOne
+	@JoinColumn(name = "PRODUCT_ID", insertable = false, updatable = false)
+	private Product product;
 	
 	
 	public void create(ProductReq req ,Product pro) {
@@ -87,6 +99,7 @@ public class Ship {
 		this.productName=req.getProductName();
 		this.shippingDate = Timestamp.from(Instant.now());
 		this.count = req.getCount();//出貨數量
+		this.shipReason=req.getShipReason();
 		this.amount = pro.getCount();//目前庫存量
 		this.productId = pro.getId().toString();
 	}

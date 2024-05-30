@@ -46,7 +46,11 @@ public class RestockController {
 	}
 	
 	@GetMapping("/addVendorOne")
-	public String vendorOne() {
+	public String vendorOne(@RequestParam(name = "caller" ,required = false) String caller
+			, @RequestParam(name ="productName",required = false) String productName ,Model mod) {
+		mod.addAttribute("caller", caller);
+		mod.addAttribute("productName", productName);
+		
 		return "admin/addVendorOne";
 	}
 	

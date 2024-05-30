@@ -62,8 +62,10 @@ th, label {
 					<td class="orderQuantity" th:text="${callerdto.count}"></td>
 					<td class="callerDate" th:text="${callerdto.callerDate}"></td>
 					<td class="restockbtn">
-						<a class="btn btn-primary btn-sm" type="button">待進貨</a>
-							<a th:href="@{'/admin/call/{id}'(id=${callerdto.id})}" class="btn btn-danger btn-sm">刪除</a></td>
+					 	<a class="btn btn-primary btn-sm" type="button" id="restock">待進貨</a>
+						<a th:href="@{'/admin/call/{id}'(id=${callerdto.id})}"
+						class="btn btn-danger btn-sm">刪除</a>
+					</td>
 				</tr>
 			</tbody>
 		</table>
@@ -83,7 +85,7 @@ th, label {
 	</nav>
 
 	<footer th:replace="~{fragments :: footer}"> </footer>
-	
+
 	<script type="text/javascript">
 	
 	  function deleteCaller(id) {
@@ -96,174 +98,32 @@ th, label {
                   console.log(error);
               });
       }
+	  
+	  
+	     $("#restock").on('click' , function() {
+	    	debugger;
+		  const caller = document.querySelector('.caller').textContent;
+		  const productName = document.querySelector('.productName').textContent;
+		  
+		  const url = 'http://localhost:8080/targetPage?caller=caller&productName=productName';
+          window.location.href = url;
+		/*   $.ajax({
+	            url: "/admin/restock/addVendorOne", // 替换为实际的搜索 API URL
+	            type: "GET",
+	            data: {
+	            	caller:caller,
+	            	productName: productName },
+	            success: function (res) {
+	             
+	            },
+	            error: function (xhr, status, error) {
+	              $("#productResults").empty();
+	              $("#productResults").append("<p>系統錯誤</p>");
+	            },
+	          }); */
+		  
+	  }); 
 	</script>
-	<!-- <script>
-      const vendorNameAutoComplete = new autoComplete({
-        selector: "#vendorName",
-        placeHolder: "廠商名稱",
-        data: {
-          src: [
-            "abc",
-            "環球科技有限公司",
-            "盛世製造有限公司",
-            "華星電子股份有限公司",
-            "鑫發科技集團",
-            "億華通訊有限公司",
-            "智慧網路科技股份有限公司",
-            "創意科技有限公司",
-            "鴻海精密工業股份有限公司",
-            "美商蘋果公司",
-            "華為技術有限公司",
-          ],
-        },
-        resultItem: {
-          highlight: true,
-        },
-        resultsList: {
-          element: (list, data) => {
-            if (!data.results.length) {
-              // Create "No Results" message element
-              const message = document.createElement("div");
-              // Add class to the created element
-              message.setAttribute("class", "no_result");
-              // Add message text content
-              message.innerHTML = `<span>找不到 "${data.query}"</span>`;
-              // Append message element to the results list
-              list.prepend(message);
-            }
-          },
-          noResults: true,
-        },
-        events: {
-          input: {
-            selection: event => {
-              const selection = event.detail.selection.value;
-              vendorNameAutoComplete.input.value = selection;
-            },
-          },
-        },
-      });
 
-      const productNameAutoComplete = new autoComplete({
-        selector: "#productName",
-        placeHolder: "產品名稱",
-        data: {
-          src: [
-            "abc",
-            "環球科技有限公司",
-            "盛世製造有限公司",
-            "華星電子股份有限公司",
-            "鑫發科技集團",
-            "億華通訊有限公司",
-            "智慧網路科技股份有限公司",
-            "創意科技有限公司",
-            "鴻海精密工業股份有限公司",
-            "美商蘋果公司",
-            "華為技術有限公司",
-          ],
-        },
-        resultItem: {
-          highlight: true,
-        },
-        resultsList: {
-          element: (list, data) => {
-            if (!data.results.length) {
-              // Create "No Results" message element
-              const message = document.createElement("div");
-              // Add class to the created element
-              message.setAttribute("class", "no_result");
-              // Add message text content
-              message.innerHTML = `<span>找不到 "${data.query}"</span>`;
-              // Append message element to the results list
-              list.prepend(message);
-            }
-          },
-          noResults: true,
-        },
-        events: {
-          input: {
-            selection: event => {
-              const selection = event.detail.selection.value;
-              productNameAutoComplete.input.value = selection;
-            },
-          },
-        },
-      });
-    </script>
-	<script>
-      const originalElement = document.querySelector(".vendorItem");
-      const cloneElement = originalElement.cloneNode(true);
-
-      function setData(list) {
-        const target = document.getElementById("vendorList");
-        target.innerHTML = "";
-        let copies = [];
-
-        for (let i = 0; i < list.length; i++) {
-          let clone = cloneElement.cloneNode(true);
-          clone.id = "copy" + i;
-
-          clone.querySelector(".itemId").textContent = list[i].itemId;
-          clone.querySelector(".shoppingChannel").textContent = list[i].shoppingChannel;
-          clone.querySelector(".productName").textContent = list[i].productName;
-          clone.querySelector(".orderQuantity").textContent = list[i].orderQuantity;
-
-          copies.push(clone);
-        }
-
-        copies.forEach(copy => {
-          target.appendChild(copy);
-        });
-      }
-
-      // 輸入表單資料範例
-/*       setData([
-        {
-          itemId: "A001",
-          shoppingChannel: "Online Store",
-          productName: "Bluetooth Headphones",
-          orderQuantity: "100",
-          orderDate: "2024-04-20",
-          arrivalDate: "2024-04-25",
-          receivedQuantity: "100",
-          pendingQuantity: "0",
-          firstRestockDate: "2024-05-01",
-          firstCaptureQuantity: "50",
-          secondRestockDate: "2024-05-15",
-          secondCaptureQuantity: "50",
-          totalDifference: "0",
-        },
-        {
-          itemId: "B002",
-          shoppingChannel: "Physical Store",
-          productName: "Wireless Mouse",
-          orderQuantity: "200",
-          orderDate: "2024-04-18",
-          arrivalDate: "2024-04-23",
-          receivedQuantity: "180",
-          pendingQuantity: "20",
-          firstRestockDate: "2024-05-02",
-          firstCaptureQuantity: "20",
-          secondRestockDate: "2024-05-16",
-          secondCaptureQuantity: "0",
-          totalDifference: "0",
-        },
-        {
-          itemId: "C003",
-          shoppingChannel: "Mobile App",
-          productName: "Smart Watch",
-          orderQuantity: "150",
-          orderDate: "2024-04-15",
-          arrivalDate: "2024-04-22",
-          receivedQuantity: "150",
-          pendingQuantity: "0",
-          firstRestockDate: "2024-05-03",
-          firstCaptureQuantity: "75",
-          secondRestockDate: "2024-05-17",
-          secondCaptureQuantity: "75",
-          totalDifference: "0",
-        },
-      ]); */
-    </script> -->
 </body>
 </html>

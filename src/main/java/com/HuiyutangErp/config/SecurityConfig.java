@@ -27,21 +27,25 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-        .cors(Customizer.withDefaults())
+                .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(
                         req -> {
-                        	// 不攔截
-                            req.requestMatchers("/admin/**","/css/**","/images/**","/js/**","/templates/**","/static/**","/assets/**","/admin/account").permitAll();
-                            req.requestMatchers("/admin/manufacterur/**","/admin/restock/**").hasAnyRole("USER");
-                            req.anyRequest().permitAll();
+                            // 不攔截
+                            req.requestMatchers("/admin/**", "/css/**", "/images/**", "/js/**", "/templates/**", "/static/**", "/assets/**").permitAll();
+                            req.requestMatchers("/admin/manufacterur/**", "/admin/restock/**").hasAnyRole("USER");
+                            req.anyRequest().authenticated();
                         }
                 )
+                .formLogin(login -> login
+                        .loginPage("/admin/login")
+                        .defaultSuccessUrl("/admin/account", true)
+                        .permitAll())
                 .httpBasic(Customizer.withDefaults())
                 .logout(logout ->
-                logout
-                    .logoutUrl("/basic/basiclogout")
-                    .addLogoutHandler(new SecurityContextLogoutHandler())
-            );
+                        logout
+                                .logoutUrl("/admin/logout")
+                                .addLogoutHandler(new SecurityContextLogoutHandler())
+                );
         return http.build();
     }
 

@@ -27,9 +27,25 @@
 					<li class="nav-item"><a th:classappend="${n==2}  ?  'active'"
 						href="http://localhost:8080/admin/manufacterur/maunfacterurPage"
 						class="nav-link">新增廠商</a></li>
-					<li class="nav-item"><a th:classappend="${n==3} ? 'active'"
-						href="http://localhost:8080/admin/product/productList"
-						class="nav-link">商品列表</a></li>
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+						role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false"> 廠商 </a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a th:classappend="${n==2}  ?  'active'"
+								href="http://localhost:8080/admin/manufacterur/maunfacterurPage"
+								class="dropdown-item">新增廠商</a>
+						</div>
+					</li>
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+						role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false"> 商品 </a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a th:classappend="${n==3} ? 'active'"
+								href="/admin/product/productList" class="dropdown-item">商品列表</a>
+						</div>
+					</li>
 					<li class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
 						role="button" data-toggle="dropdown" aria-haspopup="true"
@@ -37,11 +53,10 @@
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<a th:classappend="${n==4} ? 'active'"
 								href="http://localhost:8080/admin/restock/addVendorData"
-								class="dropdown-item">新增進貨</a>
-							<a th:classappend="${n==5} ? 'active'"
+								class="dropdown-item">新增進貨</a> <a
+								th:classappend="${n==5} ? 'active'"
 								href="http://localhost:8080/admin/restock/addVendorOne"
 								class="dropdown-item">新增進貨(單筆)</a>
-							<div class="dropdown-divider"></div>
 						</div>
 					</li>
 					<li class="nav-item dropdown"><a
@@ -51,12 +66,11 @@
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<a th:classappend="${n==6}  ?  'active'"
 								href="http://localhost:8080/admin/ship/shipformList"
-								class="dropdown-item">出貨紀錄</a>
-							<a th:classappend="${n==7}  ?  'active'"
-								href="http://localhost:8080/admin/ship/shipform" class="dropdown-item">出貨表單</a>
-							<div class="dropdown-divider"></div>
-						</div>
-					</li>
+								class="dropdown-item">出貨紀錄</a> <a
+								th:classappend="${n==7}  ?  'active'"
+								href="http://localhost:8080/admin/ship/shipform"
+								class="dropdown-item">出貨表單</a>
+						</div></li>
 					<li class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
 						role="button" data-toggle="dropdown" aria-haspopup="true"
@@ -64,13 +78,11 @@
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<a th:classappend="${n==8}  ?  'active'"
 								href="http://localhost:8080/admin/call/callformList"
-								class="dropdown-item">叫貨紀錄</a>
-							<a th:classappend="${n==9}  ?  'active'"
-								href="http://localhost:8080/admin/call/callform" 
+								class="dropdown-item">叫貨紀錄</a> <a
+								th:classappend="${n==9}  ?  'active'"
+								href="http://localhost:8080/admin/call/callform"
 								class="dropdown-item">叫貨表單</a>
-							<div class="dropdown-divider"></div>
-						</div>
-					</li>
+						</div></li>
 				</ul>
 				<ul class="navbar-nav">
 					<li class="nav-item d-lg-block d-none"><a

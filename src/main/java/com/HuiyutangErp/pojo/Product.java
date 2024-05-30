@@ -42,6 +42,7 @@ public class Product {
 	@Column(name = "MANUFACTURER_NAME")
 	private String manufacturerName;
 
+	
 	@Column(name = "MANUFACTURER_ID")
 	private String manufacturerId;
 

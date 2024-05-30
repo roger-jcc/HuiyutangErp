@@ -105,13 +105,10 @@
   	
 	 const  myModal = new bootstrap.Modal(document.getElementById("myModal"));
         
-     $("#register").click(function(){
-    	 document.getElementById('registrationForm').addEventListener('submit', function(event) {
+
+	 $("#registrationForm").on('submit', function(event) {
     	        event.preventDefault(); // 阻止表單的默認提交行為
     	        
-    	        
-    	        //防止按鈕連點
-    	        $("#register").disabled =true;
 
     	        // 執行表單欄位檢查
     	        if (!validateForm()) {
@@ -156,7 +153,7 @@
 	    	 	  	      $("#register").disabled =false;
 	    	 	   });
     	    });
-    	}); 
+    	 
   
      
      
@@ -193,7 +190,7 @@
  			document.getElementById("usernameError").textContent = "帳號不能為空";
  			isValid = false;
  		 } else {
- 			if ((username.length <= 6 || username.length >= 12) ||chineseRegex.test(username)) {
+ 			if ((username.length < 6 || username.length >= 12) ||chineseRegex.test(username)) {
  	    		// 不符合要求，可以顯示錯誤提示或禁用提交按鈕等
  		        document.getElementById("usernameError").textContent = "帳號長度需為6-12碼，並且只能包含英文和數字";
  		 		isValid = false;

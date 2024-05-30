@@ -54,6 +54,12 @@ public class Restock {
 	private String restockingPrice;
 	
 	
+	/**
+	 * 進貨原因
+	 */
+	@Column(name = "RESTOCK_REASON")
+	private String restockReason;
+	
 	
 	/**
 	 * 進貨日

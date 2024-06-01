@@ -88,6 +88,6 @@ footer {
 	}
 }
 
-#submitForm {
+#submitForm, #registrationForm {
 	margin-bottom: 40px;
 }

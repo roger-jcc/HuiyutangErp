@@ -15,6 +15,8 @@ import com.HuiyutangErp.mapper.ProductMapper;
 import com.HuiyutangErp.pojo.Product;
 import com.HuiyutangErp.service.ProductService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/admin/product")
 public class ProductController {
@@ -24,12 +26,13 @@ public class ProductController {
 	
 	
 	@GetMapping("/productList")
-	public String productList(Model model, 
+	public String productList(Model model,HttpSession session, 
             @RequestParam(defaultValue = "0") int page, 
             @RequestParam(defaultValue = "10") int size) {
 		 Pageable pageable = PageRequest.of(page, size);
 		Page<Product> productPage = productService.findAllProduct(pageable);
 		Page<ProductDto> pdto =	productPage.map(ProductMapper::toDto);
+		pdto.hasPrevious();
 
 		model.addAttribute("productPage", pdto);
 		return "admin/productList";

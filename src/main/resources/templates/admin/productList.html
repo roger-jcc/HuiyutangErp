@@ -30,15 +30,11 @@ th, label {
 	width: 200px;
 }
 </style>
-<script th:src="@{/js/main-CGZVxo7S.js}"></script>
 <link rel="stylesheet" type="text/css"
 	th:href="@{/css/main-DRgq0g6l.css}">
 	<link rel="stylesheet" type="text/css"
 	th:href="@{/css/all.css}">
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.7.1.slim.js"
-	integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc="
-	crossorigin="anonymous"></script>
+<th:block th:replace="~{fragments :: script}"></th:block>
 </head>
 <body>
 	<nav th:replace="~{fragments :: menu(3)}"></nav>
@@ -95,34 +91,35 @@ th, label {
 	</div>
 	<nav class="px-4 pb-5">
 		<ul class="pagination justify-content-center">
-			<li class="page-item"><a class="page-link" href="#"
+		 <!-- <li class="page-item"><a class="page-link" href="#"
 				aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-			</a></li>
-			<li th:if="${productPage.hasPrevious()}"><a
-				th:href="@{/products(page=${productPage.pageable.page - 1}, size=${productPage.pageable.size})}">Previous</a>
+			</a></li>  -->
+			<li class="page-item" th:if="${productPage.hasPrevious()}"><a class="page-link" aria-label="Previous"
+				th:href="@{/admin/product/products(page=${productPage.pageable.page - 1}, size=${productPage.pageable.size})}"><span aria-hidden="true">&laquo;</span></a>
 			</li>
-			<li th:if="${productPage.hasNext()}"><a
-				th:href="@{/products(page=${productPage.pageable.page + 1}, size=${productPage.pageable.size})}">Next</a>
-			</li>
+			
 			<li class="page-item"><a class="page-link active" href="#">1</a></li>
 			<li class="page-item"><a class="page-link" href="#">2</a></li>
 			<li class="page-item"><a class="page-link" href="#">3</a></li>
-			<li class="page-item"><a class="page-link" href="#"
+			
+			<li class="page-item" th:if="${productPage.hasNext()}"><a class="page-link" aria-label="Next"
+				th:href="@{/admin/product/products(page=${productPage.pageable.page + 1}, size=${productPage.pageable.size})}"><span aria-hidden="true">&raquo;</span></a>
+			</li>
+			 <!-- <li class="page-item"><a class="page-link" href="#"
 				aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-			</a></li>
+			</a></li>  -->
 		</ul>
 	</nav>
 
 	<footer th:replace="~{fragments :: footer}"> </footer>
 
 
-	<script
-		src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/autoComplete.min.js"></script>
+	
 		
 	<script type="text/javascript">
 	 $("#vendorBtn").on('click' , function() {
 		  const vendorName = document.querySelector('.vendorName').textContent;
-		/*   $.ajax({
+		   $.ajax({
 	            url: "/admin/restock/addVendorOne", // 替换为实际的搜索 API URL
 	            type: "GET",
 	            data: {
@@ -135,7 +132,7 @@ th, label {
 	              $("#productResults").empty();
 	              $("#productResults").append("<p>系統錯誤</p>");
 	            },
-	          }); */
+	          }); 
 		  
 	  }); 
 		

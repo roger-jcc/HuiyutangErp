@@ -2,14 +2,19 @@ package com.HuiyutangErp.pojo;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Set;
 
 import com.HuiyutangErp.bean.UserReq;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -52,7 +57,16 @@ public class User  {
 	
 	//ADMIN,USER
 	@Column(name = "ROLES")
-	private String roles;
+	private String role;
+	
+	
+	 @ManyToMany(fetch = FetchType.EAGER)
+	    @JoinTable(
+	        name = "user_role_mapping",
+	        joinColumns = @JoinColumn(name = "user_id"),
+	        inverseJoinColumns = @JoinColumn(name = "role_id")
+	    )
+	    private Set<Role> roles;
 	
 
 
@@ -64,7 +78,7 @@ public class User  {
     	this.username = req.getUsername();
     	this.password = req.getPassword();
     	this.email = req.getEmail();
-    	this.roles = "ROLE_USER";
+    	this.role = "ROLE_USER";
     	this.createdTime = Timestamp.from(Instant.now());
     	
     			

@@ -62,7 +62,13 @@ th, label {
 					<td class="orderQuantity" th:text="${callerdto.count}"></td>
 					<td class="callerDate" th:text="${callerdto.callerDate}"></td>
 					<td class="restockbtn">
-					 	<a class="btn btn-primary btn-sm" type="button" id="restock">待進貨</a>
+					 	<a class="btn btn-primary btn-sm" type="button" id="restock" 
+					 	  th:href="@{/admin/restock/addVendorOne(id=${callerdto.id}, 
+					 	  caller=${callerdto.caller}, 
+					 	  shopping=${callerdto.shopping}, 
+					 	  productName=${callerdto.productName}, 
+					 	  count=${callerdto.count}, 
+					 	  callerDate=${callerdto.callerDate})}">待進貨</a>
 						<a th:href="@{'/admin/call/{id}'(id=${callerdto.id})}"
 						class="btn btn-danger btn-sm">刪除</a>
 					</td>
@@ -101,7 +107,6 @@ th, label {
 	  
 	  
 	     $("#restock").on('click' , function() {
-	    	debugger;
 		  const caller = document.querySelector('.caller').textContent;
 		  const productName = document.querySelector('.productName').textContent;
 		  

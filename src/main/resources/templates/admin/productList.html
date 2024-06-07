@@ -48,13 +48,13 @@ th, label {
 			<input id="vendorName" type="search" dir="ltr" spellcheck="false"
 				autocorrect="off" autocomplete="off" autocapitalize="off"
 				maxlength="2048" tabindex="1" />
-			<button type="button" class="btn btn-primary ms-1 mb-1">搜索</button>
+			<button type="button" class="btn btn-primary ms-1 mb-1" id="vendorBtn">搜索</button>
 		</div>
 		<div>
 			<input id="productName" type="search" dir="ltr" spellcheck="false"
 				autocorrect="off" autocomplete="off" autocapitalize="off"
 				maxlength="2048" tabindex="1" />
-			<button type="button" class="btn btn-primary ms-1 mb-1">搜索</button>
+			<button type="button" class="btn btn-primary ms-1 mb-1" id="productBtn">搜索</button>
 		</div>
 	</div>
 
@@ -118,6 +118,29 @@ th, label {
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/autoComplete.min.js"></script>
+		
+	<script type="text/javascript">
+	 $("#vendorBtn").on('click' , function() {
+		  const vendorName = document.querySelector('.vendorName').textContent;
+		/*   $.ajax({
+	            url: "/admin/restock/addVendorOne", // 替换为实际的搜索 API URL
+	            type: "GET",
+	            data: {
+	            	caller:caller,
+	            	productName: productName },
+	            success: function (res) {
+	             
+	            },
+	            error: function (xhr, status, error) {
+	              $("#productResults").empty();
+	              $("#productResults").append("<p>系統錯誤</p>");
+	            },
+	          }); */
+		  
+	  }); 
+		
+	
+	</script>	
 
 </body>
 </html>

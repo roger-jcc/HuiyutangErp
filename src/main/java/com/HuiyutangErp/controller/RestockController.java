@@ -36,8 +36,6 @@ import com.HuiyutangErp.service.RestockService;
 @EnableMethodSecurity
 public class RestockController {
 	
-	@Autowired
-	private RestockService restockService;
 	
 	
 	@GetMapping("/addVendorData")

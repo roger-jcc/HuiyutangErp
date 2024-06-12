@@ -55,7 +55,7 @@ th, label {
 				</tr>
 			</thead>
 			<tbody id="shipList">
-				<tr  th:each="shipdto : ${shipdtoList}"  class="vendorItem">
+				<tr th:each="shipdto : ${shipdtoPage.content}" class="vendorItem">
 					<th scope="row" class="itemId" th:text="${shipdto.id}"></th>
 					<td class="manufacturerName" th:text="${shipdto.manufacturerName}"></td>
 					<td class="productName" th:text="${shipdto.productName}"></td>
@@ -69,14 +69,26 @@ th, label {
 	</div>
 	<nav class="px-4 pb-5">
 		<ul class="pagination justify-content-center">
-			<li class="page-item"><a class="page-link" href="#"
-				aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+
+			<li class="page-item" th:if="${shipdtoPage.hasPrevious()}"><a
+				class="page-link" aria-label="Previous"
+				th:href="@{/admin/ship/shipformList(page=${shipdtoPage.number - 1}, size=${shipdtoPage.size})}">
+					<span aria-hidden="true">&laquo;</span>
 			</a></li>
-			<li class="page-item"><a class="page-link active" href="#">1</a></li>
-			<li class="page-item"><a class="page-link" href="#">2</a></li>
-			<li class="page-item"><a class="page-link" href="#">3</a></li>
-			<li class="page-item"><a class="page-link" href="#"
-				aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+
+			<!-- Page Number Links -->
+			<li class="page-item"
+				th:each="i : ${#numbers.sequence(1, shipdtoPage.totalPages)}"
+				th:classappend="${shipdtoPage.number + 1 == i} ? 'active'"><a
+				class="page-link"
+				th:href="@{/admin/ship/shipformList(page=${i - 1}, size=${shipdtoPage.size})}"
+				th:text="${i}">1</a></li>
+
+			<!-- Next Page Link -->
+			<li class="page-item" th:if="${shipdtoPage.hasNext()}"><a
+				class="page-link" aria-label="Next"
+				th:href="@{/admin/ship/shipformList(page=${shipdtoPage.number + 1}, size=${shipdtoPage.size})}">
+					<span aria-hidden="true">&raquo;</span>
 			</a></li>
 		</ul>
 	</nav>

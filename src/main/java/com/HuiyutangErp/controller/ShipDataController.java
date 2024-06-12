@@ -66,11 +66,10 @@ public class ShipDataController {
 	/**
 	 * 儲存出貨訊息單筆
 	 * @param req
-	 * @throws Exception 
+	 * @throws Exception 	@PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
 	 */
 	@PostMapping("/saveShip") 
-	@PreAuthorize("hasAuthority('ROLE_USER')")
-	public void saveRestock(
+	public Map<String,String>  saveRestock(
 			 @RequestParam(name ="manufacturer") String manufacturer,
             @RequestParam(name ="productName") String productName,
             @RequestParam(name = "count") int count,
@@ -79,8 +78,10 @@ public class ShipDataController {
 		
 		if(StringUtils.equals(resMap.get("code"), "success") ) {
 			mod.addAttribute("message", resMap.get("message"));
+			return resMap;
 		}else {
 			mod.addAttribute("message", resMap.get("message"));
+			return resMap;
 		}
 	}
 	

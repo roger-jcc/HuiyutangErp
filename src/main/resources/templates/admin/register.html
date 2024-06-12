@@ -36,9 +36,27 @@
 						id="nameError" class="error"></span>
 				</div>
 				<div class="mb-2">
-					<label for="title" class="form-label">職稱</label> <input type="text"
+					 <label for="title" class="form-label">職稱</label> <!--<input type="text"
 						class="form-control" id="title" /> <span id="titleError"
-						class="error"></span>
+						class="error"></span> -->
+					<div class="input-group">
+						<select class="custom-select" id="titleReason">
+							<option selected>請選擇</option>
+							<option value="執行長">執行長</option>
+							<option value="副理">副理</option>
+							<option value="主任">主任</option>
+							<option value="會計">會計</option>
+							<option value="美編">美編</option>
+							<option value="特助">特助</option>
+							<option value="出貨">出貨</option>
+							<option value="倉管">倉管</option>
+							<option value="直播主">直播主</option>
+							<option value="小幫手">小幫手</option>
+							<option value="客服">客服</option>
+						</select>
+					</div>
+					<span id="titleError"
+						class="error"></span> 
 				</div>
 				<div class="mb-2">
 					<label for="title" class="form-label">帳號</label> <input type="text"
@@ -108,7 +126,8 @@
 
 	 $("#registrationForm").on('submit', function(event) {
     	        event.preventDefault(); // 阻止表單的默認提交行為
-    	        
+    	        var selectElement = document.getElementById('titleReason');
+    			const selectedValue = selectElement.value;
 
     	        // 執行表單欄位檢查
     	        if (!validateForm()) {
@@ -120,7 +139,7 @@
 	    	 	   	    password: $("#password").val(),
 	    	 	   	    checkPassword: $("#passwordCheck").val(),
 	    	 	   	    email: $("#email").val(),
-	    	 	   	    title: $("#title").val()
+	    	 	   	    title: selectedValue
 	    	 	   	  };
 	    	 	   	 console.log("data",data);
 	    	 	   	var message = document.getElementById('message');
@@ -137,7 +156,6 @@
 	    	 	   			message.textContent='註冊成功';
 	    	 	   			myModal.show();
 	    	 	   			
-	    	 	   	      $("#register").disabled =false;
 	    	 	   		  })
 	    	 	   		  .catch(function (err) {
 	    	 	   			console.log("err :" + err);
@@ -150,7 +168,6 @@
 		    	 	   		$("#title").val('');
 		    	 	   		message.textContent='註冊失敗';
 	    	 	   			myModal.show();
-	    	 	  	      $("#register").disabled =false;
 	    	 	   });
     	    });
     	 
@@ -158,12 +175,14 @@
      
      
      function validateForm(){
+    	 var selectElement = document.getElementById('titleReason');
+			const selectedValue = selectElement.value;
       	 var name = $("#name").val();
     	 var username = $("#username").val();
     	 var password = $("#password").val();
     	 var checkPassword = $("#passwordCheck").val();
     	 var email =$("#email").val();
-    	 var title = $("#title").val();
+    	 var title = selectedValue;
     	 
     	 var isValid = true;
     	 // 檢查是否包含中文字符
@@ -239,7 +258,7 @@
  		 }
     	 
     	 
-    	 if (title.trim() === "") {
+    	 if (title.trim() === ""||title.trim()==='請選擇') {
  			document.getElementById("titleError").textContent = "職稱不能為空";
  			isValid = false;
  		 } else {

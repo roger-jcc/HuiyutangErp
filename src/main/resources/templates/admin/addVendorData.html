@@ -53,14 +53,14 @@ html, body {
 				<div class="modal-header">
 					<h5 class="modal-title">註冊</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close" onclick="closeModal()"></button>
+						aria-label="Close" id="closeModal"></button>
 				</div>
 				<div class="modal-body">
 					<span id="message"></span>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal" onclick="closeModal()">返回登入</button>
+						data-bs-dismiss="modal" id="btnCloseModal" >返回</button>
 				</div>
 			</div>
 		</div>
@@ -69,6 +69,8 @@ html, body {
 
 
 	<script type="text/javascript">
+	 const myModal = new bootstrap.Modal(document.getElementById("myModal"), { backdrop: "static" });
+	
 	 function uploadFile(event) {
 		event.preventDefault(); // 阻止表單的默認提交行為
 		const fileInput = document.getElementById('formFileMultiple');
@@ -90,18 +92,29 @@ html, body {
               }
           })
   		  	.then(function (response) {
+  		  		debugger;
   		  	console.log("res :"+ response.data );
   		  	 const  myModal = new bootstrap.Modal(document.getElementById("myModal"));
 	  			if (!response.status===200) {
 	  				document.getElementById("message").textContent='檔案上傳失敗';
 	  				myModal.show();
 	             }
-	  			document.getElementById("message").textContent='檔案上傳成功';
+	  			if(response.data.code ==='error'){
+	  				document.getElementById("message").textContent =response.data.message;
+	  				myModal.show();
+	  				clearFileInput();
+	  				return;
+	  			}
+	  			if(response.data.code ='success'){
+	  				document.getElementById("message").textContent=response.data.message;
+	  			}
+	  			
 	  			
 				myModal.show();
 				clearFileInput();
 	  		})
   		   .catch(function (error) {
+  			   	debugger;
   			 	document.getElementById('message').textContent='檔案上傳失敗';
   			  	const  myModal = new bootstrap.Modal(document.getElementById("myModal"));
   				myModal.show();
@@ -119,6 +132,18 @@ html, body {
             fileInput.value = '';
         }
 }
+	 
+	   $("#closeModal").click(function () {
+	        closeModal();
+	      });
+
+	      $("#btnCloseModal").click(function () {
+	        closeModal();
+	      });
+
+	      function closeModal() {
+	        myModal.hide();
+	      }
 	
 	
 		

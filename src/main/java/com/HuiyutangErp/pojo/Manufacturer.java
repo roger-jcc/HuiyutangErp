@@ -2,6 +2,8 @@ package com.HuiyutangErp.pojo;
 
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.HuiyutangErp.bean.ManufacturerReq;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -49,8 +51,23 @@ public class Manufacturer {
 	/**
 	 * 廠商電話
 	 */
-	@Column(name = "MANUFACTURER_Phone")
+	@Column(name = "MANUFACTURER_PHONE")
 	private String manufacturerPhone;
+	
+	
+	
+	/**
+	 * 廠商代碼
+	 */
+	@Column(name = "MANUFACTURER_CODE")
+	private String manufacturerCode;
+	
+	
+	/**
+	 * 特殊備註
+	 */
+	@Column(name = "MANUFACTURER_REMARK")
+	private String manufacturerRemark;
 	
 	
 	@JsonManagedReference
@@ -61,9 +78,26 @@ public class Manufacturer {
 
 
 	public void createorupdate(ManufacturerReq manufacteruerReq) {
-		this.manufacturerName = manufacteruerReq.getManufacturerName();
-		this.manufacturerAdress = manufacteruerReq.getManufacturerAdress();
-		this.manufacturerPhone = manufacteruerReq.getManufacturerPhone();
+		if(StringUtils.isNotBlank(manufacteruerReq.getManufacturerName())) {
+			this.manufacturerName = manufacteruerReq.getManufacturerName();
+		}
+		
+		if(StringUtils.isNotBlank(manufacteruerReq.getManufacturerAdress())) {
+			this.manufacturerAdress = manufacteruerReq.getManufacturerAdress();
+		}
+		
+		if(StringUtils.isNotBlank(manufacteruerReq.getManufacturerPhone())) {
+			this.manufacturerPhone = manufacteruerReq.getManufacturerPhone();
+		}
+		
+		if(StringUtils.isNotBlank(manufacteruerReq.getManufacturerCode())) {
+			this.manufacturerCode = manufacteruerReq.getManufacturerCode();
+		}
+		
+		if(StringUtils.isNotBlank(manufacteruerReq.getManufacturerRemark())) {
+			this.manufacturerRemark = manufacteruerReq.getManufacturerRemark();
+		}
+		
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.HuiyutangErp.controller;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.HuiyutangErp.bean.ManufacturerReq;
+import com.HuiyutangErp.dto.ManufacterurDto;
 import com.HuiyutangErp.service.ManufacturerService;
 
 @Controller
@@ -23,6 +26,7 @@ public class ManufacterurController {
 	
 	@GetMapping("/maunfacterurPage")
 	public String vendorlist(Model mod) {
+	
 		return "admin/manufacterur";
 	}
 	

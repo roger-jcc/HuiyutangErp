@@ -20,15 +20,21 @@
 			<h1 class="h3 mb-3 fw-normal">進貨清單</h1>
 			<div class="border p-3 mb-3 rounded fw-semibold">
 				<div class="mb-2">
-					<label for="email" class="form-label">廠商</label> <input type="text"
-						class="form-control" id="manufacturerName" /> <span
+					<label for="email" class="form-label">廠商</label> <input type="search"
+						class="form-control" id="manufacturerName" list="autocomplete-list"/> <span
 						id="manufacturerNameError" class="error"></span>
+					<datalist id="autocomplete-list" class="autocomplete-items"></datalist>
 				</div>
 				<div class="mb-2">
 					<label for="title" class="form-label">產品名稱</label> <input
-						type="text" class="form-control" id="productName"  th:value="${productName}" />
+						type="search" class="form-control" id="productName"  th:value="${productName}" />
 					<div id="productResults"></div>
 					<span id="productNameError" class="error" ></span>
+				</div>
+				<div class="mb-2">
+					<label for="title" class="form-label">進貨數量</label> <input
+						type="text" class="form-control" id="count" /> <span
+						id="countError" class="error"></span>
 				</div>
 				<div class="mb-2" id="picture">
 					<label for="title" class="form-label">產品圖片</label>
@@ -41,10 +47,16 @@
 					</div>
 				</div>
 				<div class="mb-2">
-					<label for="title" class="form-label">進貨數量</label> <input
-						type="text" class="form-control" id="count" /> <span
-						id="countError" class="error"></span>
+					<label for="title" class="form-label">庫位</label> <input
+						type="text" class="form-control" id="location" /> <span
+						id="locationError" class="error"></span>
 				</div>
+				<div class="mb-2">
+					<label for="title" class="form-label">產品條碼</label> <input
+						type="text" class="form-control" id="barcode" /> <span
+						id="barcodeError" class="error"></span>
+				</div>
+				
 				<div class="input-group mb-3">
 					<label for="title" class="form-label">進貨原因</label>
 					<div class="input-group">
@@ -91,6 +103,7 @@
 	<script type="text/javascript">
 		$(document).ready(
 				function() {
+				      const myModal = new bootstrap.Modal(document.getElementById("myModal"), { backdrop: "static" });
 					$("#picture").show();
 
 					// 使用 jQuery 的事件绑定方法 .on
@@ -133,6 +146,41 @@
 									}
 								});
 							});
+					var list = document.getElementById("autocomplete-list");
+					$("#manufacturerName").on('input',function(){
+						var manufacturerName = $("#manufacturerName").val();
+						var list = $("#autocomplete-list");
+		                list.empty();
+						// 防止空查询
+						if (manufacturerName.length === 0) {
+							return;
+						}
+						
+						$.ajax({
+							url : '/admin/manufacterurdate/findmanufacturerName', // 替换为实际的搜索 API URL
+							type : 'GET',
+							data : {
+								manufacturerName : manufacturerName
+							},
+							success : function(res) {
+								console.log('res:' + res);
+								 if (Array.isArray(res)) {
+									 res.forEach(function(manufacturer) {
+										  console.log('manufacturer:', manufacturer); // 添加调试信息
+										  var option = document.createElement("option");
+			                                option.value = manufacturer;
+			                                list.append(option); 
+			                                $("#manufacturerName").attr('list' ,list);
+			                            });
+								 }else{
+									 
+								 } 
+							},
+							error : function(xhr, status, error) {
+								console.error('系統錯誤', error);
+							}
+						});
+					});
 				});
 
 		$("#submitForm").on('submit', function(event) {
@@ -149,6 +197,7 @@
 			    const productName = document.getElementById('productName').value;
 			    const count = document.getElementById('count').value;
 			    const restockReason = document.getElementById('restockReason').value; 
+			    const location = document.getElementById('location').value; 
 
 			    const formData = new FormData();
 			    formData.append('images', file);
@@ -156,6 +205,7 @@
 			    formData.append('productName', productName);
 			    formData.append('count', count);
 			    formData.append('restockReason', restockReason);
+			    formData.append('location', location);
 
 			    axios.post('/admin/restockdata/saveRestock', formData)
 			        .then(response => {
@@ -165,6 +215,7 @@
 			            document.getElementById('productName').value = '';
 			            document.getElementById('count').value = '';
 			            document.getElementById('imagefile').value = '';
+			            document.getElementById('location').value = '';
 			            document.getElementById('message').textContent = '新增成功';
 			            myModal.show();
 			        })
@@ -175,6 +226,7 @@
 			            document.getElementById('productName').value = '';
 			            document.getElementById('count').value = '';
 			            document.getElementById('imagefile').value = '';
+			            document.getElementById('location').value = '';
 			            document.getElementById('message').textContent = '新增失敗';
 			            myModal.show();
 			        });
@@ -282,11 +334,18 @@
 			return isValid;
 		}
 
-		function closeModal() {
-			const myModal = new bootstrap.Modal(document
-					.getElementById("myModal"));
-			myModal.hide();
-		}
+		   $("#closeModal").click(function () {
+		        closeModal();
+		      });
+
+		      $("#btnCloseModal").click(function () {
+		        closeModal();
+		      });
+
+		      function closeModal() {
+		        myModal.hide();
+		      }
+
 	</script>
 </body>
 </html>

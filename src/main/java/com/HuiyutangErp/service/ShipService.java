@@ -8,6 +8,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.HuiyutangErp.bean.ProductReq;
 import com.HuiyutangErp.dto.ShipDto;
+import com.HuiyutangErp.mapper.ShipMapper;
 import com.HuiyutangErp.pojo.Manufacturer;
 import com.HuiyutangErp.pojo.Product;
 import com.HuiyutangErp.pojo.Ship;
@@ -93,19 +96,13 @@ public class ShipService {
 
 
 
-	public List<ShipDto> findAll() {
-		List<Ship> shipList = shipRepository.findAll();
-		 List<ShipDto> shipdtoList = shipList.stream()
-		.map(ship -> new ShipDto(
-				 ship.getId(),
-				 ship.getManufacturerName(),
-				 ship.getProductName(),
-				 ship.getCount(),
-				 ship.getAmount(),
-				 ship.getShippingDate(),
-				 ship.getShipReason()
-				 )).collect(Collectors.toList());
-		return shipdtoList;
+
+
+
+	public Page<ShipDto> getShipDtoPage(Pageable pageable) {
+		Page<Ship> shipPage = shipRepository.findAll(pageable);
+		Page<ShipDto> shipDtoPage = shipPage.map(ShipMapper::toDto);
+		return shipDtoPage;
 	}
 	
 	

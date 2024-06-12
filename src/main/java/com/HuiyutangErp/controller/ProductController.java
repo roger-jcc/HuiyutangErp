@@ -30,10 +30,7 @@ public class ProductController {
             @RequestParam(defaultValue = "0") int page, 
             @RequestParam(defaultValue = "10") int size) {
 		 Pageable pageable = PageRequest.of(page, size);
-		Page<Product> productPage = productService.findAllProduct(pageable);
-		Page<ProductDto> pdto =	productPage.map(ProductMapper::toDto);
-		pdto.hasPrevious();
-
+		Page<ProductDto> pdto =	productService.findAllProduct(pageable);
 		model.addAttribute("productPage", pdto);
 		return "admin/productList";
 	}

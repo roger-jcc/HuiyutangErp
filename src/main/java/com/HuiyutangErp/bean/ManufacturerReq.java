@@ -25,5 +25,17 @@ public class ManufacturerReq {
 	private String manufacturerPhone;
 	
 	
+	/**
+	 * 廠商代碼
+	 */
+	private String manufacturerCode;
+	
+	
+	/**
+	 * 特殊備註
+	 */
+	private String manufacturerRemark;
+	
+	
 
 }

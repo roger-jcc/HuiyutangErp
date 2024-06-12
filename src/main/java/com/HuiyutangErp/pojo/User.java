@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.HuiyutangErp.bean.UserReq;
 
 import jakarta.persistence.Column;
@@ -37,7 +39,7 @@ public class User  {
 	private String name;
 	
 	@Column(name = "TITLE")
-	private String title;
+	private String title;//副理,會計,倉管,主任 user: 出貨 ,晚班
 	
 	@Column(name = "USER_NAME")
     private String username;
@@ -78,7 +80,12 @@ public class User  {
     	this.username = req.getUsername();
     	this.password = req.getPassword();
     	this.email = req.getEmail();
-    	this.role = "ROLE_USER";
+    	if(StringUtils.equals(req.getTitle(), "執行長")||StringUtils.equals(req.getTitle(), "副理")
+    			||StringUtils.equals(req.getTitle(), "主任")) {
+    		this.role = "ROLE_ADMIN";
+    	}else {
+    		this.role = "ROLE_USER";
+    	}
     	this.createdTime = Timestamp.from(Instant.now());
     	
     			

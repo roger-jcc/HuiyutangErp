@@ -94,17 +94,28 @@ th, label {
 		 <!-- <li class="page-item"><a class="page-link" href="#"
 				aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 			</a></li>  -->
-			<li class="page-item" th:if="${productPage.hasPrevious()}"><a class="page-link" aria-label="Previous"
-				th:href="@{/admin/product/products(page=${productPage.pageable.page - 1}, size=${productPage.pageable.size})}"><span aria-hidden="true">&laquo;</span></a>
-			</li>
-			
-			<li class="page-item"><a class="page-link active" href="#">1</a></li>
-			<li class="page-item"><a class="page-link" href="#">2</a></li>
-			<li class="page-item"><a class="page-link" href="#">3</a></li>
-			
-			<li class="page-item" th:if="${productPage.hasNext()}"><a class="page-link" aria-label="Next"
-				th:href="@{/admin/product/products(page=${productPage.pageable.page + 1}, size=${productPage.pageable.size})}"><span aria-hidden="true">&raquo;</span></a>
-			</li>
+	 <li class="page-item" th:if="${productPage.hasPrevious()}">
+        <a class="page-link" aria-label="Previous"
+           th:href="@{/admin/product/productList(page=${productPage.number - 1}, size=${productPage.size})}">
+            <span aria-hidden="true">&laquo;</span>
+        </a>
+    </li>
+
+    <!-- Page Number Links -->
+    <li class="page-item" th:each="i : ${#numbers.sequence(1, productPage.totalPages)}"
+        th:classappend="${productPage.number + 1 == i} ? 'active'">
+        <a class="page-link"
+           th:href="@{/admin/product/productList(page=${i - 1}, size=${productPage.size})}"
+           th:text="${i}">1</a>
+    </li>
+
+    <!-- Next Page Link -->
+    <li class="page-item" th:if="${productPage.hasNext()}">
+        <a class="page-link" aria-label="Next"
+           th:href="@{/admin/product/productList(page=${productPage.number + 1}, size=${productPage.size})}">
+            <span aria-hidden="true">&raquo;</span>
+        </a>
+    </li>
 			 <!-- <li class="page-item"><a class="page-link" href="#"
 				aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 			</a></li>  -->

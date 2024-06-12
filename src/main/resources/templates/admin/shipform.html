@@ -19,18 +19,23 @@
 			<h1 class="h3 mb-3 fw-normal">出貨清單</h1>
 			<div class="border p-3 mb-3 rounded fw-semibold">
 				<div class="mb-2">
-					<label for="email" class="form-label">廠商</label> <input type="text"
-						class="form-control" id="manufacturerName" /> 
-						<span id="manufacturerNameResult"></span>
-						<span id="manufacturerNameError" class="error"></span>
+					<label for="email" class="form-label">廠商</label> <select
+						id="manufacturerName" name="manufacturerName" class="form-control">
+						<option value="">請選擇廠商</option>
+						<option th:each="manufacterur : ${manufacterurList}"
+							th:value="${manufacterur.id}"
+							th:text="${manufacterur.manufacturerName}"></option>
+					</select> <span id="manufacturerNameError" class="error"></span>
 				</div>
 				<div class="mb-2">
 					<label for="title" class="form-label">產品名稱</label> 
-					<input
-						type="text" class="form-control" id="productName" />
+					<select id="productName" name="productName" class="form-control">
+					</select>
+					<!-- <input
+						type="text" class="form-control" id="productName" /> -->
 					<h6>目前庫存:</h6>
-					<span id="productResults"></span>
-					<span id="productNameError" class="error"></span>
+					<span id="productResults"></span> <span id="productNameError"
+						class="error"></span>
 				</div>
 				<div class="mb-2">
 					<label for="title" class="form-label">出貨數量</label> <input
@@ -40,7 +45,7 @@
 				<div class="mb-2">
 					<label for="title" class="form-label">出貨原因</label>
 					<div class="input-group">
-						<select class="custom-select" id="shipReason">
+						<select id="shipReason" class="form-control">
 							<option selected>請選擇</option>
 							<option value="員購">員購</option>
 							<option value="出貨" selected>出貨</option>
@@ -59,15 +64,15 @@
 
 	</main>
 	<footer th:replace="~{fragments :: footer}"> </footer>
-	
-	
+
+
 	<!-- 彈窗區塊 id 對應 data-bs-target -->
 	<div class="modal" id="myModal" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">新增叫貨紀錄</h5>
-					<button type="button" id="closeModal" class="btn-close" 
+					<h5 class="modal-title">新增出貨紀錄</h5>
+					<button type="button" id="closeModal" class="btn-close"
 						aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
@@ -75,187 +80,173 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" id="btnCloseModal" class="btn btn-secondary">
-						返回
-					</button>
+						返回</button>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- 彈窗區塊 -->
-	
-	
+
+
 	<script type="text/javascript">
-	
-	$(document).ready(function() {
-		
-		document.getElementById('productResults').textContent='';
-				// 使用 jQuery 的事件绑定方法 .on
-			$("#productName").on('input',function() {
-					var productName = $("#productName").val();
-						// 防止空查询
-					if (productName.length === 0) {
-						$('#productResults').empty();
-						return;
-					}
-			$.ajax({
-				url : '/admin/shipdata/findProduct', // 替换为实际的搜索 API URL
-				type : 'GET',
-				data : {
-				productName : productName
-			},
-			success : function(res) {
-				$('#productResults').empty(); // 清空之前的结果
-				if (res.length === 0) {
-					$('#productResults').append(
-					'<p>找不到此產品 請重新輸入</p>');
-				} else {
-					var count =res;
-					document.getElementById('productResults').textContent=count;
-				}
-			},
-			error : function(xhr, status, error) {
-						$('#productResults').empty();
-						$('#productResults').append('<p>系統錯誤</p>');
-					}
-			});
-		});
-				
-		
-				
-		//從廠商帶入 產品列表
-					/* $("#manufacturerName").on('input',function() {
-						debugger;
-						var manufacturerName = $("#manufacturerName").val();
+		$(document).ready(function() {
+
+							$("#manufacturerName").on('change',function() {
+								var manufacturerId = $(this).val();
+								if (manufacturerId) {
+										$.ajax({
+											url : '/admin/productdata/findProductList/'+ manufacturerId,
+											type : 'GET',
+											success : 
+												function(data) {
+													$('#productName').empty();
+													$('#productName').append('<option value="">請選擇產品</option>');
+													$.each(data,function(key,value) {
+													$('#productName').append('<option value="' + value.id + '">'+ value.productName+ '</option>');
+													});
+												}
+											});
+								} else {
+									$('#city').empty();
+									$('#city').append('<option value="">請選擇產品</option>');
+								}
+							});
+							
+							
+
+							document.getElementById('productResults').textContent = '';
+							//產品庫存量查詢
+							$("#productName").on('input',function() {
+								var productName = $('#productName option:selected').text();
 								// 防止空查询
-						if (manufacturerName.length === 0) {
-							$('#manufacturerNameResult').empty();
-							return;
-						}
-					$.ajax({
-						url : '/admin/shipdata/findProductByManufacturerName', // 替换为实际的搜索 API URL
-						type : 'GET',
-						data : {
-							manufacturerName : manufacturerName
-					},
-					success : function(res) {
-						$('#manufacturerNameResult').empty(); // 清空之前的结果
-						if (res.length === 0) {
-							$('#manufacturerNameResult').append(
-							'<p>找不到廠商</p>');
-						} else {
-							 var count =res.count;
-							document.getElementById('productResults').textContent=count; 
-						}
-					},
-					error : function(xhr, status, error) {
-								console.error('系統錯誤', error);
-								$('#manufacturerNameResult').empty();
-								$('#manufacturerNameResult').append('<p>系統錯誤</p>');
+								if (productName.length === 0) {
+									$('#productResults').empty();
+									return;
+								}
+								$.ajax({
+									url : '/admin/shipdata/findProduct', // 替换为实际的搜索 API URL
+									type : 'GET',
+									data : {productName : productName},
+									success : 
+										function(res) {
+										$('#productResults').empty(); // 清空之前的结果
+											if (res.length === 0) {
+												$('#productResults').append('<p>找不到此產品 請重新輸入</p>');
+											} else {
+												var count = res;
+												document.getElementById('productResults').textContent = count;
+											}
+										},
+									error : function(xhr,status,error) {
+											$('#productResults').empty();
+											$('#productResults').append('<p>系統錯誤</p>');
+									}
+								});
+							});
+						});
+
+		const myModal = new bootstrap.Modal(document.getElementById("myModal"),
+				{
+					backdrop : "static"
+				});
+
+		$("#submitForm").on('submit',function(event) {
+							event.preventDefault(); // 阻止表單的默認提交行為
+							var selectElement = document
+									.getElementById('shipReason');
+							const selectedValue = selectElement.value;
+							// 執行表單欄位檢查
+							if (!validateForm()) {
+								return; // 如果表單欄位檢查不通過，則停止執行後續代碼
 							}
-					});
-				}); */
-				
-	});
-	
-	  const myModal = new bootstrap.Modal(document.getElementById("myModal"), { backdrop: "static" });
-	
-	$("#submitForm").on('submit', function(event) {
-		event.preventDefault(); // 阻止表單的默認提交行為
-		var selectElement = document.getElementById('shipReason');
-		const selectedValue = selectElement.value;
-		 // 執行表單欄位檢查
-		 if (!validateForm()) {
-		 	return; // 如果表單欄位檢查不通過，則停止執行後續代碼
-		 }
-		 
-		 	const manufacturerName =document.getElementById('manufacturerName').value;
-		    const productName = document.getElementById('productName').value;
-		    const count = document.getElementById('count').value;
-		    const shipReason = document.getElementById('shipReason').value; 
+							
+							$.ajax({
+								url : '/admin/shipdata/saveShip',
+								type : 'POST',
+								data : {
+									manufacturer : $('#manufacturerName option:selected').text(),
+									productName : $('#productName option:selected').text(),
+									count : document.getElementById('count').value,
+									shipReason : document.getElementById('shipReason').value
+								},
+								success : function(res) {
+									if (res.code === 'error') {
+										document.getElementById("message").textContent = res.message;
+									}
+									if (res.code === 'success') {
+										document.getElementById("message").textContent = res.message;
+									}
+									document.getElementById('manufacturerName').value = '';
+									document.getElementById('productName').value = '';
+									document.getElementById('count').value = '';
+									document.getElementById('productResults').textContent = '';
+									myModal.show();
+								},
+								error : function(xhr, status, error) {
+									document.getElementById('manufacturerName').value = '';
+									document.getElementById('productName').value = '';
+									document.getElementById('count').value = '';
+									document.getElementById('productResults').textContent = '';
+									document.getElementById('message').textContent = '系統錯誤';
+									myModal.show();
+								}
+							});
+						});
 
-		    const formData = new FormData();
-		    formData.append('manufacturer', manufacturerName);
-		    formData.append('productName', productName);
-		    formData.append('count', count);
-		    formData.append('shipReason', shipReason);
+		$("#closeModal").click(function() {
+			closeModal();
+		});
 
-		    axios.post('/admin/shipdata/saveShip', formData)
-		        .then(response => {
-		            const myModal = new bootstrap.Modal(document.getElementById("myModal"));
-		            document.getElementById('manufacturerName').value = '';
-		            document.getElementById('productName').value = '';
-		            document.getElementById('count').value = '';
-		            document.getElementById('productResults').textContent='';
-		            document.getElementById('message').textContent = '新增成功';
-		            myModal.show();
-		        })
-		        .catch(error => {
-		            const myModal = new bootstrap.Modal(document.getElementById("myModal"));
-		            document.getElementById('manufacturerName').value = '';
-		            document.getElementById('productName').value = '';
-		            document.getElementById('count').value = '';
-		            document.getElementById('productResults').textContent='';
-		            document.getElementById('message').textContent = error;
-		            myModal.show();
-		        });
-	});
-	
-	$("#closeModal").click(function () {
-        closeModal();
-      });
+		$("#btnCloseModal").click(function() {
+			closeModal();
+		});
 
-      $("#btnCloseModal").click(function () {
-        closeModal();
-      });
-
-      function closeModal() {
-        myModal.hide();
-      }
-	
-	
-	function validateForm() {
-		var manufacturerName = $("#manufacturerName").val();
-		var productName = $("#productName").val();
-		var count = $("#count").val();
-
-		var isValid = true;
-		// 檢查是否包含中文字符
-		var chineseRegex = /[\u4e00-\u9fa5]/;
-
-		const iscount = /^\d+$/.test(count);
-
-		if (manufacturerName.trim() === "") {
-			document.getElementById("manufacturerNameError").textContent = "廠商不能為空";
-			isValid = false;
-		} else {
-			document.getElementById("manufacturerNameError").textContent = "";
+		function closeModal() {
+			myModal.hide();
 		}
 
-		if (productName.trim() === "") {
-			document.getElementById("productNameError").textContent = "產品名稱不能為空";
-			isValid = false;
-		} else {
+		function validateForm() {
+			var manufacturerName = $('#manufacturerName option:selected').text();
+			var productName = $('#productName option:selected').text();
+			var count = $("#count").val();
 
-			document.getElementById("productNameError").textContent = "";
+			var isValid = true;
+			// 檢查是否包含中文字符
+			var chineseRegex = /[\u4e00-\u9fa5]/;
 
-		}
+			const iscount = /^\d+$/.test(count);
 
-		if (count.trim() === "") {
-			document.getElementById("countError").textContent = "數量不能為空";
-			isValid = false;
-		} else {
-			if (!iscount) {
-				document.getElementById("countError").textContent = "數量只能輸入數字";
+			if (manufacturerName.trim() === "") {
+				document.getElementById("manufacturerNameError").textContent = "廠商不能為空";
 				isValid = false;
 			} else {
-				document.getElementById("countError").textContent = "";
+				document.getElementById("manufacturerNameError").textContent = "";
 			}
 
-		}
+			if (productName.trim() === "") {
+				document.getElementById("productNameError").textContent = "產品名稱不能為空";
+				isValid = false;
+			} else {
 
-		return isValid;
-	}
-	
+				document.getElementById("productNameError").textContent = "";
+
+			}
+
+			if (count.trim() === "") {
+				document.getElementById("countError").textContent = "數量不能為空";
+				isValid = false;
+			} else {
+				if (!iscount) {
+					document.getElementById("countError").textContent = "數量只能輸入數字";
+					isValid = false;
+				} else {
+					document.getElementById("countError").textContent = "";
+				}
+
+			}
+
+			return isValid;
+		}
 	</script>
 </body>
 

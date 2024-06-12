@@ -11,9 +11,11 @@ spring:
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver  
 #   prod
-#    url: ls-483ae6551c89f7b98de38f2dbff2a2aa88eb81e1.czs212tyhbxw.ap-northeast-1.rds.amazonaws.com
-#    username: dbmasteruser
-#    password: ~Q,tBO+}sFD.72VQ}}oMnk0(19V9Jrkg
+#    url: jdbc:mysql://10.31.192.3/huiyutang?cloudSqlInstance=huiyutang:asia-east1:hui-yu-tang&socketFactory=com.google
+#    .cloud.sql.mysql.SocketFactory&user=web_service&password=~\\e*6{1?Xj/7r2x
+#    username: web_service
+#    password: ~\\e*6{1?Xj/7r2x
+#    driver-class-name: com.google.cloud.sql.mysql.SocketFactory
 #    driver-class-name: com.mysql.cj.jdbc.Driver  
   security:
     encrypt:

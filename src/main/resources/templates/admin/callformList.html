@@ -54,39 +54,50 @@ th, label {
 					<th scope="col">叫貨狀態</th>
 			</thead>
 			<tbody id="vendorList">
-				<tr th:each="callerdto : ${callerdtoList}" class="vendorItem">
+				<tr th:each="callerdto : ${calldtoPage.content}" class="vendorItem">
 					<th scope="row" class="itemId" th:text="${callerdto.id}"></th>
 					<td class="caller" th:text="${callerdto.caller}"></td>
 					<td class="shoppingChannel" th:text="${callerdto.shopping}"></td>
 					<td class="productName" th:text="${callerdto.productName}"></td>
 					<td class="orderQuantity" th:text="${callerdto.count}"></td>
 					<td class="callerDate" th:text="${callerdto.callerDate}"></td>
-					<td class="restockbtn">
-					 	<a class="btn btn-primary btn-sm" type="button" id="restock" 
-					 	  th:href="@{/admin/restock/addVendorOne(id=${callerdto.id}, 
+					<td class="restockbtn"><a class="btn btn-primary btn-sm"
+						type="button" id="restock"
+						th:href="@{/admin/restock/addVendorOne(id=${callerdto.id}, 
 					 	  caller=${callerdto.caller}, 
 					 	  shopping=${callerdto.shopping}, 
 					 	  productName=${callerdto.productName}, 
 					 	  count=${callerdto.count}, 
 					 	  callerDate=${callerdto.callerDate})}">待進貨</a>
 						<a th:href="@{'/admin/call/{id}'(id=${callerdto.id})}"
-						class="btn btn-danger btn-sm">刪除</a>
-					</td>
+						class="btn btn-danger btn-sm">刪除</a></td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
 	<nav class="px-4 pb-5">
 		<ul class="pagination justify-content-center">
-			<li class="page-item"><a class="page-link" href="#"
-				aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+			<li class="page-item" th:if="${calldtoPage.hasPrevious()}"><a
+				class="page-link" aria-label="Previous"
+				th:href="@{/admin/call/callformList(page=${calldtoPage.number - 1}, size=${calldtoPage.size})}">
+					<span aria-hidden="true">&laquo;</span>
 			</a></li>
-			<li class="page-item"><a class="page-link active" href="#">1</a></li>
-			<li class="page-item"><a class="page-link" href="#">2</a></li>
-			<li class="page-item"><a class="page-link" href="#">3</a></li>
-			<li class="page-item"><a class="page-link" href="#"
-				aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-			</a></li>
+
+			<!-- Page Number Links -->
+			<li class="page-item"
+				th:each="i : ${#numbers.sequence(1, calldtoPage.totalPages)}"
+				th:classappend="${calldtoPage.number + 1 == i} ? 'active'"><a
+				class="page-link"
+				th:href="@{/admin/call/callformList(page=${i - 1}, size=${calldtoPage.size})}"
+				th:text="${i}">1</a></li>
+
+			<!-- Next Page Link -->
+			<li class="page-item" th:if="${calldtoPage.hasNext()}"><a
+				class="page-link" aria-label="Next"
+				th:href="@{/admin/call/callformList(page=${calldtoPage.number + 1}, size=${calldtoPage.size})}">
+					<span aria-hidden="true">&raquo;</span>
+			</a>
+			</li>
 		</ul>
 	</nav>
 

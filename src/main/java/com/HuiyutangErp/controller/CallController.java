@@ -1,22 +1,22 @@
 package com.HuiyutangErp.controller;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.HuiyutangErp.dto.CallerFormDto;
-import com.HuiyutangErp.pojo.CallerForm;
 import com.HuiyutangErp.repository.CallerFormRepository;
-import com.HuiyutangErp.repository.ProductRepository;
 import com.HuiyutangErp.service.CallerFormService;
 
 import io.micrometer.common.util.StringUtils;
+import jakarta.servlet.http.HttpSession;
 
 
 /**
@@ -38,22 +38,16 @@ public class CallController {
 	
 	
 	@GetMapping("/callformList")
-	public String shipPage(Model mod) {
+	public String shipPage(Model mod,HttpSession session,
+			 @RequestParam(defaultValue = "0") int page, 
+	            @RequestParam(defaultValue = "10") int size) {
+		Pageable pageable = PageRequest.of(page, size);
 		
-		List<CallerForm> callerList= callerFormRepository.findAll();
+		Page<CallerFormDto> calldtoPage = callerFormService.getPageCallerFormDto(pageable);
 		
-		List<CallerFormDto> callerdtoList  = callerList.stream()
-	            .map(caller -> new CallerFormDto(
-	                    caller.getId(),
-	                    caller.getCaller(),
-	                    caller.getShopping(),
-	                    caller.getProductName(),
-	                    caller.getCount(),
-	                    caller.getCallerDate()
-	                ))
-	                .collect(Collectors.toList());
 		
-		mod.addAttribute("callerdtoList", callerdtoList);
+		
+		mod.addAttribute("calldtoPage", calldtoPage);
 		
 		return "admin/callformList";
 	}

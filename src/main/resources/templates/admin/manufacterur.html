@@ -22,12 +22,19 @@
 	<main class="form-register w-100 m-auto">
 		<form id="submitForm">
 			<h1 class="h3 mb-3 fw-normal">新增廠商</h1>
+			<span>廠商資訊若有異動 重新新增即可</span>
 			<div class="border p-3 mb-3 rounded fw-semibold">
 				<div class="mb-2">
-					<label for="email" class="form-label">廠商名稱</label> <input
+					<label for="email" class="form-label">廠商簡稱</label> <input
 						type="text" class="form-control" id="manfauturerName"
 						 />
 					<span id="manfauturerNameError" class="error"></span>
+				</div>
+				<div class="mb-2">
+					<label for="email" class="form-label">廠商代碼</label> <input
+						type="text" class="form-control" id="manufacturerCode"
+						 />
+					<span id="manfauturerCodeError" class="error"></span>
 				</div>
 				<div class="mb-2">
 					<label for="username" class="form-label">廠商地址</label> <input
@@ -37,6 +44,11 @@
 				<div class="mb-2">
 					<label for="title" class="form-label">廠商電話</label> <input type="text"
 						class="form-control" id="manufacturerPhone" /> <span id="manufacturerPhoneError"
+						class="error"></span>
+				</div>
+				<div class="mb-2">
+					<label for="title" class="form-label">特殊備註</label> <input type="text"
+						class="form-control" id="manufacturerRemark" /> <span id="manufacturerRemarkError"
 						class="error"></span>
 				</div>
 			</div>
@@ -59,14 +71,14 @@
 				<div class="modal-header">
 					<h5 class="modal-title">新增廠商</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close" onclick="closeModal()"></button>
+						aria-label="Close" id="closeModal" ></button>
 				</div>
 				<div class="modal-body">
 					<span id="message"></span>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal" onclick="closeModal()">返回登入</button>
+						data-bs-dismiss="modal" id="btnCloseModal">返回</button>
 				</div>
 			</div>
 		</div>
@@ -77,15 +89,12 @@
 	
 
 
-	 const  myModal = new bootstrap.Modal(document.getElementById("myModal"));
+	 const myModal = new bootstrap.Modal(document.getElementById("myModal"), { backdrop: "static" });
         
-     $("#submit").click(function(){
-    	 document.getElementById('submitForm').addEventListener('submit', function(event) {
+    	  $("#submitForm").on('submit', function(event) {
     	        event.preventDefault(); // 阻止表單的默認提交行為
     	        
     	        
-    	        //防止按鈕連點
-    	        $("#submit").disabled =true;
 
     	        // 執行表單欄位檢查
     	        if (!validateForm()) {
@@ -94,22 +103,24 @@
 	    	   	 const data ={
 	    	   			manufacturerName:$("#manfauturerName").val(),
 	    	   			manufacturerAdress: $("#manufacturerAdress").val(),
-	    	   			manufacturerPhone: $("#manufacturerPhone").val()
+	    	   			manufacturerPhone: $("#manufacturerPhone").val(),
+	    	   			manufacturerCode:$("#manufacturerCode").val(),
+	    	   			manufacturerRemark:$("#manufacturerRemark").val()
 	    	 	   	  };
 	    	 	   	 console.log("data",data);
 	    	 	   	var message = document.getElementById('message');
 	    	 	   	 axios.post('/admin/manufacterur/saveManufacturer',data)
 	    	 	   		  .then(function (res) {
-	    	 	   		  	debugger;
 	    	 	   		  	console.log("res :" + res);
 	    	 	   			 //清空
 	    	 	   			$("#manfauturerName").val('');
 	    	 	   		 	$("#manufacturerAdress").val('');
-	    	 	   		 	$("#manufacturerAdress").val('');
+	    	 	   		 	$("#manufacturerPhone").val('');
+	    	 	   			$("#manufacturerCode").val('');
+	    	 	   			$("#manufacturerRemark").val('');
 	    	 	   			message.textContent='新增成功';
 	    	 	   			myModal.show();
 	    	 	   			
-	    	 	   	      $("#register").disabled =false;
 	    	 	   		  })
 	    	 	   		  .catch(function (err) {
 	    	 	   			console.log("err :" + err);
@@ -117,17 +128,16 @@
 		    	 	   		$("#manfauturerName").val('');
 	    	 	   		 	$("#manufacturerAdress").val('');
 	    	 	   		 	$("#manufacturerAdress").val('');
+		    	 	   		$("#manufacturerCode").val('');
+	    	 	   			$("#manufacturerRemark").val('');
 		    	 	   		message.textContent='新增失敗';
 	    	 	   			myModal.show();
-	    	 	  	      $("#register").disabled =false;
 	    	 	   });
     	    });
-    	}); 
   
      
      
      function validateForm(){
-    	 debugger;
       	 var manfauturerName = $("#manfauturerName").val();
     	 var manufacturerAdress = $("#manufacturerAdress").val();
     	 var manufacturerPhone = $("#manufacturerPhone").val();
@@ -146,12 +156,12 @@
 			 document.getElementById("manfauturerNameError").textContent = "";
 		 }
     	 
-    	 if (manufacturerAdress.trim() === "") {
+    	 /* if (manufacturerAdress.trim() === "") {
  			document.getElementById("manufacturerAdressError").textContent = "廠商地址不能為空";
  			isValid = false;
  		 } else {
  			document.getElementById("manufacturerAdressError").textContent = "";
- 		 }
+ 		 } */
     	 
     	 if (manufacturerPhone.trim() === "") {
  			document.getElementById("manufacturerPhoneError").textContent = "廠商電話不能為空";
@@ -168,9 +178,17 @@
     	 return isValid;
      }
      
-     function closeModal(){
-    	 window.location.replace("http://localhost:8080/admin/account");
-     }
+     $("#closeModal").click(function () {
+         closeModal();
+       });
+
+       $("#btnCloseModal").click(function () {
+         closeModal();
+       });
+
+       function closeModal() {
+         myModal.hide();
+       }
     
     </script>
 </body>

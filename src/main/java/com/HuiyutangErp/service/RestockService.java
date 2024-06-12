@@ -3,6 +3,8 @@ package com.HuiyutangErp.service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -19,6 +21,7 @@ import org.apache.poi.ss.usermodel.PictureData;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
 import org.apache.poi.xssf.usermodel.XSSFPicture;
+import org.apache.poi.xssf.usermodel.XSSFPictureData;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,10 +40,12 @@ import com.HuiyutangErp.dto.PageDto;
 import com.HuiyutangErp.dto.RestockDto;
 import com.HuiyutangErp.pojo.Manufacturer;
 import com.HuiyutangErp.pojo.Product;
+import com.HuiyutangErp.pojo.Restock;
 import com.HuiyutangErp.repository.ManufacterurRepository;
 import com.HuiyutangErp.repository.ProductRepository;
 import com.HuiyutangErp.repository.RestockRepository;
 
+import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -149,18 +154,17 @@ public class RestockService {
 	 * @return
 	 * @throws IOException
 	 */
+    @Transactional
 	public Map<String , String> saveRestockFile(MultipartFile file) throws IOException {
 		Map<String, String> resMap = new HashMap<>();
 		
 		try (InputStream input = file.getInputStream(); XSSFWorkbook book = new XSSFWorkbook(input);) {
 			XSSFSheet sheet = book.getSheetAt(0); // 只讀頁簽1
-			int rows = sheet.getPhysicalNumberOfRows(); // 多少行
 			Map<Integer ,PictureData > picMap = getPicture(sheet);
 			
-			for (Row row : sheet) {
-				 if (row.getRowNum() < 2) {
-		                continue;
-		            }
+			
+			for (int i = 2; i <= sheet.getLastRowNum(); i++) {
+				Row row = sheet.getRow(i);
 				 if (isRowEmpty(row)) {
 		                break;
 		            }
@@ -172,7 +176,11 @@ public class RestockService {
 						if(picMap.isEmpty()) {
 							req.setPicture(null);
 						}else {
-							req.setPicture(picMap.get(row.getRowNum()-1).getData());
+							 PictureData pictureData = picMap.get(row.getRowNum());
+							 if(pictureData!=null) {
+								 byte[] data = pictureData.getData();
+								 req.setPicture(data);
+							 }
 						}
 						//產品規格
 						req.setSpecifiCation(getStringCellValue(row,2));
@@ -182,6 +190,15 @@ public class RestockService {
 						req.setCount( getNumericCellValue(row , 4).intValue() );
 						//進貨原因
 						req.setRestock_reason("期初");
+						
+						//進貨紀錄
+						Restock rs = new Restock();
+						rs.setManufacturerName(getStringCellValue(row,0));
+						rs.setProductName(getStringCellValue(row,3));
+						rs.setCount( getNumericCellValue(row , 4).intValue());
+						rs.setRestockReason("期初");
+						rs.setRestockingDate( Timestamp.from(Instant.now()));
+						restockRepository.save(rs);
 						//類別
 //						req.setCategory(getStringCellValue(row,6));
 						//庫位
@@ -209,7 +226,7 @@ public class RestockService {
 							}
 						}else {
 							resMap.put("code", "error");
-							resMap.put("message","第"+ (row.getRowNum()-1) +"筆"+ "查無此廠商 請先新增");
+							resMap.put("message","第"+ (row.getRowNum()+1) +"筆"+ "查無此廠商 請先新增");
 							return resMap;
 						}
 				}
@@ -219,6 +236,9 @@ public class RestockService {
 			
 		}catch(Exception e) {
 			e.printStackTrace();
+			if(StringUtils.isNotBlank(resMap.get("message"))) {
+				return resMap;
+			}
 			resMap.put("code", "error");
 			resMap.put("message", "匯入檔案發生錯誤 請重新匯入");
 			return resMap;

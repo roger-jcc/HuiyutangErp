@@ -31,11 +31,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         req -> {
                             // 不攔截
-                            req.requestMatchers("/admin/**", "/css/**", "/images/**", "/js/**", "/templates/**", "/static/**", "/assets/**").permitAll();
-                            req.requestMatchers("/admin/manufacterur/**", "/admin/restock/**").hasAnyRole("USER");
+                            req.requestMatchers("/admin/login","/admin/register", "/admin/account","/css/**", "/images/**", "/js/**", "/templates/**", "/static/**", "/assets/**","/admin/**").permitAll();
+                            req.requestMatchers("/admin/manufacterur/**"
+                            		, "/admin/restock/**","/admin/call/**","/admin/ship/**","/admin/productdata/**").permitAll();
                             req.anyRequest().authenticated();
                         }
-                )
+              )
                 .formLogin(login -> login
                         .loginPage("/admin/login")
                         .defaultSuccessUrl("/admin/account", true)

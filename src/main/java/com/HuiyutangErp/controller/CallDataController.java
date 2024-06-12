@@ -26,8 +26,6 @@ import io.micrometer.common.util.StringUtils;
 @RequestMapping("/admin/calldata")
 public class CallDataController {
 	
-	@Autowired
-	private ProductRepository productRepository;
 	
 	@Autowired
 	private CallerFormService callerFormService;
@@ -41,13 +39,7 @@ public class CallDataController {
 	@GetMapping("/findProductName")
 	public List<String> findProductName(@RequestParam(name="productName" ,required = true) String str) {
 		List<String> productNameList = new ArrayList<>();
-		List<Product> productList =  productRepository.findByProductNameLike("%"+str+"%");
-		
-		if(!Collections.isEmpty(productList)) {
-			for(Product pro :productList) {
-				productNameList.add(pro.getProductName());
-			}
-		}
+		productNameList = callerFormService.findByProductNameLike(str);
 		
 		return productNameList;
 	}

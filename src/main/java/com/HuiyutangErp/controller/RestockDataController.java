@@ -56,10 +56,9 @@ public class RestockDataController {
 	 * 儲存進貨訊息
 	 * @param req
 	 * @throws Exception 
-	 */
+	 *///	@PreAuthorize("hasAuthority('ROLE_USER')")
 	@PostMapping("/saverestockfile")
-	@PreAuthorize("hasAuthority('ROLE_USER')")
-	public void saveRestockFile(@RequestParam ("file") MultipartFile file , Model mod) throws Exception{
+	public Map<String, String> saveRestockFile(@RequestParam ("file") MultipartFile file , Model mod) throws Exception{
 		if(file.isEmpty()) {
 			mod.addAttribute("error", "檔案不能為空");
 			throw new Exception("檔案匯入失敗");
@@ -71,6 +70,7 @@ public class RestockDataController {
 		}else {
 			mod.addAttribute("message" ,resMap.get("message") );
 		}
+		return resMap;
 	}
 	
 	
@@ -80,12 +80,13 @@ public class RestockDataController {
 	 * @throws Exception 
 	 */
 	@PostMapping("/saveRestock") 
-	@PreAuthorize("hasAuthority('ROLE_USER')")
 	public void saveRestock(@RequestParam(name = "images" ,required = false) MultipartFile file,
             @RequestParam(name ="manufacturer") String manufacturer,
             @RequestParam(name ="productName") String productName,
             @RequestParam(name = "count") int count,
-            @RequestParam(name ="restockReason") String restockReason , Model mod) throws Exception{
+            @RequestParam(name ="restockReason") String restockReason ,
+            @RequestParam(name ="location") String location,
+            Model mod) throws Exception{
 		Map<String, String> resMap = restockService.saveRestock(file,manufacturer,productName,count,restockReason);
 		if(StringUtils.equals("success",  resMap.get("code"))) {
 			mod.addAttribute("message" ,resMap.get("message") );

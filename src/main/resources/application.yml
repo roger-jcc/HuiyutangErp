@@ -6,17 +6,20 @@ thymeleaf:
     mode: HTML5
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/huiyutang
-    username: root
-    password: root
-    driver-class-name: com.mysql.cj.jdbc.Driver  
+    # url: jdbc:mysql://localhost:3306/huiyutang
+    # username: root
+    # password: root
+    # driver-class-name: com.mysql.cj.jdbc.Driver  
 #   prod
-#    url: jdbc:mysql://10.31.192.3/huiyutang?cloudSqlInstance=huiyutang:asia-east1:hui-yu-tang&socketFactory=com.google
-#    .cloud.sql.mysql.SocketFactory&user=web_service&password=~\\e*6{1?Xj/7r2x
-#    username: web_service
-#    password: ~\\e*6{1?Xj/7r2x
-#    driver-class-name: com.google.cloud.sql.mysql.SocketFactory
-#    driver-class-name: com.mysql.cj.jdbc.Driver  
+    url: jdbc:mysql://10.31.192.3/huiyutang?cloudSqlInstance=huiyutang:asia-east1:hui-yu-tang&user=web_service&password=~\\e*6{1?Xj/7r2x
+    username: web_service
+    password: ~\\e*6{1?Xj/7r2x
+  #  driver-class-name: com.google.cloud.sql.mysql.SocketFactory
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
   security:
     encrypt:
       key: ThisIsASecretKey 
